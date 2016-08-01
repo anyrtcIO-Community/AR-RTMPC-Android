@@ -23,6 +23,7 @@ RTMP 播放器</br>
 
 ##编译环境
 **Android Studio**
+**替换RTMPUrlHelper.java文件中的RTMP_PUSH_URL和RTMP_PULL_URL**
 
 ##支持的系统平台
 **Android** 4.0及以上
@@ -62,7 +63,7 @@ fms, wowza, evostream, red5, crtmpserver, nginx-rtmp-module, srs及其他标准R
 ##ipv6
 该库已经适配
 
-##IOS版推流拉流Demo
+##IOS版连麦互动Demo
 [RTMPCHybirdEngine-IOS](https://github.com/AnyRTC/RTMPCHybirdEngine-IOS)
 
 ##商用授权
