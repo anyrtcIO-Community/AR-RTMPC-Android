@@ -29,6 +29,8 @@
     <string name="str_apply_anyrtc_account">请去AnyRTC官网申请账号,如有疑问请联系客服!</string>
 
     <string name="share_str_weixing_title">视频邀请</string>
+    <string name="str_barrage">弹幕</string>
+    <string name="str_send">发送</string>
 
     <string name="str_live_close">关闭</string>
     <string name="str_switch_camera">切换</string>

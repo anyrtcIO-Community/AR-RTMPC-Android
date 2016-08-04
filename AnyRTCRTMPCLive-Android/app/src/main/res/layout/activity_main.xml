@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_title"
         android:layout_marginTop="15dp"
-        android:src="@mipmap/icon_photo"
+        android:src="@drawable/icon_photo"
         android:layout_centerHorizontal="true"/>
 
 

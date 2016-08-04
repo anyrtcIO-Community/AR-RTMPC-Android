@@ -2,4 +2,40 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- 文字的大小 -->
+    <dimen name="text_minimum_size">10sp</dimen>
+    <dimen name="text_default_size">12sp</dimen>
+    <dimen name="text_small_size">14sp</dimen>
+    <dimen name="text_normal_size">16sp</dimen>
+    <dimen name="text_medium_size">18sp</dimen>
+    <dimen name="text_large_size">22sp</dimen>
+    <dimen name="default_padding_top">5dp</dimen>
+    <dimen name="default_padding_bottom">5dp</dimen>
+    <dimen name="default_padding_right">15dp</dimen>
+    <dimen name="default_padding_left">15dp</dimen>
+    <dimen name="contact_item_padding_left">5dp</dimen>
+    <dimen name="item_head_icon_size">50dp</dimen>
+    <dimen name="chat_head_icon_size">40dp</dimen>
+    <dimen name="save_btn_height">30dp</dimen>en>
+    <dimen name="me_head_icon_size">75dp</dimen>
+    <dimen name="drop_down_list_header_padding_top">12dp</dimen>
+    <dimen name="drop_down_list_header_padding_bottom">5dp</dimen>
+    <dimen name="drop_down_list_header_release_min_distance">0dp</dimen>
+    <dimen name="drop_down_list_header_progress_bar_height">36dp</dimen>
+
+
+    <dimen name="action_button_height">32dp</dimen>
+    <dimen name="action_button_text_size">14sp</dimen>
+    <dimen name="action_button_min_width">56dp</dimen>
+    <dimen name="action_button_padding_horizontal">4dp</dimen>
+    <dimen name="fab_margin">0dp</dimen>
+    <dimen name="margin_left">12dp</dimen>
+    <dimen name="item_height">48dp</dimen>
+    <dimen name="item_margin">12dp</dimen>
+    <dimen name="bottom_item_height">250dp</dimen>
+    <dimen name="audience_controls_margin">8dp</dimen>
+
+    <dimen name="room_share_icon_width">25.0dip</dimen>
+    <dimen name="room_share_dialog_height">250.0dip</dimen>
 </resources>

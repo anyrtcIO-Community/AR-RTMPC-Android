@@ -52,10 +52,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
          */
         RTMPCHybird.Inst().Init(getApplicationContext());
         RTMPCHybird.Inst().InitEngineWithAnyrtcInfo("teameetingtest", "meetingtest", "OPJXF3xnMqW+7MMTA4tRsZd6L41gnvrPcI25h9JCA4M", "c4cd1ab6c34ada58e622e75e41b46d6d");
-        /**
-         * 私有云配置， 不是私有云时不需要
-         */
-        //RTMPCHybird.Inst().ConfigServerForPriCloud("192.168.7.207", 9060);
+//        RTMPCHybird.Inst().ConfigServerForPriCloud("192.168.7.207", 9060);
 
         {
             /**

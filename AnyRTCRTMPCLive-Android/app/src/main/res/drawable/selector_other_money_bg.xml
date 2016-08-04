@@ -1,0 +1,4 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_edit" android:state_selected="false" android:state_focused="false"></item>
+    <item android:drawable="@drawable/bg_edit_select" android:state_selected="true" android:state_focused="true"></item>
+</selector>

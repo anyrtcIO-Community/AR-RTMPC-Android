@@ -4,25 +4,49 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.text.SpannableString;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
+import com.opendanmaku.DanmakuItem;
+import com.opendanmaku.DanmakuView;
+import com.opendanmaku.IDanmakuItem;
+
+import org.anyrtc.adapter.LiveChatAdapter;
 import org.anyrtc.rtmpc_hybird.RTMPCAbstractHoster;
 import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
+import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.ShareHelper;
+import org.anyrtc.utils.SoftKeyboardUtil;
+import org.anyrtc.utils.ThreadUtil;
+import org.anyrtc.widgets.ScrollRecycerView;
 import org.webrtc.VideoRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 主播页面
  */
-public class HosterActivity extends AppCompatActivity {
+public class HosterActivity extends AppCompatActivity implements ScrollRecycerView.ScrollPosation {
 
     private RTMPCHosterKit mHosterKit;
     private RTMPCVideoView mVideoView;
@@ -38,12 +62,30 @@ public class HosterActivity extends AppCompatActivity {
     private String mTopic;
     private String mHosterId;
 
+    private SoftKeyboardUtil softKeyboardUtil;
+    private int duration = 100;//软键盘延迟打开时间
+
+    private Switch mCheckBarrage;
+    private DanmakuView mDanmakuView;
+    private EditText editMessage;
+    private ViewAnimator vaBottomBar;
+    private LinearLayout llInputSoft;
+    private FrameLayout flChatList;
+    private ScrollRecycerView rcLiveChat;
+    private RelativeLayout rlTopViews;
+    private ImageView btnChat;
+
+    List<ChatMessageBean> mChatMessageList;
+    private LiveChatAdapter mChatLiveAdapter;
+
+    private int maxMessageList = 150; //列表中最大 消息数目
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hoster);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        mChatMessageList = new ArrayList<ChatMessageBean>();
         mShareHelper = new ShareHelper(this);
         mHosterId = getIntent().getExtras().getString("hosterId");
         mRtmpPushUrl = getIntent().getExtras().getString("rtmp_url");
@@ -53,8 +95,24 @@ public class HosterActivity extends AppCompatActivity {
         mTopic = getIntent().getExtras().getString("topic");
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
+        rlTopViews = (RelativeLayout) findViewById(R.id.rl_top_views);
+        mDanmakuView = (DanmakuView) findViewById(R.id.danmakuView);
+        mCheckBarrage = (Switch) findViewById(R.id.check_barrage);
+        editMessage = (EditText) findViewById(R.id.edit_message);
+        vaBottomBar = (ViewAnimator) findViewById(R.id.va_bottom_bar);
+        llInputSoft = (LinearLayout) findViewById(R.id.ll_input_soft);
+        flChatList = (FrameLayout) findViewById(R.id.fl_chat_list);
+        btnChat = (ImageView) findViewById(R.id.iv_host_text);
 
+        rcLiveChat = (ScrollRecycerView) findViewById(R.id.rc_live_chat);
+        mChatLiveAdapter = new LiveChatAdapter(mChatMessageList, this);
+        rcLiveChat.setLayoutManager(new LinearLayoutManager(this));
+        rcLiveChat.setAdapter(mChatLiveAdapter);
+        rcLiveChat.addScrollPosation(this);
+        setEditTouchListener();
+        vaBottomBar.setAnimateFirstView(true);
+
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
 
@@ -75,8 +133,22 @@ public class HosterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mDanmakuView.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDanmakuView.hide();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDanmakuView.clear();
+        softKeyboardUtil.removeGlobalOnLayoutListener(this);
         if (mHosterKit != null) {
             mVideoView.OnRtcRemoveLocalRender();
             mHosterKit.Clear();
@@ -96,6 +168,26 @@ public class HosterActivity extends AppCompatActivity {
             Toast.makeText(HosterActivity.this, getString(R.string.str_copy_success), Toast.LENGTH_LONG).show();
         } else if (btn.getId() == R.id.btn_switch_camera) {
             mHosterKit.SwitchCamera();
+        } else if (btn.getId() == R.id.btn_send_message) {
+            String message = editMessage.getText().toString();
+            editMessage.setText("");
+            if (message.equals("")) {
+                return;
+            }
+            if (mCheckBarrage.isChecked()) {
+                mHosterKit.SendBarrage("HosterId", "", message);
+                IDanmakuItem item = new DanmakuItem(HosterActivity.this, new SpannableString(message), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
+                mDanmakuView.addItemToHead(item);
+            } else {
+                mHosterKit.SendUserMsg("HosterId", "", message);
+            }
+
+            addChatMessageList(new ChatMessageBean("HosterId", "HosterId", "", message));
+        } else if (btn.getId() == R.id.iv_host_text) {
+            btnChat.clearFocus();
+            vaBottomBar.setDisplayedChild(1);
+            editMessage.requestFocus();
+            softKeyboardUtil.showKeyboard(HosterActivity.this, editMessage);
         }
     }
 
@@ -120,6 +212,54 @@ public class HosterActivity extends AppCompatActivity {
             mHosterKit.SwitchCamera();
         }
     };
+
+    /**
+     * 更细列表
+     * @param chatMessageBean
+     */
+    private void addChatMessageList(ChatMessageBean chatMessageBean) {
+        // 150 条 修改；
+
+        if (mChatMessageList == null) {
+            return;
+        }
+
+        if (mChatMessageList.size() < maxMessageList) {
+            mChatMessageList.add(chatMessageBean);
+        } else {
+            mChatMessageList.remove(0);
+            mChatMessageList.add(chatMessageBean);
+        }
+        mChatLiveAdapter.notifyDataSetChanged();
+        rcLiveChat.smoothScrollToPosition(mChatMessageList.size() - 1);
+    }
+
+    /**
+     * 设置 键盘的监听事件
+     */
+    private void setEditTouchListener() {
+        softKeyboardUtil = new SoftKeyboardUtil();
+
+        softKeyboardUtil.observeSoftKeyboard(HosterActivity.this, new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
+            @Override
+            public void onSoftKeyBoardChange(int softKeybardHeight, boolean isShow) {
+                if (isShow) {
+                    ThreadUtil.runInUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            llInputSoft.animate().translationYBy(-editMessage.getHeight() / 2).setDuration(100).start();
+                            flChatList.animate().translationYBy(-editMessage.getHeight() / 2).setDuration(100).start();
+                        }
+                    }, duration);
+                } else {
+                    btnChat.requestFocus();
+                    vaBottomBar.setDisplayedChild(0);
+                    llInputSoft.animate().translationYBy(editMessage.getHeight() / 2).setDuration(100).start();
+                    flChatList.animate().translationYBy(editMessage.getHeight() / 2).setDuration(100).start();
+                }
+            }
+        });
+    }
 
     /**
      * 连线弹窗
@@ -156,6 +296,17 @@ public class HosterActivity extends AppCompatActivity {
         });
 
         build.show();
+    }
+
+
+    @Override
+    public void ScrollButtom() {
+
+    }
+
+    @Override
+    public void ScrollNotButtom() {
+
     }
 
     /**
@@ -245,7 +396,6 @@ public class HosterActivity extends AppCompatActivity {
                     }
                 }
             });
-
         }
 
         /**
@@ -306,7 +456,7 @@ public class HosterActivity extends AppCompatActivity {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(code == 207) {
+                    if (code == 207) {
                         Toast.makeText(HosterActivity.this, getString(R.string.str_apply_anyrtc_account), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -345,18 +495,48 @@ public class HosterActivity extends AppCompatActivity {
             });
         }
 
+        /**
+         * 消息回调
+         * @param strCustomID 消息的发送者id
+         * @param strCustomName 消息的发送者昵称
+         * @param strCustomHeader 消息的发送者头像url
+         * @param strMessage 消息内容
+         */
         @Override
-        public void OnRTCUserMessageCallback(String strCustomID, String strCustomName, String strMessage) {
-
+        public void OnRTCUserMessageCallback(final String strCustomID, final String strCustomName, final String strCustomHeader, final String strMessage) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    addChatMessageList(new ChatMessageBean(strCustomID, strCustomName, "", strMessage));
+                }
+            });
         }
 
+        /**
+         * 弹幕回调
+         * @param strCustomID 弹幕的发送者id
+         * @param strCustomName 弹幕的发送者昵称
+         * @param strCustomHeader 弹幕的发送者头像url
+         * @param strBarrage 弹幕的内容
+         */
         @Override
-        public void OnRTCUserBarrageCallback(String strCustomID, String strCustomName, String strBarrage) {
-
+        public void OnRTCUserBarrageCallback(final String strCustomID, final String strCustomName, final String strCustomHeader, final String strBarrage) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    addChatMessageList(new ChatMessageBean(strCustomID, strCustomName, "", strBarrage));
+                    IDanmakuItem item = new DanmakuItem(HosterActivity.this, new SpannableString(strBarrage), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
+                    mDanmakuView.addItemToHead(item);
+                }
+            });
         }
 
+        /**
+         * 直播观看总人数回调
+         * @param totalMembers 观看总人数
+         */
         @Override
-        public void OnRTCMemberListWillUpdateCallback(int totelMembers) {
+        public void OnRTCMemberListWillUpdateCallback(int totalMembers) {
 
         }
 

@@ -9,30 +9,107 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></RelativeLayout>
 
-    <TextView
-        android:id="@+id/txt_title"
+    <RelativeLayout
+        android:id="@+id/rl_top_views"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="left"
-        android:text="@string/main_title"
-        android:textColor="@color/item_white"
-        android:padding="15dp"
-        android:textAppearance="@android:style/TextAppearance.Medium"/>
+        android:layout_alignParentTop="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:gravity="right"
-        android:padding="10dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_line"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/str_connect_hoster"
-            android:onClick="OnBtnClicked"/>
-    </LinearLayout>
+            android:layout_alignParentTop="true"
+            android:gravity="left"
+            android:padding="15dp"
+            android:text="@string/main_title"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/item_white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/btn_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="OnBtnClicked"
+                android:text="@string/str_connect_hoster" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Space
+            android:id="@+id/space_chat_list_right"
+            android:layout_width="72dp"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="56.0dip"
+            android:layout_marginLeft="4.0dip"
+            android:background="#FFB5C5" />
+
+        <FrameLayout
+            android:id="@+id/fl_chat_list"
+            android:layout_width="fill_parent"
+            android:layout_height="300.0dip"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="56.0dip"
+            android:layout_marginLeft="4.0dip"
+            android:layout_toLeftOf="@id/space_chat_list_right"
+            android:gravity="bottom">
+
+            <include layout="@layout/layout_live_chat_list" />
+        </FrameLayout>
+
+        <ViewAnimator
+            android:id="@+id/va_bottom_bar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="6.0dip">
+
+            <ViewAnimator
+                android:id="@+id/va_controls"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:measureAllChildren="false"
+                android:padding="5.0dip">
+
+
+                <org.anyrtc.widgets.BottomControl
+
+                    android:id="@+id/ll_host_audience_controls"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:baselineAligned="false"
+                    android:gravity="bottom"
+                    android:paddingBottom="5.0dip">
+
+
+                    <ImageView
+                        android:id="@+id/iv_host_text"
+                        style="@style/style_live_ibtn_controls"
+                        android:onClick="OnBtnClicked"
+                        android:src="@drawable/selector_btn_chat" />
+
+
+                </org.anyrtc.widgets.BottomControl>
+
+            </ViewAnimator>
+
+            <include layout="@layout/layout_live_input" />
+
+        </ViewAnimator>
+    </RelativeLayout>
 </RelativeLayout>

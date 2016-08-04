@@ -4,23 +4,45 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.text.SpannableString;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
+import com.opendanmaku.DanmakuItem;
+import com.opendanmaku.DanmakuView;
+import com.opendanmaku.IDanmakuItem;
+
+import org.anyrtc.adapter.LiveChatAdapter;
 import org.anyrtc.rtmpc_hybird.RTMPCAbstractGuest;
 import org.anyrtc.rtmpc_hybird.RTMPCGuestKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
+import org.anyrtc.utils.ChatMessageBean;
+import org.anyrtc.utils.SoftKeyboardUtil;
+import org.anyrtc.utils.ThreadUtil;
+import org.anyrtc.widgets.ScrollRecycerView;
 import org.webrtc.VideoRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 游客页面
  */
-public class GuestActivity extends AppCompatActivity {
+public class GuestActivity extends AppCompatActivity implements ScrollRecycerView.ScrollPosation {
     private static final int CLOSED = 0;
     private RTMPCGuestKit mGuestKit;
     private RTMPCVideoView mVideoView;
@@ -32,6 +54,26 @@ public class GuestActivity extends AppCompatActivity {
     private String mGuestId;
     private String mUserData;
     private String mTopic;
+
+    private SoftKeyboardUtil softKeyboardUtil;
+
+    private int duration = 100;//软键盘延迟打开时间
+    private boolean isKeybord = false;
+
+    private Switch mCheckBarrage;
+    private DanmakuView mDanmakuView;
+    private EditText editMessage;
+    private ViewAnimator vaBottomBar;
+    private LinearLayout llInputSoft;
+    private FrameLayout flChatList;
+    private ScrollRecycerView rcLiveChat;
+
+    private ImageView btnChat;
+
+    private List<ChatMessageBean> mChatMessageList;
+    private LiveChatAdapter mChatLiveAdapter;
+
+    private int maxMessageList = 150; //列表中最大 消息数目
 
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -53,7 +95,7 @@ public class GuestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_guest);
-
+        mChatMessageList = new ArrayList<ChatMessageBean>();
         mBtnConnect = (Button) findViewById(R.id.btn_line);
 
         mRtmpPullUrl = getIntent().getExtras().getString("rtmp_url");
@@ -63,6 +105,22 @@ public class GuestActivity extends AppCompatActivity {
         mTopic = getIntent().getExtras().getString("topic");
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
+        mCheckBarrage = (Switch) findViewById(R.id.check_barrage);
+        mDanmakuView = (DanmakuView) findViewById(R.id.danmakuView);
+        editMessage = (EditText) findViewById(R.id.edit_message);
+        vaBottomBar = (ViewAnimator) findViewById(R.id.va_bottom_bar);
+        llInputSoft = (LinearLayout) findViewById(R.id.ll_input_soft);
+        flChatList = (FrameLayout) findViewById(R.id.fl_chat_list);
+        btnChat = (ImageView) findViewById(R.id.iv_host_text);
+
+        rcLiveChat = (ScrollRecycerView) findViewById(R.id.rc_live_chat);
+        mChatLiveAdapter = new LiveChatAdapter(mChatMessageList, this);
+        rcLiveChat.setLayoutManager(new LinearLayoutManager(this));
+        rcLiveChat.setAdapter(mChatLiveAdapter);
+        rcLiveChat.addScrollPosation(this);
+        setEditTouchListener();
+        vaBottomBar.setAnimateFirstView(true);
+
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
@@ -82,8 +140,22 @@ public class GuestActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mDanmakuView.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDanmakuView.hide();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDanmakuView.clear();
+        softKeyboardUtil.removeGlobalOnLayoutListener(this);
         /**
          * 销毁rtmp播放器
          */
@@ -95,22 +167,106 @@ public class GuestActivity extends AppCompatActivity {
     }
 
     public void OnBtnClicked(View btn) {
-        if (!mStartLine) {
-            /**
-             * 向主播申请连线
-             */
-            mGuestKit.ApplyRTCLine(mUserData);
-            mStartLine = true;
-            mBtnConnect.setText(R.string.str_hangup_connect);
-        } else {
-            /**
-             * 挂断连线
-             */
-            mGuestKit.HangupRTCLine();
-            mVideoView.OnRtcRemoveRemoteRender("LocalCameraRender");
-            mStartLine = false;
-            mBtnConnect.setText(R.string.str_connect_hoster);
+        if (btn.getId() == R.id.btn_line) {
+            if (!mStartLine) {
+                /**
+                 * 向主播申请连线
+                 */
+                mGuestKit.ApplyRTCLine(mUserData);
+                mStartLine = true;
+                mBtnConnect.setText(R.string.str_hangup_connect);
+            } else {
+                /**
+                 * 挂断连线
+                 */
+                mGuestKit.HangupRTCLine();
+                mVideoView.OnRtcRemoveRemoteRender("LocalCameraRender");
+                mStartLine = false;
+                mBtnConnect.setText(R.string.str_connect_hoster);
+            }
+        } else if (btn.getId() == R.id.btn_send_message) {
+            String message = editMessage.getText().toString();
+            editMessage.setText("");
+            if (message.equals("")) {
+                return;
+            }
+            if (mCheckBarrage.isChecked()) {
+                mGuestKit.SendBarrage("GuestId", "", message);
+                IDanmakuItem item = new DanmakuItem(GuestActivity.this, new SpannableString(message), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
+                mDanmakuView.addItemToHead(item);
+            } else {
+                mGuestKit.SendUserMsg("GuestId", "", message);
+            }
+            addChatMessageList(new ChatMessageBean("GuestId", "HosterId", "", message));
+        } else if (btn.getId() == R.id.iv_host_text) {
+            btnChat.clearFocus();
+            vaBottomBar.setDisplayedChild(1);
+            editMessage.requestFocus();
+            softKeyboardUtil.showKeyboard(GuestActivity.this, editMessage);
         }
+    }
+
+    /**
+     * 设置 键盘的监听事件
+     */
+    private void setEditTouchListener() {
+        softKeyboardUtil = new SoftKeyboardUtil();
+
+        softKeyboardUtil.observeSoftKeyboard(GuestActivity.this, new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
+            @Override
+            public void onSoftKeyBoardChange(int softKeybardHeight, boolean isShow) {
+                if (isShow) {
+                    ThreadUtil.runInUIThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!isKeybord) {
+                                isKeybord = true;
+                                llInputSoft.animate().translationYBy(-editMessage.getHeight() / 3).setDuration(100).start();
+                                flChatList.animate().translationYBy(-editMessage.getHeight() / 3).setDuration(100).start();
+                            }
+
+                        }
+                    }, duration);
+                } else {
+                    btnChat.requestFocus();
+                    vaBottomBar.setDisplayedChild(0);
+                    llInputSoft.animate().translationYBy(editMessage.getHeight() / 3).setDuration(100).start();
+                    flChatList.animate().translationYBy(editMessage.getHeight() / 3).setDuration(100).start();
+                    isKeybord = false;
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新列表
+     * @param chatMessageBean
+     */
+    private void addChatMessageList(ChatMessageBean chatMessageBean) {
+        // 150 条 修改；
+
+        if (mChatMessageList == null) {
+            return;
+        }
+
+        if (mChatMessageList.size() < maxMessageList) {
+            mChatMessageList.add(chatMessageBean);
+        } else {
+            mChatMessageList.remove(0);
+            mChatMessageList.add(chatMessageBean);
+        }
+        mChatLiveAdapter.notifyDataSetChanged();
+        rcLiveChat.smoothScrollToPosition(mChatMessageList.size() - 1);
+    }
+
+
+    @Override
+    public void ScrollButtom() {
+    }
+
+    @Override
+    public void ScrollNotButtom() {
+
     }
 
     /**
@@ -303,16 +459,46 @@ public class GuestActivity extends AppCompatActivity {
             });
         }
 
+        /**
+         * 消息回调
+         * @param strCustomID 消息的发送者id
+         * @param strCustomName 消息的发送者昵称
+         * @param strCustomHeader 消息的发送者头像url
+         * @param strMessage 消息内容
+         */
         @Override
-        public void OnRTCUserMessageCallback(String strCustomID, String strCustomName, String strMessage) {
-
+        public void OnRTCUserMessageCallback(final String strCustomID, final String strCustomName, final String strCustomHeader, final String strMessage) {
+            GuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    addChatMessageList(new ChatMessageBean(strCustomID, strCustomName, "", strMessage));
+                }
+            });
         }
 
+        /**
+         * 弹幕回调
+         * @param strCustomID 弹幕的发送者id
+         * @param strCustomName 弹幕的发送者昵称
+         * @param strCustomHeader 弹幕的发送者头像url
+         * @param strBarrage 弹幕的内容
+         */
         @Override
-        public void OnRTCUserBarrageCallback(String strCustomID, String strCustomName, String strBarrage) {
-
+        public void OnRTCUserBarrageCallback(final String strCustomID, final String strCustomName, final String strCustomHeader, final String strBarrage) {
+            GuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    addChatMessageList(new ChatMessageBean(strCustomID, strCustomName, "", strBarrage));
+                    IDanmakuItem item = new DanmakuItem(GuestActivity.this, new SpannableString(strBarrage), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
+                    mDanmakuView.addItemToHead(item);
+                }
+            });
         }
 
+        /**
+         * 观看直播的总人数回调
+         * @param totalMembers 观看直播的总人数
+         */
         @Override
         public void OnRTCMemberListWillUpdateCallback(int totalMembers) {
 

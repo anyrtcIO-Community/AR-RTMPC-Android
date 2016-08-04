@@ -7,11 +7,11 @@ public class RTMPUrlHelper {
     /**
      * rtmp 推流地址
      */
-    public static final String RTMP_PUSH_URL = "rtmp://192.168.7.207/live/%s";
+    public static final String RTMP_PUSH_URL = "rtmp://192.168.7.207:1935/live/%s";
     /**
      * rtmp 拉流地址
      */
-    public static final String RTMP_PULL_URL = "rtmp://192.168.7.207/live/%s";
+    public static final String RTMP_PULL_URL = "rtmp://192.168.7.207:1935/live/%s";
     /**
      * hls 地址
      */
