@@ -3,16 +3,14 @@ package org.anyrtc.live_line;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -33,6 +31,7 @@ import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
+import org.anyrtc.utils.RTMPAudioManager;
 import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
 import org.anyrtc.utils.ThreadUtil;
@@ -80,6 +79,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
 
     private int maxMessageList = 150; //列表中最大 消息数目
 
+    private RTMPAudioManager mRtmpAudioManager = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +122,24 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             mHosterKit.SetVideoCapturer(render.GetRenderPointer(), true);
         }
 
+        {
+            // Create and audio manager that will take care of audio routing,
+            // audio modes, audio device enumeration etc.
+            mRtmpAudioManager = RTMPAudioManager.create(this, new Runnable() {
+                // This method will be called each time the audio state (number
+                // and
+                // type of devices) has been changed.
+                @Override
+                public void run() {
+                    onAudioManagerChangedState();
+                }
+            });
+            // Store existing audio settings and change audio mode to
+            // MODE_IN_COMMUNICATION for best possible VoIP performance.
+            mRtmpAudioManager.init();
+            mRtmpAudioManager.setAudioDevice(RTMPAudioManager.AudioDevice.SPEAKER_PHONE);
+        }
+
         mStartRtmp = true;
         /**
          * 开始推流
@@ -149,11 +168,26 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         super.onDestroy();
         mDanmakuView.clear();
         softKeyboardUtil.removeGlobalOnLayoutListener(this);
+
+        // Close RTMPAudioManager
+        if (mRtmpAudioManager != null) {
+            mRtmpAudioManager.close();
+            mRtmpAudioManager = null;
+
+        }
+
         if (mHosterKit != null) {
             mVideoView.OnRtcRemoveLocalRender();
             mHosterKit.Clear();
             mHosterKit = null;
         }
+    }
+
+    private void onAudioManagerChangedState() {
+        // TODO(henrika): disable video if
+        // AppRTCAudioManager.AudioDevice.EARPIECE
+        // is active.
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
     public void OnBtnClicked(View btn) {

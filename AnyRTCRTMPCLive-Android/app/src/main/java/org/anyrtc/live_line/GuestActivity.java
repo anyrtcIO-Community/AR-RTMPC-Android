@@ -1,5 +1,6 @@
 package org.anyrtc.live_line;
 
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +32,7 @@ import org.anyrtc.rtmpc_hybird.RTMPCGuestKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
+import org.anyrtc.utils.RTMPAudioManager;
 import org.anyrtc.utils.SoftKeyboardUtil;
 import org.anyrtc.utils.ThreadUtil;
 import org.anyrtc.widgets.ScrollRecycerView;
@@ -74,6 +76,8 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     private LiveChatAdapter mChatLiveAdapter;
 
     private int maxMessageList = 150; //列表中最大 消息数目
+
+    private RTMPAudioManager mRtmpAudioManager = null;
 
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -124,6 +128,25 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
+
+        {
+            // Create and audio manager that will take care of audio routing,
+            // audio modes, audio device enumeration etc.
+            mRtmpAudioManager = RTMPAudioManager.create(this, new Runnable() {
+                // This method will be called each time the audio state (number
+                // and
+                // type of devices) has been changed.
+                @Override
+                public void run() {
+                    onAudioManagerChangedState();
+                }
+            });
+            // Store existing audio settings and change audio mode to
+            // MODE_IN_COMMUNICATION for best possible VoIP performance.
+            mRtmpAudioManager.init();
+            mRtmpAudioManager.setAudioDevice(RTMPAudioManager.AudioDevice.SPEAKER_PHONE);
+        }
+
         /**
          * 初始化rtmp播放器
          */
@@ -156,6 +179,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         super.onDestroy();
         mDanmakuView.clear();
         softKeyboardUtil.removeGlobalOnLayoutListener(this);
+        // Close RTMPAudioManager
+        if (mRtmpAudioManager != null) {
+            mRtmpAudioManager.close();
+            mRtmpAudioManager = null;
+
+        }
+
         /**
          * 销毁rtmp播放器
          */
@@ -164,6 +194,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             mVideoView.OnRtcRemoveLocalRender();
             mGuestKit = null;
         }
+    }
+
+    private void onAudioManagerChangedState() {
+        // TODO(henrika): disable video if
+        // AppRTCAudioManager.AudioDevice.EARPIECE
+        // is active.
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
     public void OnBtnClicked(View btn) {
@@ -197,7 +234,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             } else {
                 mGuestKit.SendUserMsg("GuestId", "", message);
             }
-            addChatMessageList(new ChatMessageBean("GuestId", "HosterId", "", message));
+            addChatMessageList(new ChatMessageBean("GuestId", "GuestId", "", message));
         } else if (btn.getId() == R.id.iv_host_text) {
             btnChat.clearFocus();
             vaBottomBar.setDisplayedChild(1);
