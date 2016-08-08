@@ -27,6 +27,7 @@
             android:textColor="@color/item_white" />
 
         <LinearLayout
+            android:id="@+id/llayout_guest_tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -36,11 +37,35 @@
             android:padding="10dp">
 
             <Button
+                android:id="@+id/btn_copy_hls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="OnBtnClicked"
+                android:text="@string/str_live_share" />
+
+            <Button
                 android:id="@+id/btn_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="OnBtnClicked"
                 android:text="@string/str_connect_hoster" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/llayout_guest_tools"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_watcher_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/holo_blue_dark" />
         </LinearLayout>
 
     </RelativeLayout>

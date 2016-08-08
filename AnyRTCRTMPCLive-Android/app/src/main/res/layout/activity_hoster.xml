@@ -27,7 +27,7 @@
             android:textColor="@color/item_white" />
 
         <LinearLayout
-            android:id="@+id/llayout_tools"
+            android:id="@+id/llayout_host_tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -60,13 +60,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/llayout_tools"
+            android:layout_below="@+id/llayout_host_tools"
             android:gravity="left"
             android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/txt_connection_status"
+                android:id="@+id/txt_rtmp_connection_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -88,6 +88,14 @@
                 android:background="@android:color/transparent"
                 android:padding="5dp"
                 android:textColor="@android:color/holo_red_dark" />
+
+            <TextView
+                android:id="@+id/txt_watcher_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="5dp"
+                android:textColor="@android:color/holo_blue_dark" />
         </LinearLayout>
     </RelativeLayout>
 

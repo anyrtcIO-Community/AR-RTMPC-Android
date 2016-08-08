@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class ShareHelper {
     private Context context;
-    private static final String App_ID = "wx40db3ffd58b0c6a9";
+    private static final String App_ID = "wxb25fbdbe18554735";
     private IWXAPI api;
 
     public ShareHelper(Context context) {
@@ -36,12 +36,13 @@ public class ShareHelper {
     }
 
     /**
-     * Share Weixing
+     * Share Weixin
+     * @param liveTitle
      * @param webUrl
      */
-    public void shareWeiXin(String webUrl) {
+    public void shareWeiXin(String liveTitle, String webUrl) {
         String msgTitle = context.getString(R.string.app_name);
-        String msgText = context.getString(R.string.share_str_weixing_title);
+        String msgText = liveTitle + context.getString(R.string.share_str_weixin_title);
         shareWeiXin(webUrl, msgTitle, msgText);
     }
 

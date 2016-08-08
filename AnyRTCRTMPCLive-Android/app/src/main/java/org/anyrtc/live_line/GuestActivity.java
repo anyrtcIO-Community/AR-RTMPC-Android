@@ -1,17 +1,20 @@
 package org.anyrtc.live_line;
 
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
-import android.view.MotionEvent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -27,15 +30,19 @@ import com.opendanmaku.DanmakuView;
 import com.opendanmaku.IDanmakuItem;
 
 import org.anyrtc.adapter.LiveChatAdapter;
+import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybird.RTMPCAbstractGuest;
 import org.anyrtc.rtmpc_hybird.RTMPCGuestKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
+import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
 import org.anyrtc.utils.ThreadUtil;
 import org.anyrtc.widgets.ScrollRecycerView;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.webrtc.VideoRenderer;
 
 import java.util.ArrayList;
@@ -50,9 +57,12 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     private RTMPCVideoView mVideoView;
     private Button mBtnConnect;
     private boolean mStartLine = false;
+    private ShareHelper mShareHelper;
 
+    private String mNickname;
     private String mRtmpPullUrl;
     private String mAnyrtcId;
+    private String mHlsUrl;
     private String mGuestId;
     private String mUserData;
     private String mTopic;
@@ -100,11 +110,14 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_guest);
         mChatMessageList = new ArrayList<ChatMessageBean>();
+        mShareHelper = new ShareHelper(this);
         mBtnConnect = (Button) findViewById(R.id.btn_line);
 
+        mNickname = ((HybirdApplication)HybirdApplication.app()).getmNickname();
         mRtmpPullUrl = getIntent().getExtras().getString("rtmp_url");
         mAnyrtcId = getIntent().getExtras().getString("anyrtcId");
-        mGuestId = getIntent().getExtras().getString("guestId");
+        mHlsUrl = getIntent().getExtras().getString("hls_url");
+        mGuestId = mNickname;//getIntent().getExtras().getString("guestId");
         mUserData = getIntent().getExtras().getString("userData");
         mTopic = getIntent().getExtras().getString("topic");
         setTitle(mTopic);
@@ -175,6 +188,17 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            if(mStartLine) {
+                ShowExitDialog();
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mDanmakuView.clear();
@@ -203,13 +227,52 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
+    private void ShowExitDialog() {
+        AlertDialog.Builder build = new AlertDialog.Builder(this);
+        build.setTitle(R.string.str_exit);
+        build.setMessage(R.string.str_line_hangup);
+        build.setPositiveButton(R.string.str_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                mGuestKit.HangupRTCLine();
+                mVideoView.OnRtcRemoveRemoteRender("LocalCameraRender");
+                mStartLine = false;
+                finish();
+            }
+        });
+        build.setNegativeButton(R.string.str_cancel, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        build.show();
+    }
+
     public void OnBtnClicked(View btn) {
-        if (btn.getId() == R.id.btn_line) {
+        if(btn.getId() == R.id.btn_copy_hls) {
+            ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            cmb.setText(mHlsUrl.trim());
+            mShareHelper.shareWeiXin(mTopic, mHlsUrl);
+            Toast.makeText(GuestActivity.this, getString(R.string.str_copy_success), Toast.LENGTH_LONG).show();
+        } else if (btn.getId() == R.id.btn_line) {
             if (!mStartLine) {
+
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("guestId", mNickname);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 /**
                  * 向主播申请连线
                  */
-                mGuestKit.ApplyRTCLine(mUserData);
+                mGuestKit.ApplyRTCLine(json.toString());
                 mStartLine = true;
                 mBtnConnect.setText(R.string.str_hangup_connect);
             } else {
@@ -228,13 +291,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
                 return;
             }
             if (mCheckBarrage.isChecked()) {
-                mGuestKit.SendBarrage("GuestId", "", message);
+                mGuestKit.SendBarrage(mNickname, "", message);
                 IDanmakuItem item = new DanmakuItem(GuestActivity.this, new SpannableString(message), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
                 mDanmakuView.addItemToHead(item);
             } else {
-                mGuestKit.SendUserMsg("GuestId", "", message);
+                mGuestKit.SendUserMsg(mNickname, "", message);
             }
-            addChatMessageList(new ChatMessageBean("GuestId", "GuestId", "", message));
+            addChatMessageList(new ChatMessageBean(mNickname, mNickname, "", message));
         } else if (btn.getId() == R.id.iv_host_text) {
             btnChat.clearFocus();
             vaBottomBar.setDisplayedChild(1);
@@ -384,7 +447,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
                     if (code == 0) {
 
                     } else if (code == 101) {
-                        Toast.makeText(GuestActivity.this, R.string.str_hoseer_not_live, Toast.LENGTH_LONG).show();
+                        Toast.makeText(GuestActivity.this, R.string.str_hoster_not_live, Toast.LENGTH_LONG).show();
                         mHandler.sendEmptyMessageDelayed(CLOSED, 2000);
                     }
                 }
@@ -537,8 +600,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
          * @param totalMembers 观看直播的总人数
          */
         @Override
-        public void OnRTCMemberListWillUpdateCallback(int totalMembers) {
-
+        public void OnRTCMemberListWillUpdateCallback(final int totalMembers) {
+            GuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TextView) findViewById(R.id.txt_watcher_number)).setText(String.format(getString(R.string.str_live_watcher_number), totalMembers));
+                }
+            });
         }
 
         @Override

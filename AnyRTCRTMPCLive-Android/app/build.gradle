@@ -8,8 +8,8 @@ android {
         applicationId "org.anyrtc.live_line"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
     }
     buildTypes {
         release {
@@ -32,8 +32,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'cn.bingoogolapple:bga-adapter:1.0.9@aar'
     compile 'cn.bingoogolapple:bga-swipeitemlayout:1.0.4@aar'
-    compile 'com.android.support:design:23.4.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:design:24.0.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.linsea:opendanmaku:1.0.0@aar'
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

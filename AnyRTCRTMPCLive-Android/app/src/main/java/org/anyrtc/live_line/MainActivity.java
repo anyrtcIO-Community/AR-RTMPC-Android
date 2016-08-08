@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.anyrtc.adapter.LiveHosterAdapter;
+import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.utils.LiveItemBean;
 import org.anyrtc.utils.RTMPCHttpSDK;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         ((TextView) findViewById(R.id.txt_version)).setText(getString(R.string.str_version).replace("${VERSION}", getVersion()));
+
+        ((TextView) findViewById(R.id.txt_nickname)).setText(((HybirdApplication)HybirdApplication.app()).getmNickname());
 
         setTitle(R.string.str_title);
         listLive = new ArrayList<LiveItemBean>();
@@ -141,9 +144,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
     public void onItemChildClick(ViewGroup viewGroup, View view, int i) {
         Intent it = new Intent(this, GuestActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("hls_url", listLive.get(i).getmHlsUrl());
         bundle.putString("rtmp_url", listLive.get(i).getmRtmpPullUrl());
         bundle.putString("anyrtcId", listLive.get(i).getmAnyrtcId());
-        bundle.putString("guestId", "GuestID");
         bundle.putString("userData", new JSONObject().toString());
         bundle.putString("topic", listLive.get(i).getmLiveTopic());
         it.putExtras(bundle);

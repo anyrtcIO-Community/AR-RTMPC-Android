@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.SpannableString;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import com.opendanmaku.DanmakuView;
 import com.opendanmaku.IDanmakuItem;
 
 import org.anyrtc.adapter.LiveChatAdapter;
+import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybird.RTMPCAbstractHoster;
 import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
@@ -53,6 +55,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
 
     private ShareHelper mShareHelper;
 
+    private String mNickname;
     private String mRtmpPushUrl;
     private String mAnyrtcId;
     private String mHlsUrl;
@@ -94,6 +97,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mUserData = getIntent().getExtras().getString("userData");
         mHlsUrl = getIntent().getExtras().getString("hls_url");
         mTopic = getIntent().getExtras().getString("topic");
+        mNickname = ((HybirdApplication)HybirdApplication.app()).getmNickname();
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
         rlTopViews = (RelativeLayout) findViewById(R.id.rl_top_views);
@@ -164,6 +168,14 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            ShowExitDialog();
+        }
+        return false;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mDanmakuView.clear();
@@ -198,7 +210,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         } else if (btn.getId() == R.id.btn_copy_hls) {
             ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
             cmb.setText(mHlsUrl.trim());
-//            mShareHelper.shareWeiXin(mHlsUrl);
+            mShareHelper.shareWeiXin(mTopic, mHlsUrl);
             Toast.makeText(HosterActivity.this, getString(R.string.str_copy_success), Toast.LENGTH_LONG).show();
         } else if (btn.getId() == R.id.btn_switch_camera) {
             mHosterKit.SwitchCamera();
@@ -209,14 +221,14 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                 return;
             }
             if (mCheckBarrage.isChecked()) {
-                mHosterKit.SendBarrage("HosterId", "", message);
+                mHosterKit.SendBarrage(mNickname, "", message);
                 IDanmakuItem item = new DanmakuItem(HosterActivity.this, new SpannableString(message), mDanmakuView.getWidth(), 0, R.color.yellow_normol, 18, 1);
                 mDanmakuView.addItemToHead(item);
             } else {
-                mHosterKit.SendUserMsg("HosterId", "", message);
+                mHosterKit.SendUserMsg(mNickname, "", message);
             }
 
-            addChatMessageList(new ChatMessageBean("HosterId", "HosterId", "", message));
+            addChatMessageList(new ChatMessageBean(mNickname, mNickname, "", message));
         } else if (btn.getId() == R.id.iv_host_text) {
             btnChat.clearFocus();
             vaBottomBar.setDisplayedChild(1);
@@ -332,6 +344,32 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         build.show();
     }
 
+    private void ShowExitDialog() {
+        AlertDialog.Builder build = new AlertDialog.Builder(this);
+        build.setTitle(R.string.str_exit);
+        build.setMessage(R.string.str_live_stop);
+        build.setPositiveButton(R.string.str_ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                mStartRtmp = false;
+                mHosterKit.StopRtmpStream();
+                finish();
+            }
+        });
+        build.setNegativeButton(R.string.str_cancel, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        build.show();
+    }
+
 
     @Override
     public void ScrollButtom() {
@@ -355,7 +393,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((TextView) findViewById(R.id.txt_connection_status)).setText(R.string.str_rtmp_connect_success);
+                    ((TextView) findViewById(R.id.txt_rtmp_connection_status)).setText(R.string.str_rtmp_connect_success);
                 }
             });
         }
@@ -369,7 +407,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((TextView) findViewById(R.id.txt_connection_status)).setText(String.format(getString(R.string.str_reconnect_times), times));
+                    ((TextView) findViewById(R.id.txt_rtmp_connection_status)).setText(String.format(getString(R.string.str_reconnect_times), times));
                 }
             });
         }
@@ -398,8 +436,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((TextView) findViewById(R.id.txt_connection_status)).setTextColor(R.color.yellow);
-                    ((TextView) findViewById(R.id.txt_connection_status)).setText(R.string.str_rtmp_connect_failed);
+                    ((TextView) findViewById(R.id.txt_rtmp_connection_status)).setTextColor(R.color.yellow);
+                    ((TextView) findViewById(R.id.txt_rtmp_connection_status)).setText(R.string.str_rtmp_connect_failed);
                 }
             });
         }
@@ -425,8 +463,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                     if (code == 0) {
                         ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtc_connect_success);
                     } else {
-                        ((TextView) findViewById(R.id.txt_connection_status)).setTextColor(R.color.yellow);
-                        ((TextView) findViewById(R.id.txt_connection_status)).setText(R.string.str_rtmp_connect_failed);
+                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setTextColor(R.color.yellow);
+                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtmp_connect_failed);
                     }
                 }
             });
@@ -492,6 +530,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                 public void run() {
                     if (code == 207) {
                         Toast.makeText(HosterActivity.this, getString(R.string.str_apply_anyrtc_account), Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 }
             });
@@ -570,8 +609,13 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * @param totalMembers 观看总人数
          */
         @Override
-        public void OnRTCMemberListWillUpdateCallback(int totalMembers) {
-
+        public void OnRTCMemberListWillUpdateCallback(final int totalMembers) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TextView) findViewById(R.id.txt_watcher_number)).setText(String.format(getString(R.string.str_live_watcher_number), totalMembers));
+                }
+            });
         }
 
         @Override
