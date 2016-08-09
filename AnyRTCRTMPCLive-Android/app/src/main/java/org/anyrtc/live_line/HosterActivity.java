@@ -34,10 +34,13 @@ import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
+import org.anyrtc.utils.RTMPUrlHelper;
 import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
 import org.anyrtc.utils.ThreadUtil;
 import org.anyrtc.widgets.ScrollRecycerView;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.webrtc.VideoRenderer;
 
 import java.util.ArrayList;
@@ -208,10 +211,10 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             mHosterKit.StopRtmpStream();
             finish();
         } else if (btn.getId() == R.id.btn_copy_hls) {
-            ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-            cmb.setText(mHlsUrl.trim());
-            mShareHelper.shareWeiXin(mTopic, mHlsUrl);
-            Toast.makeText(HosterActivity.this, getString(R.string.str_copy_success), Toast.LENGTH_LONG).show();
+            int index = mHlsUrl.lastIndexOf("/");
+            int lastIndex = mHlsUrl.lastIndexOf(".");
+            String shareUrl = String.format(RTMPUrlHelper.SHARE_WEB_URL, mHlsUrl.substring(index + 1, lastIndex));
+            mShareHelper.shareWeiXin(mTopic, shareUrl);
         } else if (btn.getId() == R.id.btn_switch_camera) {
             mHosterKit.SwitchCamera();
         } else if (btn.getId() == R.id.btn_send_message) {
@@ -618,9 +621,24 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             });
         }
 
+        /**
+         * 人员上下线回调
+         * @param strCustomID
+         * @param strUserData
+         */
         @Override
-        public void OnRTCMemberCallback(String strCustomID, String strUserData) {
-
+        public void OnRTCMemberCallback(final String strCustomID, final String strUserData) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject userData = new JSONObject(strUserData);
+                        addChatMessageList(new ChatMessageBean(userData.getString("nickName"), "", userData.getString("headUrl"), ""));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         @Override

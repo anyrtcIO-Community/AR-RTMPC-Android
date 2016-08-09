@@ -42,7 +42,7 @@ public class PreStartLiveActivity extends AppCompatActivity {
         if (topic.length() == 0) {
             return;
         } else {
-            String anyrtcId = RTMPCHttpSDK.getRandomString(10);
+            String anyrtcId = RTMPCHttpSDK.getRandomString(12);
             String rtmpPushUrl = String.format(RTMPUrlHelper.RTMP_PUSH_URL, anyrtcId);
             String rtmpPullUrl = String.format(RTMPUrlHelper.RTMP_PULL_URL, anyrtcId);
             String hlsUrl = String.format(RTMPUrlHelper.HLS_URL, anyrtcId);

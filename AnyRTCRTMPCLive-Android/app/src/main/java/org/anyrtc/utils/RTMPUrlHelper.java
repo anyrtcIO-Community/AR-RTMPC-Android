@@ -16,4 +16,8 @@ public class RTMPUrlHelper {
      * hls 地址
      */
     public static final String HLS_URL = "http://192.169.7.207/live/%s.m3u8";
+    /**
+     * 分享页面url地址
+     */
+    public static final String SHARE_WEB_URL = "http://123.59.68.21/rtmpc-demo/?%s";
 }

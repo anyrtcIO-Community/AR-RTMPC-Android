@@ -37,6 +37,7 @@ import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
+import org.anyrtc.utils.RTMPUrlHelper;
 import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
 import org.anyrtc.utils.ThreadUtil;
@@ -64,7 +65,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     private String mAnyrtcId;
     private String mHlsUrl;
     private String mGuestId;
-    private String mUserData;
+    private JSONObject mUserData;
     private String mTopic;
 
     private SoftKeyboardUtil softKeyboardUtil;
@@ -118,7 +119,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         mAnyrtcId = getIntent().getExtras().getString("anyrtcId");
         mHlsUrl = getIntent().getExtras().getString("hls_url");
         mGuestId = mNickname;//getIntent().getExtras().getString("guestId");
-        mUserData = getIntent().getExtras().getString("userData");
+
         mTopic = getIntent().getExtras().getString("topic");
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
@@ -160,10 +161,18 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             mRtmpAudioManager.setAudioDevice(RTMPAudioManager.AudioDevice.SPEAKER_PHONE);
         }
 
+        mUserData = new JSONObject();
+        try {
+            mUserData.put("nickName", mNickname);
+            mUserData.put("headUrl", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         /**
          * 初始化rtmp播放器
          */
-        mGuestKit = new RTMPCGuestKit(this, mRtmpcGuest);
+        mGuestKit = new RTMPCGuestKit(this, mGuestListener);
         VideoRenderer render = mVideoView.OnRtcOpenLocalRender();
         /**
          * 开始播放rtmp流
@@ -172,7 +181,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         /**
          * 开启RTC连线连接
          */
-        mGuestKit.JoinRTCLine(mAnyrtcId, mGuestId, mUserData);
+        mGuestKit.JoinRTCLine(mAnyrtcId, mGuestId, mUserData.toString());
     }
 
     @Override
@@ -256,10 +265,10 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
 
     public void OnBtnClicked(View btn) {
         if(btn.getId() == R.id.btn_copy_hls) {
-            ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-            cmb.setText(mHlsUrl.trim());
-            mShareHelper.shareWeiXin(mTopic, mHlsUrl);
-            Toast.makeText(GuestActivity.this, getString(R.string.str_copy_success), Toast.LENGTH_LONG).show();
+            int index = mHlsUrl.lastIndexOf("/");
+            int lastIndex = mHlsUrl.lastIndexOf(".");
+            String shareUrl = String.format(RTMPUrlHelper.SHARE_WEB_URL, mHlsUrl.substring(index + 1, lastIndex));
+            mShareHelper.shareWeiXin(mTopic, shareUrl);
         } else if (btn.getId() == R.id.btn_line) {
             if (!mStartLine) {
 
@@ -397,7 +406,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     /**
      * 观看直播回调信息接口
      */
-    private RTMPCAbstractGuest mRtmpcGuest = new RTMPCAbstractGuest() {
+    private RTMPCAbstractGuest mGuestListener = new RTMPCAbstractGuest() {
 
         /**
          * rtmp 连接成功
@@ -609,9 +618,24 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             });
         }
 
+        /**
+         * 人员上下线回调
+         * @param strCustomID
+         * @param strUserData
+         */
         @Override
-        public void OnRTCMemberCallback(String strCustomID, String strUserData) {
-
+        public void OnRTCMemberCallback(final String strCustomID, final String strUserData) {
+            GuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject userData = new JSONObject(strUserData);
+                        addChatMessageList(new ChatMessageBean(userData.getString("nickName"), "", userData.getString("headUrl"), ""));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         @Override

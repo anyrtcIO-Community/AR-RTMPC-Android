@@ -16,7 +16,7 @@ public class HybirdApplication extends AbsApplication {
     }
 
     /**
-     * Ëæ»ú»ñÈ¡ÓÃ»§Ãû
+     * éšæœºè·å–ç”¨æˆ·å
      * @return
      */
     public String getmNickname() {
