@@ -77,7 +77,7 @@ fms, wowza, evostream, red5, crtmpserver, nginx-rtmp-module, srs及其他标准R
 ##商用授权
 程序发布需商用授权，业务咨询请联系
 QQ:547777245 </br>
-技术咨询QQ:547777245</br>
+技术咨询QQ:809564859</br>
 QQ交流群:580477436</br>
 联系电话:021-65650071</br>
 Email:niuming@dync.cc</br>
