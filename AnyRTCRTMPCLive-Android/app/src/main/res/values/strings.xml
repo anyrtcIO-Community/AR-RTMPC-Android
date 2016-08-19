@@ -19,7 +19,7 @@
     <string name="str_hoster_leave">主播已离开，2秒后关闭页面</string>
     <string name="str_hoster_not_live">主播还未开启直播, 2秒后关闭页面</string>
 
-    <string name="str_connect_hoster">连线</string>
+    <string name="str_connect_hoster">连麦</string>
     <string name="str_hangup_connect">挂断</string>
     <string name="str_apply_connect_line">%1$s 请求连线</string>
     <string name="str_agree">同意</string>
