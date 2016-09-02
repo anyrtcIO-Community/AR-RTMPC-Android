@@ -19,6 +19,7 @@
     <string name="str_hoster_leave">主播已离开，2秒后关闭页面</string>
     <string name="str_hoster_not_live">主播还未开启直播, 2秒后关闭页面</string>
 
+    <string name="str_setting">设置</string>
     <string name="str_connect_hoster">连麦</string>
     <string name="str_hangup_connect">挂断</string>
     <string name="str_apply_connect_line">%1$s 请求连线</string>
@@ -33,6 +34,8 @@
     <string name="str_cancel">取消</string>
     <string name="str_live_stop">您正在进行直播，确定要退出吗？</string>
     <string name="str_line_hangup">您正在与主播进行连麦互动，确定要退出吗？</string>
+    <string name="str_no_audio_record_permission">缺少录音权限</string>
+    <string name="str_no_camera_permission">缺少摄像头权限</string>
 
 
     <string name="share_str_weixin_title">&#160;视频互动直播正在进行，快来围观...</string>
