@@ -149,6 +149,10 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
 
         mStartRtmp = true;
         /**
+         * 设置自适应码流
+         */
+        mHosterKit.SetNetAdjustMode(RTMPCHosterKit.RTMPNetAdjustMode.RTMP_NA_Fast);
+        /**
          * 开始推流
          */
         mHosterKit.StartPushRtmpStream(mRtmpPushUrl);
@@ -527,7 +531,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * @param strReason
          */
         @Override
-        public void OnRTCLineClosedCallback(final int code, String strReason) {
+        public void OnRTCLineClosedCallback(final int code, final String strReason) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

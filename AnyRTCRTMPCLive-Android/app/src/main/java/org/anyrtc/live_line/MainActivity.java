@@ -1,9 +1,11 @@
 package org.anyrtc.live_line;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zhy.m.permission.MPermissions;
+
 import org.anyrtc.adapter.LiveHosterAdapter;
 import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.utils.LiveItemBean;
+import org.anyrtc.utils.PermissionsCheckUtil;
 import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RecyclerViewUtil;
 import org.json.JSONArray;
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
     private List<LiveItemBean> listLive;
 
     private LiveHosterAdapter mAdapter;
+
+    private static final int REQUECT_CODE_RECORD = 0;
+    private static final int REQUECT_CODE_CAMERA = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         mRecyclerViewUtils.beginRefreshing();//第一次自动加载一次
         mRecyclerViewUtils.setScrollingListener(this);
         mRecyclerViewUtils.setPullUpRefreshEnable(false);
+        getDevicePermission();
     }
 
     @Override
@@ -151,6 +160,54 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         bundle.putString("topic", listLive.get(i).getmLiveTopic());
         it.putExtras(bundle);
         startActivity(it);
+    }
+
+    /**
+     * 获取摄像头和录音权限
+     */
+    private void getDevicePermission() {
+        PermissionsCheckUtil.isOpenCarmaPermission(new PermissionsCheckUtil.RequestPermissionListener() {
+            @Override
+            public void requestPermissionSuccess() {
+
+            }
+
+            @Override
+            public void requestPermissionFailed() {
+                PermissionsCheckUtil.showMissingPermissionDialog(MainActivity.this, getString(R.string.str_no_camera_permission));
+            }
+
+            @Override
+            public void requestPermissionThanSDK23() {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    MPermissions.requestPermissions(MainActivity.this, REQUECT_CODE_CAMERA, Manifest.permission.CAMERA);
+                }
+            }
+        });
+
+
+        PermissionsCheckUtil.isOpenRecordAudioPermission(new PermissionsCheckUtil.RequestPermissionListener() {
+            @Override
+            public void requestPermissionSuccess() {
+
+            }
+
+            @Override
+            public void requestPermissionFailed() {
+                PermissionsCheckUtil.showMissingPermissionDialog(MainActivity.this, getString(R.string.str_no_audio_record_permission));
+            }
+
+            @Override
+            public void requestPermissionThanSDK23() {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    MPermissions.requestPermissions(MainActivity.this, REQUECT_CODE_RECORD, Manifest.permission.RECORD_AUDIO);
+                }
+            }
+        });
     }
 
     /**

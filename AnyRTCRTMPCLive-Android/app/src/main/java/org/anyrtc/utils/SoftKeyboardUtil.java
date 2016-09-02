@@ -77,7 +77,6 @@ public class SoftKeyboardUtil {
                     }
                 }
 
-                Log.e(TAG, "onGlobalLayout: keyboardHeight-------" + keyboardHeight);
                 if (isVKeyMap) {
 
                     if (isShowKeyboard) {
