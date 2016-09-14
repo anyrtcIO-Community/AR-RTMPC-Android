@@ -23,7 +23,7 @@ public class RTMPCHttpSDK {
     public final static String gHttpCloseRecUrl = "http://%s/anyapi/V1/closerecrtmp?AppID=%s&DeveloperID=%s&VodSvrID=%s&VodResTag=%s";
 
     /**
-     * RTMPC http »Øµ÷½Ó¿Ú
+     * RTMPC http å›è°ƒæ¥å£
      */
     public static interface RTMPCHttpCallback {
         public void OnRTMPCHttpOK(String strContent);
@@ -32,13 +32,13 @@ public class RTMPCHttpSDK {
     }
 
     /**
-     * »ñÈ¡Ö±²¥·şÎñÆ÷Ö±²¥´óÌüÁĞ±í
-     * @param ctx ÉÏÏÂÎÄ»·¾³
-     * @param strAddr Ö±²¥´óÌü·şÎñÆ÷µØÖ·
-     * @param strDeveloperId AnyRTCÆ½Ì¨¿ª·¢ÕßID
-     * @param strAppId AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappId
-     * @param strToken AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappToken
-     * @param callback »ñÈ¡Ö±²¥ÁĞ±íµÄÏìÓ¦»Øµ÷
+     * è·å–ç›´æ’­æœåŠ¡å™¨ç›´æ’­å¤§å…åˆ—è¡¨
+     * @param ctx ä¸Šä¸‹æ–‡ç¯å¢ƒ
+     * @param strAddr ç›´æ’­å¤§å…æœåŠ¡å™¨åœ°å€
+     * @param strDeveloperId AnyRTCå¹³å°å¼€å‘è€…ID
+     * @param strAppId AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appId
+     * @param strToken AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appToken
+     * @param callback è·å–ç›´æ’­åˆ—è¡¨çš„å“åº”å›è°ƒ
      */
     public static void GetLiveList(final Context ctx, String strAddr, String strDeveloperId, final String strAppId, final String strToken, final RTMPCHttpCallback callback) {
         final AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -82,14 +82,14 @@ public class RTMPCHttpSDK {
     }
 
     /**
-     * Í£Ö¹Â¼Ïñ
-     * @param ctx ÉÏÏÂÎÄ»·¾³
-     * @param strAddr Ö±²¥´óÌü·şÎñÆ÷µØÖ·
-     * @param strDeveloperId AnyRTCÆ½Ì¨¿ª·¢ÕßID
-     * @param strAppId AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappId
-     * @param strToken AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappToken
-     * @param strVodSvrId Â¼Ïñ³É¹¦Ê±ÏìÓ¦µÄVodSvrId
-     * @param strVodResTag Â¼Ïñ³É¹¦Ê±ÏìÓ¦µÄVodResTag
+     * åœæ­¢å½•åƒ
+     * @param ctx ä¸Šä¸‹æ–‡ç¯å¢ƒ
+     * @param strAddr ç›´æ’­å¤§å…æœåŠ¡å™¨åœ°å€
+     * @param strDeveloperId AnyRTCå¹³å°å¼€å‘è€…ID
+     * @param strAppId AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appId
+     * @param strToken AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appToken
+     * @param strVodSvrId å½•åƒæˆåŠŸæ—¶å“åº”çš„VodSvrId
+     * @param strVodResTag å½•åƒæˆåŠŸæ—¶å“åº”çš„VodResTag
      */
     public static void CloseRecRtmpStream(final Context ctx, String strAddr, String strDeveloperId, final String strAppId,
                                         final String strToken, final String strVodSvrId, final String strVodResTag) {
@@ -132,15 +132,15 @@ public class RTMPCHttpSDK {
 
     /**
      *
-     * @param ctx ÉÏÏÂÎÄ»·¾³
-     * @param strAddr Ö±²¥´óÌü·şÎñÆ÷µØÖ·
-     * @param strDeveloperId AnyRTCÆ½Ì¨¿ª·¢ÕßID
-     * @param strAppId AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappId
-     * @param strToken AnyRTCÆ½Ì¨ÉêÇëµÄÓ¦ÓÃµÄappToken
-     * @param strAnyrtcId AnyRTCÆ½Ì¨µÄanyrtcId
-     * @param rtmpurl Â¼ÏñµÄrtmpurl
-     * @param resId ÏµÍ³Ö±²¥µÄid£¬Â¼²¥Íê³Éºó»áÒì²½Í¨Öªµ½AnyRTCÆ½Ì¨ÉèÖÃµÄAppÂ¼ÏñÒì²½Í¨ÖªURLÖĞ
-     * @param callback »ñÈ¡Â¼ÏñµÄÏìÓ¦»Øµ÷
+     * @param ctx ä¸Šä¸‹æ–‡ç¯å¢ƒ
+     * @param strAddr ç›´æ’­å¤§å…æœåŠ¡å™¨åœ°å€
+     * @param strDeveloperId AnyRTCå¹³å°å¼€å‘è€…ID
+     * @param strAppId AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appId
+     * @param strToken AnyRTCå¹³å°ç”³è¯·çš„åº”ç”¨çš„appToken
+     * @param strAnyrtcId AnyRTCå¹³å°çš„anyrtcId
+     * @param rtmpurl å½•åƒçš„rtmpurl
+     * @param resId ç³»ç»Ÿç›´æ’­çš„idï¼Œå½•æ’­å®Œæˆåä¼šå¼‚æ­¥é€šçŸ¥åˆ°AnyRTCå¹³å°è®¾ç½®çš„Appå½•åƒå¼‚æ­¥é€šçŸ¥URLä¸­
+     * @param callback è·å–å½•åƒçš„å“åº”å›è°ƒ
      */
     public static void RecordRtmpStream(final Context ctx, String strAddr, String strDeveloperId, final String strAppId,
                                         final String strToken, final String strAnyrtcId, final String rtmpurl, final String resId, final RTMPCHttpCallback callback) {
