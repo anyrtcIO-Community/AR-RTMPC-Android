@@ -34,6 +34,7 @@ import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
+import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RTMPUrlHelper;
 import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
@@ -66,6 +67,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
     private String mUserData;
     private String mTopic;
     private String mHosterId;
+    private String mVodSvrId;
+    private String mVodResTag;
 
     private SoftKeyboardUtil softKeyboardUtil;
     private int duration = 100;//软键盘延迟打开时间
@@ -120,6 +123,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         setEditTouchListener();
         vaBottomBar.setAnimateFirstView(true);
 
+        //设置横屏模式（有横屏模式需求时调用此接口,设置后观看者必须也设置为横屏模式）
+        //RTMPCHybird.Inst().SetScreenToLandscape();
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
@@ -148,6 +153,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         }
 
         mStartRtmp = true;
+
         /**
          * 设置自适应码流
          */
@@ -187,6 +193,12 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         super.onDestroy();
         mDanmakuView.clear();
         softKeyboardUtil.removeGlobalOnLayoutListener(this);
+
+        if(mVodSvrId != null && mVodSvrId.length() > 0 && mVodResTag.length() > 0) {
+			//关闭录像
+            RTMPCHttpSDK.CloseRecRtmpStream(getApplicationContext(), RTMPCHybird.Inst().GetHttpAddr(), "teameetingtest", "meetingtest",
+                    "c4cd1ab6c34ada58e622e75e41b46d6d", mVodSvrId, mVodResTag);
+        }
 
         // Close RTMPAudioManager
         if (mRtmpAudioManager != null) {
@@ -401,6 +413,25 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                 @Override
                 public void run() {
                     ((TextView) findViewById(R.id.txt_rtmp_connection_status)).setText(R.string.str_rtmp_connect_success);
+                    //开始录像
+                    RTMPCHttpSDK.RecordRtmpStream(HosterActivity.this, RTMPCHybird.Inst().GetHttpAddr(), "teameetingtest", "meetingtest",
+                            "c4cd1ab6c34ada58e622e75e41b46d6d", mAnyrtcId, mRtmpPushUrl, mAnyrtcId, new RTMPCHttpSDK.RTMPCHttpCallback(){
+                                @Override
+                                public void OnRTMPCHttpOK(String strContent) {
+                                    try {
+                                        JSONObject recJson = new JSONObject(strContent);
+                                        mVodSvrId = recJson.getString("VodSvrId");
+                                        mVodResTag = recJson.getString("VodResTag");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void OnRTMPCHttpFailed(int code) {
+
+                                }
+                            });
                 }
             });
         }
@@ -471,7 +502,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                         ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtc_connect_success);
                     } else {
                         ((TextView) findViewById(R.id.txt_rtc_connection_status)).setTextColor(R.color.yellow);
-                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtmp_connect_failed);
+                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtc_connect_failed);
                     }
                 }
             });
@@ -531,7 +562,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * @param strReason
          */
         @Override
-        public void OnRTCLineClosedCallback(final int code, final String strReason) {
+        public void OnRTCLineClosedCallback(final int code, String strReason) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
