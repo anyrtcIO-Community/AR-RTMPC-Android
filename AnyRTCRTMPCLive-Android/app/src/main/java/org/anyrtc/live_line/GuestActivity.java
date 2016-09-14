@@ -139,6 +139,8 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         setEditTouchListener();
         vaBottomBar.setAnimateFirstView(true);
 
+        //设置横屏模式，也可sdk初始化时进行设置
+        //RTMPCHybird.Inst().SetScreenToLandscape();
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);

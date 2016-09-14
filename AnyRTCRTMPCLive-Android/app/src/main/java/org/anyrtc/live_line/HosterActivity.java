@@ -123,7 +123,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         setEditTouchListener();
         vaBottomBar.setAnimateFirstView(true);
 
-        //设置横屏模式（有横屏模式需求时调用此接口,设置后观看者必须也设置为横屏模式）
+        //设置横屏模式 当主播端设置后， 观众端也必须设置为横屏模式，也可在sdk初始化时进行设置
         //RTMPCHybird.Inst().SetScreenToLandscape();
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
