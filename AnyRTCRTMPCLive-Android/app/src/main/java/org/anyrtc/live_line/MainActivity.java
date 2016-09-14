@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
 
     @Override
     public void onItemChildClick(ViewGroup viewGroup, View view, int i) {
-        Intent it = new Intent(this, GuestActivity.class);
+        Intent it = new Intent(MainActivity.this, GuestActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("hls_url", listLive.get(i).getmHlsUrl());
         bundle.putString("rtmp_url", listLive.get(i).getmRtmpPullUrl());

@@ -8,8 +8,8 @@ android {
         applicationId "org.anyrtc.live_line"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 11
-        versionName "1.1.1"
+        versionCode 12
+        versionName "1.1.2"
     }
     buildTypes {
         release {
@@ -36,4 +36,5 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.linsea:opendanmaku:1.0.0@aar'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.zhy:mpermission-api:1.0.0'
 }
