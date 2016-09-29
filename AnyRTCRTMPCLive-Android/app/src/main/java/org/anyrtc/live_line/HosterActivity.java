@@ -42,6 +42,7 @@ import org.anyrtc.utils.ThreadUtil;
 import org.anyrtc.widgets.ScrollRecycerView;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.webrtc.RendererCommon;
 import org.webrtc.VideoRenderer;
 
 import java.util.ArrayList;
@@ -130,7 +131,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
 
         {
-            VideoRenderer render = mVideoView.OnRtcOpenLocalRender();
+            VideoRenderer render = mVideoView.OnRtcOpenLocalRender(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
             mHosterKit.SetVideoCapturer(render.GetRenderPointer(), true);
         }
 
@@ -149,7 +150,6 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             // Store existing audio settings and change audio mode to
             // MODE_IN_COMMUNICATION for best possible VoIP performance.
             mRtmpAudioManager.init();
-            mRtmpAudioManager.setAudioDevice(RTMPAudioManager.AudioDevice.SPEAKER_PHONE);
         }
 
         mStartRtmp = true;
@@ -583,7 +583,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerID);
+                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerID, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
                     if (null != render) {
                         mHosterKit.SetRTCVideoRender(strLivePeerID, render.GetRenderPointer());
                     }
