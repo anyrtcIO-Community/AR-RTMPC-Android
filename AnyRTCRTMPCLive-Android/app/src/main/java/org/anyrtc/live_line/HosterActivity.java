@@ -32,6 +32,7 @@ import org.anyrtc.rtmpc_hybird.RTMPCAbstractHoster;
 import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
 import org.anyrtc.rtmpc_hybird.RTMPCHybird;
 import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
+import org.anyrtc.utils.AnyRTCUtils;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
 import org.anyrtc.utils.RTMPCHttpSDK;
@@ -502,7 +503,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                         ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtc_connect_success);
                     } else {
                         ((TextView) findViewById(R.id.txt_rtc_connection_status)).setTextColor(R.color.yellow);
-                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(R.string.str_rtc_connect_failed);
+                        ((TextView) findViewById(R.id.txt_rtc_connection_status)).setText(AnyRTCUtils.getErrString(code));
                     }
                 }
             });

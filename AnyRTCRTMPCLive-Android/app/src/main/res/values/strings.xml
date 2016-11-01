@@ -37,6 +37,18 @@
     <string name="str_no_audio_record_permission">缺少录音权限</string>
     <string name="str_no_camera_permission">缺少摄像头权限</string>
 
+    <string name="str_anyrtc_ok">正常</string>
+    <string name="str_unknow_exception">未知错误</string>
+    <string name="str_anyrtc_exception">SDK调用异常</string>
+    <string name="str_anyrtc_net_err">网络错误</string>
+    <string name="str_anyrtc_live_err">直播出错</string>
+    <string name="str_anyrtc_bad_req">服务不支持的错误请求</string>
+    <string name="str_anyrtc_auth_fail">认证失败</string>
+    <string name="str_anyrtc_no_user">此开发者信息不存在</string>
+    <string name="str_anyrtc_sql_err">服务器内部数据库错误</string>
+    <string name="str_anyrtc_arrears">账号欠费</string>
+    <string name="str_anyrtc_locked">账号被锁定</string>
+    <string name="str_anyrtc_force_exit">强制离开</string>
 
     <string name="share_str_weixin_title">&#160;视频互动直播正在进行，快来围观...</string>
     <string name="str_barrage">弹幕</string>
