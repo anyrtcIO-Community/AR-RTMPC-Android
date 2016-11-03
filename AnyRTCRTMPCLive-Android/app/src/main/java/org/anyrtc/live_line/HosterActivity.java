@@ -677,6 +677,9 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             });
         }
 
+        /**
+         * 直播观看总人数回调结束
+         */
         @Override
         public void OnRTCMemberListUpdateDoneCallback() {
 

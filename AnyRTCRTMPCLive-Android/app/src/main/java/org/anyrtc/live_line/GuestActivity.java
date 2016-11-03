@@ -640,6 +640,9 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             });
         }
 
+        /**
+         * 直播观看总人数回调结束
+         */
         @Override
         public void OnRTCMemberListUpdateDoneCallback() {
 
