@@ -8,7 +8,7 @@ import org.anyrtc.live_line.R;
  */
 
 public enum  AnyRTCUtils {
-    AnyRTC_OK(0),               //正常
+    AnyRTC_OK(0),               // 正常
     AnyRTC_UNKNOW(1),           // 未知错误
     AnyRTC_EXCEPTION(2),	    // SDK调用异常
     AnyRTC_NET_ERR(100),		// 网络错误

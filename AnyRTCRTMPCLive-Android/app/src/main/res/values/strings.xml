@@ -60,4 +60,9 @@
     <string name="str_live_share">分享至微信</string>
 
     <string name="str_copy_success">复制hls成功</string>
+
+    <string name="str_video_hd">超高清</string>
+    <string name="str_video_qhd">高清</string>
+    <string name="str_video_sd">标清</string>
+    <string name="str_video_low">流畅</string>
 </resources>

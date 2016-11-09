@@ -72,6 +72,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
     private String mVodSvrId;
     private String mVodResTag;
 
+    private RTMPCHosterKit.RTMPVideoMode mVideoMode;
+
     private SoftKeyboardUtil softKeyboardUtil;
     private int duration = 100;//软键盘延迟打开时间
 
@@ -105,6 +107,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mUserData = getIntent().getExtras().getString("userData");
         mHlsUrl = getIntent().getExtras().getString("hls_url");
         mTopic = getIntent().getExtras().getString("topic");
+        String videoMode = getIntent().getExtras().getString("video_mode");
         mNickname = ((HybirdApplication)HybirdApplication.app()).getmNickname();
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
@@ -116,6 +119,16 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         llInputSoft = (LinearLayout) findViewById(R.id.ll_input_soft);
         flChatList = (FrameLayout) findViewById(R.id.fl_chat_list);
         btnChat = (ImageView) findViewById(R.id.iv_host_text);
+
+        if(videoMode.equals(RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_HD.toString())) {
+            mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_HD;
+        } else if(videoMode.equals(RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_QHD.toString())) {
+            mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_QHD;
+        } else if(videoMode.equals(RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD.toString())) {
+            mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD;
+        } else if(videoMode.equals(RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_Low.toString())) {
+            mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_Low;
+        }
 
         rcLiveChat = (ScrollRecycerView) findViewById(R.id.rc_live_chat);
         mChatLiveAdapter = new LiveChatAdapter(mChatMessageList, this);
@@ -156,6 +169,15 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mStartRtmp = true;
 
         /**
+         * 设置推流视频质量
+         * RTMPC_Video_Low  流畅
+         * RTMPC_Video_SD   标清
+         * RTMPC_Video_QHD  高清
+         * RTMPC_Video_HD   超高清
+         */
+        mHosterKit.SetVideoMode(mVideoMode);
+
+        /**
          * 设置自适应码流
          */
         mHosterKit.SetNetAdjustMode(RTMPCHosterKit.RTMPNetAdjustMode.RTMP_NA_Fast);
@@ -165,8 +187,9 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mHosterKit.StartPushRtmpStream(mRtmpPushUrl);
         /**
          * 建立RTC连线连接
+         * 最后一个参数为RTC服务器的区域：默认为“”；如果需要海外服务器，请与公司商务联系（021-65650071）
          */
-        mHosterKit.OpenRTCLine(mAnyrtcId, mHosterId, mUserData);
+        mHosterKit.OpenRTCLine(mAnyrtcId, mHosterId, mUserData, "");
     }
 
     @Override

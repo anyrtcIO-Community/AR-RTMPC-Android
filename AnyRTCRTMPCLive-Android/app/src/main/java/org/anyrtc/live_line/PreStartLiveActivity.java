@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
+import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
 import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RTMPUrlHelper;
 import org.json.JSONException;
@@ -22,20 +25,67 @@ public class PreStartLiveActivity extends AppCompatActivity {
     // UI references.
     private EditText mLiveTopicView;
 
+    private RadioButton mRbtnHD, mRbtnQHD, mRbtnSD, mRbtnLow;
+    private RTMPCHosterKit.RTMPVideoMode mVideoMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_start_live);
         mLiveTopicView = (EditText) findViewById(R.id.edit_live_topic);
-
+        mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD;
         Button mBtnStart = (Button) findViewById(R.id.btn_start);
+        mRbtnHD = (RadioButton) findViewById(R.id.rbtn_video_hd);
+        mRbtnQHD = (RadioButton) findViewById(R.id.rbtn_video_qhd);
+        mRbtnSD = (RadioButton) findViewById(R.id.rbtn_video_sd);
+        mRbtnLow = (RadioButton) findViewById(R.id.rbtn_video_low);
         mBtnStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 startLive();
             }
         });
+
+        mRbtnHD.setOnCheckedChangeListener(mOnCheckedChangeListener);
+        mRbtnQHD.setOnCheckedChangeListener(mOnCheckedChangeListener);
+        mRbtnSD.setOnCheckedChangeListener(mOnCheckedChangeListener);
+        mRbtnLow.setOnCheckedChangeListener(mOnCheckedChangeListener);
     }
+
+    /**
+     * 视频质量设置监听
+     */
+    private CompoundButton.OnCheckedChangeListener mOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.rbtn_video_hd: {
+                    if(isChecked) {
+                        mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_HD;
+                    }
+                }
+                    break;
+                case R.id.rbtn_video_qhd: {
+                    if(isChecked) {
+                        mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_QHD;
+                    }
+                }
+                    break;
+                case R.id.rbtn_video_sd: {
+                    if(isChecked) {
+                        mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD;
+                    }
+                }
+                    break;
+                case R.id.rbtn_video_low: {
+                    if(isChecked) {
+                        mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_Low;
+                    }
+                }
+                    break;
+            }
+        }
+    };
 
     private void startLive() {
         String topic = mLiveTopicView.getText().toString().trim();
@@ -62,6 +112,7 @@ public class PreStartLiveActivity extends AppCompatActivity {
             bundle.putString("hls_url", hlsUrl);
             bundle.putString("topic", topic);
             bundle.putString("andyrtcId", anyrtcId);
+            bundle.putString("video_mode", mVideoMode.toString());
             bundle.putString("userData", item.toString());
             Intent intent = new Intent(this, HosterActivity.class);
             intent.putExtras(bundle);

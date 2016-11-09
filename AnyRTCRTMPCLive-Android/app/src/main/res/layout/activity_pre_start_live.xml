@@ -30,6 +30,35 @@
                     android:maxLines="1"
                     android:singleLine="true" />
 
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rbtn_video_hd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_video_hd"/>
+                <RadioButton
+                    android:id="@+id/rbtn_video_qhd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_video_qhd"/>
+                <RadioButton
+                    android:id="@+id/rbtn_video_sd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/str_video_sd"/>
+                <RadioButton
+                    android:id="@+id/rbtn_video_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_video_low"/>
+            </RadioGroup>
+
             <Button
                 android:id="@+id/btn_start"
                 style="?android:textAppearanceSmall"
