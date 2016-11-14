@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
+import org.anyrtc.rtmpc_hybrid.RTMPCHosterKit;
 import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RTMPUrlHelper;
 import org.json.JSONException;

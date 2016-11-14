@@ -28,10 +28,10 @@ import com.opendanmaku.IDanmakuItem;
 
 import org.anyrtc.adapter.LiveChatAdapter;
 import org.anyrtc.application.HybirdApplication;
-import org.anyrtc.rtmpc_hybird.RTMPCAbstractHoster;
-import org.anyrtc.rtmpc_hybird.RTMPCHosterKit;
-import org.anyrtc.rtmpc_hybird.RTMPCHybird;
-import org.anyrtc.rtmpc_hybird.RTMPCVideoView;
+import org.anyrtc.rtmpc_hybrid.RTMPCAbstractHoster;
+import org.anyrtc.rtmpc_hybrid.RTMPCHosterKit;
+import org.anyrtc.rtmpc_hybrid.RTMPCHybird;
+import org.anyrtc.rtmpc_hybrid.RTMPCVideoView;
 import org.anyrtc.utils.AnyRTCUtils;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
