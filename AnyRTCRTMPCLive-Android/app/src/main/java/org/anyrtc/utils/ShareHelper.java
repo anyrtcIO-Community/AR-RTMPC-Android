@@ -70,7 +70,7 @@ public class ShareHelper {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = description;
-        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher);
         msg.thumbData = Util.bmpToByteArray(thumb, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();

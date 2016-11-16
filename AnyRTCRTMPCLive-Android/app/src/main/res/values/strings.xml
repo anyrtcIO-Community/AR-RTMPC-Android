@@ -50,7 +50,7 @@
     <string name="str_anyrtc_locked">账号被锁定</string>
     <string name="str_anyrtc_force_exit">强制离开</string>
 
-    <string name="share_str_weixin_title">&#160;视频互动直播正在进行，快来围观...</string>
+    <string name="share_str_weixin_title">&#160;连麦互动视频直播正在进行，快来围观...</string>
     <string name="str_barrage">弹幕</string>
     <string name="str_send">发送</string>
     <string name="str_online">&#160;来了，欢迎~</string>
