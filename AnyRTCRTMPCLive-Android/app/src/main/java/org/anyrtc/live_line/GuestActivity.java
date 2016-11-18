@@ -411,10 +411,19 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     private RTMPCAbstractGuest mGuestListener = new RTMPCAbstractGuest() {
 
         /**
-         * rtmp 连接成功
+         * rtmp 连接成功 视频即将播放；视频播放前的操作可以在此接口中进行操作
          */
         @Override
         public void OnRtmplayerOKCallback() {
+
+        }
+
+        /**
+         * rtmp 开始播放 视频开始播放
+         */
+        @Override
+        public void OnRtmplayerStartCallback() {
+
         }
 
         /**

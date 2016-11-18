@@ -17,7 +17,7 @@ import com.zhy.m.permission.MPermissions;
 
 import org.anyrtc.adapter.LiveHosterAdapter;
 import org.anyrtc.application.HybirdApplication;
-import org.anyrtc.rtmpc_hybird.RTMPCHybird;
+import org.anyrtc.rtmpc_hybrid.RTMPCHybird;
 import org.anyrtc.utils.LiveItemBean;
 import org.anyrtc.utils.PermissionsCheckUtil;
 import org.anyrtc.utils.RTMPCHttpSDK;
@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
     }
 
     public void OnBtnClicked(View btn) {
