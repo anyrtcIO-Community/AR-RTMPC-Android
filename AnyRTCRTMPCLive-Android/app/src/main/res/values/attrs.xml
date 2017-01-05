@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 圆形头像 -->
+    <declare-styleable name="CustomRoundView">
+        <attr name="border_width" format="dimension"/>
+        <attr name="border_color" format="color"/>
+    </declare-styleable>
+
+    <!--扩散圆颜色-->
+    <attr name="diffuse_color" format="color"/>
+    <!--中心圆颜色-->
+    <attr name="diffuse_coreColor" format="color"/>
+    <!--中心圆图片-->
+    <attr name="diffuse_coreImage" format="reference"/>
+    <!--中心圆半径-->
+    <attr name="diffuse_coreRadius" format="float"/>
+    <!--扩散圆宽度,值越小越宽-->
+    <attr name="diffuse_width" format="integer"/>
+    <!--最大扩散宽度-->
+    <attr name="diffuse_maxWidth" format="integer"/>
+
+    <declare-styleable name="DiffuseView">
+        <attr name="diffuse_color"/>
+        <attr name="diffuse_coreColor"/>
+        <attr name="diffuse_coreImage"/>
+        <attr name="diffuse_coreRadius"/>
+        <attr name="diffuse_width"/>
+        <attr name="diffuse_maxWidth"/>
+    </declare-styleable>
+
+</resources>

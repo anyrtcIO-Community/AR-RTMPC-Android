@@ -10,6 +10,7 @@ public class LiveItemBean {
     private String mHlsUrl;
     private String mLiveTopic;
     private String mAnyrtcId;
+    private boolean mIsAudioOnly;
     private int mMemNumber;
 
     public String getmAnyrtcId() {
@@ -66,5 +67,13 @@ public class LiveItemBean {
 
     public void setmMemNumber(int mMemNumber) {
         this.mMemNumber = mMemNumber;
+    }
+
+    public boolean ismIsAudioOnly() {
+        return mIsAudioOnly;
+    }
+
+    public void setmIsAudioOnly(boolean mIsAudioOnly) {
+        this.mIsAudioOnly = mIsAudioOnly;
     }
 }

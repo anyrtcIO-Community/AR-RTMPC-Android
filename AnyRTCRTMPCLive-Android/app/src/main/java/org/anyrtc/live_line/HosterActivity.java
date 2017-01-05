@@ -1,6 +1,5 @@
 package org.anyrtc.live_line;
 
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
@@ -51,7 +50,7 @@ import java.util.List;
 
 
 /**
- * 主播页面
+ * 视频主播页面
  */
 public class HosterActivity extends AppCompatActivity implements ScrollRecycerView.ScrollPosation {
 
@@ -513,6 +512,14 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         }
 
         /**
+         * rtmp 音频模式下，音频实时检测
+         */
+        @Override
+        public void OnRtmpAudioLevelCallback(String strCustomId, int level) {
+
+        }
+
+        /**
          * RTC 连接回调
          * @param code 0： 连接成功
          * @param strErr 原因
@@ -630,6 +637,16 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             });
         }
 
+        @Override
+        public void OnRTCOpenAudioLineCallback(String strLivePeerID, String strCustomID) {
+            
+        }
+
+        @Override
+        public void OnRTCCloseAudioLineCallback(String strLivePeerID, String strCustomID) {
+
+        }
+
         /**
          * 消息回调
          * @param strCustomID 消息的发送者id
@@ -692,7 +709,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
                 public void run() {
                     try {
                         JSONObject userData = new JSONObject(strUserData);
-                        addChatMessageList(new ChatMessageBean(userData.getString("nickName"), "", userData.getString("headUrl"), ""));
+                        addChatMessageList(new ChatMessageBean(userData.getString("NickName"), "", userData.getString("IconUrl"), ""));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+    <org.anyrtc.widgets.DiffuseView
+        android:id="@+id/wl_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        app:diffuse_color="@color/colorAccent"
+        app:diffuse_coreColor="@color/colorPrimaryDark"
+        app:diffuse_coreImage="@drawable/ic_launcher"
+        app:diffuse_coreRadius="50"
+        app:diffuse_maxWidth="50"
+        app:diffuse_width="12" />
+
+
+    <TextView
+        android:id="@+id/txt_audio_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <TextView
+        android:id="@+id/txt_audio_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_audio_name"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:focusable="false"
+        android:src="@mipmap/btn_shotdown" />
+
+</RelativeLayout>
