@@ -1,7 +1,5 @@
 package org.anyrtc.live_line;
 
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -37,6 +35,7 @@ import org.anyrtc.rtmpc_hybrid.RTMPCHybird;
 import org.anyrtc.rtmpc_hybrid.RTMPCVideoView;
 import org.anyrtc.utils.ChatMessageBean;
 import org.anyrtc.utils.RTMPAudioManager;
+import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RTMPUrlHelper;
 import org.anyrtc.utils.ShareHelper;
 import org.anyrtc.utils.SoftKeyboardUtil;
@@ -51,7 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 游客页面
+ * 视频游客页面
  */
 public class GuestActivity extends AppCompatActivity implements ScrollRecycerView.ScrollPosation {
     private static final int CLOSED = 0;
@@ -119,7 +118,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         mRtmpPullUrl = getIntent().getExtras().getString("rtmp_url");
         mAnyrtcId = getIntent().getExtras().getString("anyrtcId");
         mHlsUrl = getIntent().getExtras().getString("hls_url");
-        mGuestId = mNickname;//getIntent().getExtras().getString("guestId");
+        mGuestId = RTMPCHttpSDK.getRandomString(9);
 
         mTopic = getIntent().getExtras().getString("topic");
         setTitle(mTopic);
@@ -165,8 +164,8 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
 
         mUserData = new JSONObject();
         try {
-            mUserData.put("nickName", mNickname);
-            mUserData.put("headUrl", "");
+            mUserData.put("NickName", mNickname);
+            mUserData.put("IconUrl", "");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -455,6 +454,14 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         }
 
         /**
+         * rtmp 音频模式下，音频实时检测
+         */
+        @Override
+        public void OnRtmpAudioLevelCallback(String strCustomId, int level) {
+
+        }
+
+        /**
          * 游客RTC 状态回调
          * @param code 回调响应码：0：正常；101：主播未开启直播；
          * @param strReason 原因描述
@@ -493,26 +500,6 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
                     }
                 }
             });
-        }
-
-        /**
-         * 当与主播连线成功时，其他用户连线回调
-         * @param strLivePeerID
-         * @param strCustomID
-         * @param strUserData
-         */
-        @Override
-        public void OnRTCOtherLineOpenCallback(String strLivePeerID, String strCustomID, String strUserData) {
-
-        }
-
-        /**
-         * 其他用户连线回调
-         * @param strLivePeerID
-         */
-        @Override
-        public void OnRTCOtherLineCloseCallback(String strLivePeerID) {
-
         }
 
         /**
@@ -579,6 +566,16 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             });
         }
 
+        @Override
+        public void OnRTCOpenAudioLineCallback(String strLivePeerID, String strCustomID) {
+
+        }
+
+        @Override
+        public void OnRTCCloseAudioLineCallback(String strLivePeerID, String strCustomID) {
+
+        }
+
         /**
          * 消息回调
          * @param strCustomID 消息的发送者id
@@ -641,7 +638,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
                 public void run() {
                     try {
                         JSONObject userData = new JSONObject(strUserData);
-                        addChatMessageList(new ChatMessageBean(userData.getString("nickName"), "", userData.getString("headUrl"), ""));
+                        addChatMessageList(new ChatMessageBean(userData.getString("NickName"), "", userData.getString("IconUrl"), ""));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

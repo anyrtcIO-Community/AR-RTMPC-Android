@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
                     bean.setmRtmpPullUrl(itemJson.getString("rtmp_url"));
                     bean.setmHlsUrl(itemJson.getString("hls_url"));
                     bean.setmLiveTopic(itemJson.getString("topic"));
+                    bean.setmIsAudioOnly(itemJson.getBoolean("isAudioOnly"));
                     bean.setmAnyrtcId(itemJson.getString("anyrtcId"));
                     bean.setmMemNumber(memberList.getInt(i));
                     listLive.add(bean);
@@ -154,13 +155,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
 
     @Override
     public void onItemChildClick(ViewGroup viewGroup, View view, int i) {
-        Intent it = new Intent(MainActivity.this, GuestActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("hls_url", listLive.get(i).getmHlsUrl());
         bundle.putString("rtmp_url", listLive.get(i).getmRtmpPullUrl());
         bundle.putString("anyrtcId", listLive.get(i).getmAnyrtcId());
+        bundle.putBoolean("isAudioOnly", listLive.get(i).ismIsAudioOnly());
+        bundle.putString("hosterId", listLive.get(i).getmHosterId());
         bundle.putString("userData", new JSONObject().toString());
         bundle.putString("topic", listLive.get(i).getmLiveTopic());
+        Intent it = null;
+        if(listLive.get(i).ismIsAudioOnly()) {
+            it = new Intent(MainActivity.this, AudioGuestActivity.class);
+        } else {
+            it = new Intent(MainActivity.this, GuestActivity.class);
+        }
         it.putExtras(bundle);
         startActivity(it);
     }

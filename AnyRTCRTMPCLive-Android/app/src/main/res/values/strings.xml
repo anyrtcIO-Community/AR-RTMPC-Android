@@ -7,6 +7,9 @@
     <!-- Strings related to start live -->
     <string name="prompt_live_topic">直播主题</string>
     <string name="str_start_live">发起直播</string>
+    <string name="str_start_video_live">发起视频直播</string>
+    <string name="str_start_audio_live">发起音频直播</string>
+    <string name="str_audio_living">音频直播</string>
     <string name="str_live_info">请创建一个直播主题</string>
     <string name="title_activity_pre_start_live">开始直播</string>
     <string name="str_rtmp_connect_success">RTMP 连接成功</string>

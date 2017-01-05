@@ -26,6 +26,11 @@ public class LiveHosterAdapter extends BGARecyclerViewAdapter<LiveItemBean> {
     protected void fillData(BGAViewHolderHelper bgaViewHolderHelper, int i, LiveItemBean livesBean) {
         bgaViewHolderHelper.setText(R.id.txt_live_name, livesBean.getmLiveTopic());
         bgaViewHolderHelper.setText(R.id.txt_live_number, livesBean.getmMemNumber() + "");
+        if(livesBean.ismIsAudioOnly()) {
+            bgaViewHolderHelper.setImageResource(R.id.img_live_type, R.drawable.audio_living);
+        } else {
+            bgaViewHolderHelper.setImageResource(R.id.img_live_type, R.drawable.video_living);
+        }
     }
 
 }

@@ -8,8 +8,8 @@ android {
         applicationId "org.anyrtc.live_line"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 25
-        versionName "1.2.5"
+        versionCode 26
+        versionName "1.2.6"
     }
     buildTypes {
         release {
@@ -37,4 +37,6 @@ dependencies {
     compile 'com.linsea:opendanmaku:1.0.0@aar'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.zhy:mpermission-api:1.0.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

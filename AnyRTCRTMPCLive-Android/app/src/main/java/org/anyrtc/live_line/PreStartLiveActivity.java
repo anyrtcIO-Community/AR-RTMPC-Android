@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybrid.RTMPCHosterKit;
 import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RTMPUrlHelper;
@@ -34,15 +35,22 @@ public class PreStartLiveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pre_start_live);
         mLiveTopicView = (EditText) findViewById(R.id.edit_live_topic);
         mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD;
-        Button mBtnStart = (Button) findViewById(R.id.btn_start);
+        Button mBtnVideoStart = (Button) findViewById(R.id.btn_video_start);
+        Button mBtnAudioStart = (Button) findViewById(R.id.btn_audio_start);
         mRbtnHD = (RadioButton) findViewById(R.id.rbtn_video_hd);
         mRbtnQHD = (RadioButton) findViewById(R.id.rbtn_video_qhd);
         mRbtnSD = (RadioButton) findViewById(R.id.rbtn_video_sd);
         mRbtnLow = (RadioButton) findViewById(R.id.rbtn_video_low);
-        mBtnStart.setOnClickListener(new OnClickListener() {
+        mBtnVideoStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLive();
+                startLive(false);
+            }
+        });
+        mBtnAudioStart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startLive(true);
             }
         });
 
@@ -87,7 +95,11 @@ public class PreStartLiveActivity extends AppCompatActivity {
         }
     };
 
-    private void startLive() {
+    /**
+     * 发起直播；
+     * @param isAudioOnly 是否是音频直播：true/false：音频直播/视频直播
+     */
+    private void startLive(boolean isAudioOnly) {
         String topic = mLiveTopicView.getText().toString().trim();
         if (topic.length() == 0) {
             return;
@@ -98,23 +110,29 @@ public class PreStartLiveActivity extends AppCompatActivity {
             String hlsUrl = String.format(RTMPUrlHelper.HLS_URL, anyrtcId);
             JSONObject item = new JSONObject();
             try {
-                item.put("hosterId", "hostID");
+                item.put("hosterId", ((HybirdApplication)HybirdApplication.app()).getmHostId());
                 item.put("rtmp_url", rtmpPullUrl);
                 item.put("hls_url", hlsUrl);
                 item.put("topic", topic);
                 item.put("anyrtcId", anyrtcId);
+                item.put("isAudioOnly", isAudioOnly);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Bundle bundle = new Bundle();
-            bundle.putString("hosterId", "hostID");
+            bundle.putString("hosterId", ((HybirdApplication)HybirdApplication.app()).getmHostId());
             bundle.putString("rtmp_url", rtmpPushUrl);
             bundle.putString("hls_url", hlsUrl);
             bundle.putString("topic", topic);
             bundle.putString("andyrtcId", anyrtcId);
             bundle.putString("video_mode", mVideoMode.toString());
             bundle.putString("userData", item.toString());
-            Intent intent = new Intent(this, HosterActivity.class);
+            Intent intent = null;
+            if(isAudioOnly) {
+                intent = new Intent(this, AudioHosterActivity.class);
+            } else {
+                intent = new Intent(this, HosterActivity.class);
+            }
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
