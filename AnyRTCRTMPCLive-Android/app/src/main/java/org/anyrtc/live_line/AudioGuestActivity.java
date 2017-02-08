@@ -637,7 +637,7 @@ public class AudioGuestActivity extends AppCompatActivity implements ScrollRecyc
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID, String strCustomID) {
 
         }
 
@@ -646,7 +646,7 @@ public class AudioGuestActivity extends AppCompatActivity implements ScrollRecyc
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID, String strCustomID) {
 
         }
 
@@ -679,6 +679,18 @@ public class AudioGuestActivity extends AppCompatActivity implements ScrollRecyc
                     removeAudioChatLevel(strLivePeerID);
                 }
             });
+        }
+
+        @Override
+        public void OnRTCLiveStartCallback()
+        {
+            //暂时无用
+        }
+
+        @Override
+        public void OnRTCLiveStopCallback()
+        {
+            //暂时无用
         }
 
         /**

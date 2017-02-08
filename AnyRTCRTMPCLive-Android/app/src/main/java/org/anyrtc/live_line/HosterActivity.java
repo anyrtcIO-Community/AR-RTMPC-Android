@@ -188,7 +188,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * 建立RTC连线连接
          * 最后一个参数为RTC服务器的区域：默认为“”；如果需要海外服务器，请与公司商务联系（021-65650071）
          */
-        mHosterKit.OpenRTCLine(mAnyrtcId, mHosterId, mUserData, "");
+        mHosterKit.OpenRTCLine(mAnyrtcId, mHosterId, mUserData);
     }
 
     @Override
@@ -610,7 +610,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID, String strCustomID) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -627,7 +627,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID, String strCustomID) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

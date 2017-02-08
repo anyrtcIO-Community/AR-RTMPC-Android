@@ -272,7 +272,6 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             mShareHelper.shareWeiXin(mTopic, shareUrl);
         } else if (btn.getId() == R.id.btn_line) {
             if (!mStartLine) {
-
                 JSONObject json = new JSONObject();
                 try {
                     json.put("guestId", mNickname);
@@ -541,7 +540,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCOpenVideoRenderCallback(final String strLivePeerID, String strCustomID) {
             GuestActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -556,7 +555,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
          * @param strLivePeerID
          */
         @Override
-        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID) {
+        public void OnRTCCloseVideoRenderCallback(final String strLivePeerID, String strCustomID) {
             GuestActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -574,6 +573,18 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         @Override
         public void OnRTCCloseAudioLineCallback(String strLivePeerID, String strCustomID) {
 
+        }
+
+        @Override
+        public void OnRTCLiveStartCallback()
+        {
+            //暂时无用
+        }
+
+        @Override
+        public void OnRTCLiveStopCallback()
+        {
+            //暂时无用
         }
 
         /**
