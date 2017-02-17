@@ -8,8 +8,8 @@ android {
         applicationId "org.anyrtc.live_line"
         minSdkVersion 16
         targetSdkVersion 24
-        versionCode 27
-        versionName "1.2.7"
+        versionCode 28
+        versionName "1.2.8"
     }
     buildTypes {
         release {
