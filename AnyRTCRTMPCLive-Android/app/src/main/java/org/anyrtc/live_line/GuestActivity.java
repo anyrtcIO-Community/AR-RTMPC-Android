@@ -141,6 +141,8 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
 
         //设置横屏模式，也可sdk初始化时进行设置
         //RTMPCHybird.Inst().SetScreenToLandscape();
+        //设置竖屏模式，也可sdk初始化时进行设置
+        //RTMPCHybird.Inst().SetScreenToPortrait();
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
