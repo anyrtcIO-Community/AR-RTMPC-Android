@@ -149,9 +149,6 @@ public class AudioHosterActivity extends AppCompatActivity implements ScrollRecy
         setEditTouchListener();
         vaBottomBar.setAnimateFirstView(true);
 
-        //设置横屏模式 当主播端设置后， 观众端也必须设置为横屏模式，也可在sdk初始化时进行设置
-        //RTMPCHybird.Inst().SetScreenToLandscape();
-
         /**
          * 设置音频模式并且监测音频大小
          */

@@ -139,6 +139,9 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
 
         //设置横屏模式 当主播端设置后， 观众端也必须设置为横屏模式，也可在sdk初始化时进行设置
         //RTMPCHybird.Inst().SetScreenToLandscape();
+
+        //设置竖屏模式，当主播端设置后， 观众端也必须设置为竖屏模式，也可在sdk初始化时进行设置
+        RTMPCHybird.Inst().SetScreenToPortrait();
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
