@@ -1,6 +1,7 @@
 package org.anyrtc.live_line;
 
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,6 +68,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
     private String mGuestId;
     private JSONObject mUserData;
     private String mTopic;
+    private int mScreenMode = 1;
 
     private SoftKeyboardUtil softKeyboardUtil;
 
@@ -118,6 +120,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         mRtmpPullUrl = getIntent().getExtras().getString("rtmp_url");
         mAnyrtcId = getIntent().getExtras().getString("anyrtcId");
         mHlsUrl = getIntent().getExtras().getString("hls_url");
+        mScreenMode = getIntent().getExtras().getInt("screen_mode");
         mGuestId = RTMPCHttpSDK.getRandomString(9);
 
         mTopic = getIntent().getExtras().getString("topic");
@@ -143,6 +146,16 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         //RTMPCHybird.Inst().SetScreenToLandscape();
         //设置竖屏模式，也可sdk初始化时进行设置
         //RTMPCHybird.Inst().SetScreenToPortrait();
+
+        if(mScreenMode == 0){
+            //横屏模式
+            RTMPCHybird.Inst().SetScreenToLandscape();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else if(mScreenMode == 1) {
+            //竖屏模式
+            RTMPCHybird.Inst().SetScreenToPortrait();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);

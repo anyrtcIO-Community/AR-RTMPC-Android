@@ -59,6 +59,25 @@
                     android:text="@string/str_video_low"/>
             </RadioGroup>
 
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rbtn_live_landscape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_live_landscape"/>
+                <RadioButton
+                    android:id="@+id/rbtn_live_portrait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_live_portrait"
+                    android:checked="true"/>
+            </RadioGroup>
+
             <Button
                 android:id="@+id/btn_video_start"
                 style="?android:textAppearanceSmall"

@@ -2,6 +2,7 @@ package org.anyrtc.live_line;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -72,6 +73,8 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
     private String mVodResTag;
 
     private RTMPCHosterKit.RTMPVideoMode mVideoMode;
+    //横屏或者竖屏直播
+    private int mScreenMode = 1;
 
     private SoftKeyboardUtil softKeyboardUtil;
     private int duration = 100;//软键盘延迟打开时间
@@ -107,6 +110,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         mHlsUrl = getIntent().getExtras().getString("hls_url");
         mTopic = getIntent().getExtras().getString("topic");
         String videoMode = getIntent().getExtras().getString("video_mode");
+        mScreenMode = getIntent().getExtras().getInt("screen_mode");
         mNickname = ((HybirdApplication)HybirdApplication.app()).getmNickname();
         setTitle(mTopic);
         ((TextView) findViewById(R.id.txt_title)).setText(mTopic);
@@ -141,7 +145,18 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
         //RTMPCHybird.Inst().SetScreenToLandscape();
 
         //设置竖屏模式，当主播端设置后， 观众端也必须设置为竖屏模式，也可在sdk初始化时进行设置
-        RTMPCHybird.Inst().SetScreenToPortrait();
+        //RTMPCHybird.Inst().SetScreenToPortrait();
+
+        if(mScreenMode == 0){
+            //横屏模式
+            RTMPCHybird.Inst().SetScreenToLandscape();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else if(mScreenMode == 1) {
+            //竖屏模式
+            RTMPCHybird.Inst().SetScreenToPortrait();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);

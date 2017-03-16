@@ -11,6 +11,7 @@ public class LiveItemBean {
     private String mLiveTopic;
     private String mAnyrtcId;
     private boolean mIsAudioOnly;
+    private int mScreenMode = 1; //0/1: landscape/portrait
     private int mMemNumber;
 
     public String getmAnyrtcId() {
@@ -75,5 +76,13 @@ public class LiveItemBean {
 
     public void setmIsAudioOnly(boolean mIsAudioOnly) {
         this.mIsAudioOnly = mIsAudioOnly;
+    }
+
+    public int getmScreenMode() {
+        return mScreenMode;
+    }
+
+    public void setmScreenMode(int mScreenMode) {
+        this.mScreenMode = mScreenMode;
     }
 }
