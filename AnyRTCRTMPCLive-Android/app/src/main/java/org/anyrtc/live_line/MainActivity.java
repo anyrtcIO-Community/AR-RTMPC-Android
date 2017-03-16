@@ -119,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
                     bean.setmLiveTopic(itemJson.getString("topic"));
                     bean.setmIsAudioOnly(itemJson.getBoolean("isAudioOnly"));
                     bean.setmAnyrtcId(itemJson.getString("anyrtcId"));
+                    if(itemJson.has("screen_mode")) {
+                        bean.setmScreenMode(itemJson.getInt("screen_mode"));
+                    }
                     bean.setmMemNumber(memberList.getInt(i));
                     listLive.add(bean);
                 }
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         bundle.putString("hosterId", listLive.get(i).getmHosterId());
         bundle.putString("userData", new JSONObject().toString());
         bundle.putString("topic", listLive.get(i).getmLiveTopic());
+        bundle.putInt("screen_mode", listLive.get(i).getmScreenMode());
         Intent it = null;
         if(listLive.get(i).ismIsAudioOnly()) {
             it = new Intent(MainActivity.this, AudioGuestActivity.class);

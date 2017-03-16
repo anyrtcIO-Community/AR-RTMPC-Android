@@ -68,4 +68,7 @@
     <string name="str_video_qhd">高清</string>
     <string name="str_video_sd">标清</string>
     <string name="str_video_low">流畅</string>
+
+    <string name="str_live_landscape">橫屏直播</string>
+    <string name="str_live_portrait">竖屏直播</string>
 </resources>
