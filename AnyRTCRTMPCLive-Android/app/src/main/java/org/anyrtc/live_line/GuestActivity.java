@@ -156,7 +156,7 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
             RTMPCHybird.Inst().SetScreenToPortrait();
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false/*是否是主播*/, false/*是否是音频连麦*/);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
 

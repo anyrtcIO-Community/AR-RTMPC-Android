@@ -153,7 +153,7 @@ public class AudioHosterActivity extends AppCompatActivity implements ScrollRecy
          * 设置音频模式并且监测音频大小
          */
         RTMPCHybird.Inst().SetLiveToAuidoOnly(true, true);
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true/*是否是主播*/, true/*是否是音频连麦*/);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
 

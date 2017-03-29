@@ -157,7 +157,7 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true);
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), true/*是否是主播*/, false/*是否是音频连麦*/);
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
         mHosterKit = new RTMPCHosterKit(this, mHosterListener);
 

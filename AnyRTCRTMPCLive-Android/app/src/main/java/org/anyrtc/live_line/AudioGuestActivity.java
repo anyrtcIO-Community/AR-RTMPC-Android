@@ -165,7 +165,7 @@ public class AudioGuestActivity extends AppCompatActivity implements ScrollRecyc
         setEditTouchListener();
         vaBottomBar.setAnimateFirstView(true);
 
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false/*是否是主播*/, true/*是否是音频连麦*/);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
 
