@@ -188,7 +188,7 @@ public class VideoAudioGuestActivity extends AppCompatActivity implements Scroll
         /**
          * 设置音频连麦并且监测音频大小
          */
-        RTMPCHybird.Inst().SetLiveToAuidoOnly(false/*true/false：true：音频连麦， false：视频连麦*/, true/*true/false：true：打开音频监测， false：关闭音频监测*/);
+        RTMPCHybird.Inst().SetLiveToAuidoOnly(true/*true/false：true：音频连麦， false：视频连麦*/, true/*true/false：true：打开音频监测， false：关闭音频监测*/);
 
         /**
          * 初始化rtmp播放器
