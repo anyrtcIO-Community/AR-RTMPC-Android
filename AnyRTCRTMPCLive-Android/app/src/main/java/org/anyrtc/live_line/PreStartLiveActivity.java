@@ -37,6 +37,7 @@ public class PreStartLiveActivity extends AppCompatActivity {
         mLiveTopicView = (EditText) findViewById(R.id.edit_live_topic);
         mVideoMode = RTMPCHosterKit.RTMPVideoMode.RTMPC_Video_SD;
         Button mBtnVideoStart = (Button) findViewById(R.id.btn_video_start);
+        Button mBtnVideoStartAudioLine = (Button) findViewById(R.id.btn_video_audio_start);
         Button mBtnAudioStart = (Button) findViewById(R.id.btn_audio_start);
         mRbtnHD = (RadioButton) findViewById(R.id.rbtn_video_hd);
         mRbtnQHD = (RadioButton) findViewById(R.id.rbtn_video_qhd);
@@ -47,13 +48,19 @@ public class PreStartLiveActivity extends AppCompatActivity {
         mBtnVideoStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLive(false);
+                startLive(false, false);
+            }
+        });
+        mBtnVideoStartAudioLine.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startLive(false, true);
             }
         });
         mBtnAudioStart.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLive(true);
+                startLive(true, true);
             }
         });
 
@@ -125,10 +132,11 @@ public class PreStartLiveActivity extends AppCompatActivity {
     };
 
     /**
-     * 发起直播；
+     * 发起直播
      * @param isAudioOnly 是否是音频直播：true/false：音频直播/视频直播
+     * @param isAudioLine 是否是视频直播音频连麦：true/false；音频连麦/视频连麦
      */
-    private void startLive(boolean isAudioOnly) {
+    private void startLive(boolean isAudioOnly, boolean isAudioLine) {
         String topic = mLiveTopicView.getText().toString().trim();
         if (topic.length() == 0) {
             return;
@@ -145,7 +153,8 @@ public class PreStartLiveActivity extends AppCompatActivity {
                 item.put("topic", topic);
                 item.put("anyrtcId", anyrtcId);
                 item.put("isAudioOnly", isAudioOnly);
-                item.put("screen_mode", mScreenMode);
+				item.put("screen_mode", mScreenMode);
+                item.put("isVideoAudioLiving", isAudioLine);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

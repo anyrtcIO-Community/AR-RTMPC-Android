@@ -655,14 +655,34 @@ public class HosterActivity extends AppCompatActivity implements ScrollRecycerVi
             });
         }
 
+        /**
+         * 音频连麦接通时回调
+         * @param strLivePeerID
+         * @param strCustomID
+         */
         @Override
-        public void OnRTCOpenAudioLineCallback(String strLivePeerID, String strCustomID) {
-            
+        public void OnRTCOpenAudioLineCallback(final String strLivePeerID, final String strCustomID) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(HosterActivity.this, "音频连麦:   " + strLivePeerID + "  strCustomID: " + strCustomID + "成功", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
+        /**
+         * 音频连麦挂断时回调
+         * @param strLivePeerID
+         * @param strCustomID
+         */
         @Override
-        public void OnRTCCloseAudioLineCallback(String strLivePeerID, String strCustomID) {
-
+        public void OnRTCCloseAudioLineCallback(final String strLivePeerID,  final String strCustomID) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(HosterActivity.this, "音频连麦:   " + strLivePeerID + "  strCustomID: " + strCustomID + "已挂断", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         /**

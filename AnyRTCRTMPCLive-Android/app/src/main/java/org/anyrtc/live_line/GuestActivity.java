@@ -186,6 +186,11 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
         }
 
         /**
+         * 设置视频连麦并且监测音频大小
+         */
+        RTMPCHybird.Inst().SetLiveToAuidoOnly(false/*true/false：true：音频连麦， false：视频连麦*/, true/*true/false：true：打开音频监测， false：关闭音频监测*/);
+
+        /**
          * 初始化rtmp播放器
          */
         mGuestKit = new RTMPCGuestKit(this, mGuestListener);
@@ -445,8 +450,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
          * @param curBitrate 当前播放器码流
          */
         @Override
-        public void OnRtmplayerStatusCallback(int cacheTime, int curBitrate) {
-
+        public void OnRtmplayerStatusCallback(final int cacheTime, final int curBitrate) {
+//            GuestActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(GuestActivity.this, "delay:   " + String.valueOf(cacheTime) + "   bitrate:   " + String.valueOf(curBitrate), Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
 
         /**
@@ -454,8 +464,13 @@ public class GuestActivity extends AppCompatActivity implements ScrollRecycerVie
          * @param time 缓冲时间
          */
         @Override
-        public void OnRtmplayerCacheCallback(int time) {
-
+        public void OnRtmplayerCacheCallback(final int time) {
+//            GuestActivity.this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(GuestActivity.this, "delay:   " + String.valueOf(time), Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
 
         /**
