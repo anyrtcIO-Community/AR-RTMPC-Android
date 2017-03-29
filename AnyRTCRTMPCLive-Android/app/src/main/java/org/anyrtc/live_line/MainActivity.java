@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
                     if(itemJson.has("screen_mode")) {
                         bean.setmScreenMode(itemJson.getInt("screen_mode"));
                     }
+                    if(itemJson.has("isVideoAudioLiving")) {
+                        bean.setmIsVideoAudio(itemJson.getBoolean("isVideoAudioLiving"));
+                    }
                     bean.setmMemNumber(memberList.getInt(i));
                     listLive.add(bean);
                 }
@@ -170,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         Intent it = null;
         if(listLive.get(i).ismIsAudioOnly()) {
             it = new Intent(MainActivity.this, AudioGuestActivity.class);
+        } else if(listLive.get(i).ismIsVideoAudio()) {
+            it = new Intent(MainActivity.this, VideoAudioGuestActivity.class);
         } else {
             it = new Intent(MainActivity.this, GuestActivity.class);
         }

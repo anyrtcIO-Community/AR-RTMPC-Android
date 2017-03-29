@@ -87,6 +87,14 @@
                 android:text="@string/str_start_video_live"
                 android:textStyle="bold" />
             <Button
+                android:id="@+id/btn_video_audio_start"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/str_start_video_live_audio_line"
+                android:textStyle="bold" />
+            <Button
                 android:id="@+id/btn_audio_start"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"

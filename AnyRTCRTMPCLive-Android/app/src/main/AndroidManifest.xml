@@ -63,6 +63,9 @@
         <activity
             android:name=".PreStartLiveActivity"
             android:label="@string/str_live_info" />
+        <activity android:name=".VideoAudioGuestActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

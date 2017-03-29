@@ -197,7 +197,7 @@ public class AudioGuestActivity extends AppCompatActivity implements ScrollRecyc
         /**
          * 设置音频模式并且监测音频大小
          */
-        RTMPCHybird.Inst().SetLiveToAuidoOnly(true, true);
+        RTMPCHybird.Inst().SetLiveToAuidoOnly(true/*true/false：true：打开音频连麦， false：关闭音频连麦*/, true/*true/false：true：打开音频监测， false：关闭音频监测*/);
 
         /**
          * 初始化rtmp播放器
