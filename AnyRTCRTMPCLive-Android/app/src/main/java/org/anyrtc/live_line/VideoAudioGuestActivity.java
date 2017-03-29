@@ -156,7 +156,7 @@ public class VideoAudioGuestActivity extends AppCompatActivity implements Scroll
             RTMPCHybird.Inst().SetScreenToPortrait();
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false);
+        mVideoView = new RTMPCVideoView((RelativeLayout) findViewById(R.id.rl_rtmpc_videos), RTMPCHybird.Inst().Egl(), false/*是否是主播*/, true/*是否是音频连麦*/);
 
         mVideoView.setBtnCloseEvent(mBtnVideoCloseEvent);
 
@@ -601,8 +601,13 @@ public class VideoAudioGuestActivity extends AppCompatActivity implements Scroll
          * @param strCustomID
          */
         @Override
-        public void OnRTCOpenAudioLineCallback(String strLivePeerID, String strCustomID) {
-
+        public void OnRTCOpenAudioLineCallback(final String strLivePeerID, final String strCustomID) {
+            VideoAudioGuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(VideoAudioGuestActivity.this, "音频连麦:   " + strLivePeerID + "  strCustomID: " + strCustomID + "成功", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         /**
@@ -611,8 +616,13 @@ public class VideoAudioGuestActivity extends AppCompatActivity implements Scroll
          * @param strCustomID
          */
         @Override
-        public void OnRTCCloseAudioLineCallback(String strLivePeerID, String strCustomID) {
-
+        public void OnRTCCloseAudioLineCallback(final String strLivePeerID,  final String strCustomID) {
+            VideoAudioGuestActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(VideoAudioGuestActivity.this, "音频连麦:   " + strLivePeerID + "  strCustomID: " + strCustomID + "已挂断", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
