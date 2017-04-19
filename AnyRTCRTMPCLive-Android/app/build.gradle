@@ -36,7 +36,6 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.linsea:opendanmaku:1.0.0@aar'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.zhy:mpermission-api:1.0.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

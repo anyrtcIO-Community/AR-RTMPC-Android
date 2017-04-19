@@ -1,11 +1,10 @@
 package org.anyrtc.live_line;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zhy.m.permission.MPermissions;
 
 import org.anyrtc.adapter.LiveHosterAdapter;
 import org.anyrtc.application.HybirdApplication;
 import org.anyrtc.rtmpc_hybrid.RTMPCHybird;
 import org.anyrtc.utils.LiveItemBean;
-import org.anyrtc.utils.PermissionsCheckUtil;
 import org.anyrtc.utils.RTMPCHttpSDK;
 import org.anyrtc.utils.RecyclerViewUtil;
 import org.json.JSONArray;
@@ -30,6 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.androidcommon.adapter.BGAOnItemChildClickListener;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
  * Demo 主页面
@@ -43,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
 
     private LiveHosterAdapter mAdapter;
 
-    private static final int REQUECT_CODE_RECORD = 0;
-    private static final int REQUECT_CODE_CAMERA = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
 
         setTitle(R.string.str_title);
         listLive = new ArrayList<LiveItemBean>();
+        /**
+         * 申请相机、录音权限
+         */
+        requestPermission(CAMERA, RECORD_AUDIO);
+
         /**
          * 初始化RTMPC引擎
          */
@@ -86,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         mRecyclerViewUtils.beginRefreshing();//第一次自动加载一次
         mRecyclerViewUtils.setScrollingListener(this);
         mRecyclerViewUtils.setPullUpRefreshEnable(false);
-        getDevicePermission();
     }
 
     @Override
@@ -182,52 +185,71 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         startActivity(it);
     }
 
+    /*--------------------------------权限处理------------------------------------*/
+
     /**
-     * 获取摄像头和录音权限
+     * 申请权限
+     * @param permissions 权限的名称
      */
-    private void getDevicePermission() {
-        PermissionsCheckUtil.isOpenCarmaPermission(new PermissionsCheckUtil.RequestPermissionListener() {
-            @Override
-            public void requestPermissionSuccess() {
+    public void requestPermission(String... permissions) {
+        if (checkPremission(permissions)) return;
+        ActivityCompat.requestPermissions(this, permissions, 114);
+    }
 
+    /**
+     * 权限检测
+     * @param permissions 权限的名称
+     * @return
+     */
+    public boolean checkPremission(String... permissions) {
+        boolean allHave = true;
+        PackageManager pm = getPackageManager();
+        for (String permission : permissions) {
+            switch (pm.checkPermission(permission, getApplication().getPackageName())) {
+                case PERMISSION_GRANTED:
+                    allHave = allHave && true;
+                    continue;
+                case PERMISSION_DENIED:
+                    allHave = allHave && false;
+                    continue;
             }
+        }
+        return allHave;
+    }
 
-            @Override
-            public void requestPermissionFailed() {
-                PermissionsCheckUtil.showMissingPermissionDialog(MainActivity.this, getString(R.string.str_no_camera_permission));
+    /**
+     * 权限处理
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 114 && permissions != null && permissions.length > 0) {
+            String permission = "";
+            for (int i = 0; i < permissions.length; i++) {
+                permission = permissions[i];
+                grantedResultDeal(
+                        permission,
+                        grantResults.length > i && grantResults[i] == PERMISSION_GRANTED);
             }
+        }
+    }
 
-            @Override
-            public void requestPermissionThanSDK23() {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+    /**
+     * 权限返回值处理
+     * @param permission 权限的名称
+     * @param isGranted 是否授权
+     */
+    protected void grantedResultDeal(String permission, boolean isGranted) {
+        switch (permission) {
+            case CAMERA:
+                if (isGranted) {
 
-                } else {
-                    MPermissions.requestPermissions(MainActivity.this, REQUECT_CODE_CAMERA, Manifest.permission.CAMERA);
                 }
-            }
-        });
-
-
-        PermissionsCheckUtil.isOpenRecordAudioPermission(new PermissionsCheckUtil.RequestPermissionListener() {
-            @Override
-            public void requestPermissionSuccess() {
-
-            }
-
-            @Override
-            public void requestPermissionFailed() {
-                PermissionsCheckUtil.showMissingPermissionDialog(MainActivity.this, getString(R.string.str_no_audio_record_permission));
-            }
-
-            @Override
-            public void requestPermissionThanSDK23() {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-
-                } else {
-                    MPermissions.requestPermissions(MainActivity.this, REQUECT_CODE_RECORD, Manifest.permission.RECORD_AUDIO);
-                }
-            }
-        });
+                break;
+        }
     }
 
     /**
