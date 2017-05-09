@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewUtil.
         requestPermission(CAMERA, RECORD_AUDIO);
 
         /**
-         * 初始化RTMPC引擎
+         * 初始化RTMPC引擎，只可调用一次，建议在APP的入口或者application中调用
          */
         RTMPCHybird.Inst().Init(getApplicationContext());
         /**
