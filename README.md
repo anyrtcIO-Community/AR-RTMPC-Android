@@ -25,7 +25,7 @@ RTMP 播放器</br>
 
 ## 编译环境
 **Android Studio**
-**替换RTMPUrlHelper.java文件中的RTMP_PUSH_URL和RTMP_PULL_URL**
+替换RTMPUrlHelper.java文件中的RTMP_PUSH_URL和RTMP_PULL_URL
 
 ## 支持的系统平台
 **Android** 4.0及以上
