@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">anyRTC互动连麦</string>
+    <string name="str_title">anyRTC Live Hybird</string>
+    <string name="main_title">多人连麦直播</string>
+    <string name="str_version">www.anyrtc.io Version: ${VERSION}</string>
+
+    <!-- Strings related to start live -->
+    <string name="prompt_live_topic">直播主题</string>
+    <string name="str_start_live">发起直播</string>
+    <string name="str_start_video_live">发起视频直播</string>
+    <string name="str_start_video_live_audio_line">发起视频直播音频连麦</string>
+    <string name="str_start_audio_live">发起音频直播</string>
+    <string name="str_audio_living">音频直播</string>
+    <string name="str_live_info">请创建一个直播主题</string>
+    <string name="title_activity_pre_start_live">开始直播</string>
+    <string name="str_rtmp_connect_success">RTMP 连接成功</string>
+    <string name="str_rtmp_connect_failed">RTMP 连接失败</string>
+    <string name="str_rtc_connect_success">RTC 连接成功</string>
+    <string name="str_rtc_connect_failed">RTC 连接失败</string>
+    <string name="str_reconnect_times">重连服务器：%1$d 次</string>
+    <string name="str_rtmp_status">RTMP 延迟：%1$s 网络：%2$s</string>
+    <string name="str_live_watcher_number">在线观看人数：%1$d</string>
+    <string name="str_hoster_leave">主播已离开，2秒后关闭页面</string>
+    <string name="str_hoster_not_live">主播还未开启直播, 2秒后关闭页面</string>
+
+    <string name="str_setting">设置</string>
+    <string name="str_connect_hoster">连麦</string>
+    <string name="str_connect_audio_hoster">音频连麦</string>
+    <string name="str_hangup_connect">挂断</string>
+    <string name="str_apply_connect_line">%1$s 请求连线</string>
+    <string name="str_agree">同意</string>
+    <string name="str_refused">拒绝</string>
+    <string name="str_line_disconnect">连线已断开</string>
+    <string name="str_hoster_refused">主播拒绝连线</string>
+    <string name="str_connect_full">连线已达最大人数</string>
+    <string name="str_apply_anyrtc_account">请去AnyRTC官网申请账号,如有疑问请联系客服!</string>
+    <string name="str_exit">退出</string>
+    <string name="str_ok">确定</string>
+    <string name="str_cancel">取消</string>
+    <string name="str_live_stop">您正在进行直播，确定要退出吗？</string>
+    <string name="str_line_hangup">您正在与主播进行连麦互动，确定要退出吗？</string>
+    <string name="str_no_audio_record_permission">缺少录音权限</string>
+    <string name="str_no_camera_permission">缺少摄像头权限</string>
+
+    <string name="str_anyrtc_ok">正常</string>
+    <string name="str_unknow_exception">未知错误</string>
+    <string name="str_anyrtc_exception">SDK调用异常</string>
+    <string name="str_anyrtc_net_err">网络错误</string>
+    <string name="str_anyrtc_live_err">直播出错</string>
+    <string name="str_anyrtc_bad_req">服务不支持的错误请求</string>
+    <string name="str_anyrtc_auth_fail">认证失败</string>
+    <string name="str_anyrtc_no_user">此开发者信息不存在</string>
+    <string name="str_anyrtc_sql_err">服务器内部数据库错误</string>
+    <string name="str_anyrtc_arrears">账号欠费</string>
+    <string name="str_anyrtc_locked">账号被锁定</string>
+    <string name="str_anyrtc_force_exit">强制离开</string>
+
+    <string name="share_str_weixin_title">&#160;连麦互动视频直播正在进行，快来围观...</string>
+    <string name="str_barrage">弹幕</string>
+    <string name="str_send">发送</string>
+    <string name="str_online">&#160;来了，欢迎~</string>
+
+    <string name="str_live_close">关闭</string>
+    <string name="str_switch_camera">切换</string>
+    <string name="str_live_share">分享至微信</string>
+
+    <string name="str_copy_success">复制hls成功</string>
+
+    <string name="str_video_hd">超高清</string>
+    <string name="str_video_qhd">高清</string>
+    <string name="str_video_sd">标清</string>
+    <string name="str_video_low">流畅</string>
+
+    <string name="str_live_landscape">橫屏直播</string>
+    <string name="str_live_portrait">竖屏直播</string>
+</resources>

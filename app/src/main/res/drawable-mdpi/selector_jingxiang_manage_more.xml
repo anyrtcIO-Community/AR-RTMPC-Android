@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="false" android:drawable="@drawable/img_jingxiang_normol_more">
+
+    </item>
+    <item android:state_selected="true" android:drawable="@drawable/img_jingxiang_select_more">
+    </item>
+</selector>
