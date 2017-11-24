@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/shape_search_editext" android:state_selected="true"></item>
-    <item android:drawable="@drawable/shape_btn_startchat" android:state_selected="false"></item>
-
-</selector>
