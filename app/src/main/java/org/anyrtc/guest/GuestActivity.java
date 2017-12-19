@@ -448,13 +448,13 @@ public class GuestActivity extends BaseActivity {
          * @param strLivePeerId
          */
         @Override
-        public void onRTCOpenVideoRender(final String strLivePeerId, final String strUserId, final String strUserData) {
+        public void onRTCOpenVideoRender(final String strLivePeerId, final String strPublishId, final String strUserId, final String strUserData) {
             GuestActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RTMPC", "onRTCOpenVideoRenderLeave strLivePeerId:" + strLivePeerId + "strUserId:" + strUserId + " strUserData:" + strUserData);
-                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
-                    mGuestKit.setRTCVideoRender(strLivePeerId, render.GetRenderPointer());
+                    Log.d("RTMPC", "onRTCOpenVideoRenderLeave strPublishId:" + strPublishId + "strUserId:" + strUserId + " strUserData:" + strUserData);
+                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strPublishId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+                    mGuestKit.setRTCVideoRender(strPublishId, render.GetRenderPointer());
                 }
             });
         }
@@ -464,14 +464,14 @@ public class GuestActivity extends BaseActivity {
          * @param strLivePeerId
          */
         @Override
-        public void onRTCCloseVideoRender(final String strLivePeerId, final String strUserId) {
+        public void onRTCCloseVideoRender(final String strLivePeerId, final String strPublishId, final String strUserId) {
             GuestActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RTMPC", "onRTCCloseVideoRender strLivePeerId:" + strLivePeerId + "strUserId:" + strUserId);
+                    Log.d("RTMPC", "onRTCCloseVideoRender strPublishId:" + strPublishId + "strUserId:" + strUserId);
                     if (mGuestKit != null && mVideoView != null && llLineFutures != null) {
-                        mGuestKit.setRTCVideoRender(strLivePeerId, 0);
-                        mVideoView.OnRtcRemoveRemoteRender(strLivePeerId);
+                        mGuestKit.setRTCVideoRender(strPublishId, 0);
+                        mVideoView.OnRtcRemoveRemoteRender(strPublishId);
                     }
                 }
             });

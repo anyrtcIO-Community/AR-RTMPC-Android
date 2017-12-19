@@ -518,14 +518,14 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
          * 连线接通时的视频图像回调；
          */
         @Override
-        public void onRTCOpenVideoRender(final String strLivePeerId, final String strUserId, final String strUserData) {
+        public void onRTCOpenVideoRender(final String strLivePeerId, final String strPublishId, final String strUserId, final String strUserData) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RTMPC", "onRTCOpenVideoRender  strLivePeerID:" + strLivePeerId + " strUserId:" + strUserId + " strUserData:" + strUserData);
-                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+                    Log.d("RTMPC", "onRTCOpenVideoRender  strPublishId:" + strPublishId + " strUserId:" + strUserId + " strUserData:" + strUserData);
+                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strPublishId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
                     if (null != render) {
-                        mHosterKit.setRTCVideoRender(strLivePeerId, render.GetRenderPointer());
+                        mHosterKit.setRTCVideoRender(strPublishId, render.GetRenderPointer());
                     }
                 }
             });
@@ -536,15 +536,15 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
          * 连线关闭时的视频图像回调；
          */
         @Override
-        public void onRTCCloseVideoRender(final String strLivePeerId, final String strUserId) {
+        public void onRTCCloseVideoRender(final String strLivePeerId,final String strPublishId, final String strUserId) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RTMPC", "onRTCCloseVideoRender  strLivePeerID:" + strLivePeerId + " strUserId:" + strUserId);
-                    mHosterKit.setRTCVideoRender(strLivePeerId, 0);
-                    mVideoView.OnRtcRemoveRemoteRender(strLivePeerId);
+                    Log.d("RTMPC", "onRTCCloseVideoRender  strPublishId:" + strPublishId + " strUserId:" + strUserId);
+                    mHosterKit.setRTCVideoRender(strPublishId, 0);
+                    mVideoView.OnRtcRemoveRemoteRender(strPublishId);
                     if (line_dialog != null && lineListener != null) {
-                        lineListener.RemoveGuest(strLivePeerId);
+                        lineListener.RemoveGuest(strPublishId);
                     }
                 }
             });
