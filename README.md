@@ -32,6 +32,12 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 ##### [点击下载](https://www.pgyer.com/anyrtc_rtmpc_android)
 ##### [WEB在线体验](https://www.anyrtc.cc/demo/lianmai)
 
+### SDK集成
+
+```
+ compile 'org.anyrtc:rtmpc_hybrid:2.1'
+ ```
+
 ### 安装
 
 ##### 编译环境
