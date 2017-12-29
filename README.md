@@ -33,10 +33,49 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 ##### [WEB在线体验](https://www.anyrtc.cc/demo/lianmai)
 
 ### SDK集成
+# > 方式一（推荐）
+
+添加Jcenter仓库 Gradle依赖：
 
 ```
- compile 'org.anyrtc:rtmpc_hybrid:2.1'
- ```
+dependencies {
+  compile 'org.anyrtc:rtmpc_hybrid:2.1'
+}
+```
+
+或者 Maven
+```
+<dependency>
+  <groupId>org.anyrtc</groupId>
+  <artifactId>rtmpc_hybrid</artifactId>
+  <version>2.1</version>
+  <type>pom</type>
+</dependency>
+```
+
+>方式二
+
+ [下载aar SDK](https://www.anyrtc.io/resoure)
+
+>1. 将下载好的rtmpc_hybrid-release.aar文件放入项目的libs目录中
+>2. 在Model下的build.gradle文件添加如下代码依赖RTMPC SDK
+
+```
+android
+{
+
+ repositories {
+        flatDir {dirs 'libs'}
+    }
+    
+ }
+    
+```
+```
+dependencies {
+    compile(name: 'rtmpc_hybrid-release', ext: 'aar')
+}
+```
 
 ### 安装
 
