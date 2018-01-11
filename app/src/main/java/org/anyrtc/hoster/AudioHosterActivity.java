@@ -623,6 +623,16 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
             });
         }
 
+        @Override
+        public void onRTCLanScreenFound(String strPeerScrnId, String strName, String strPlatform) {
+
+        }
+
+        @Override
+        public void onRTCLanScreenClosed(String strPeerScrnId) {
+
+        }
+
     };
 
     @OnClick({R.id.btn_audio, R.id.btn_close, R.id.iv_message, R.id.tv_line_list, R.id.rl_member})

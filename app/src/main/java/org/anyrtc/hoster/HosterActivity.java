@@ -219,6 +219,8 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
             //设置本地视频采集
             VideoRenderer render = mVideoView.OnRtcOpenLocalRender(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
             mHosterKit.setLocalVideoCapturer(render.GetRenderPointer());
+            //设置录像URL，必须在开始推流前进行设置
+            mHosterKit.setRtmpRecordUrl(liveBean.getmRtmpPullUrl());
             //开始推流
             mHosterKit.startPushRtmpStream(liveBean.getmPushUrl());
             //创建RTC连接，必须放在开始推流之后
@@ -596,6 +598,21 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
 
                 }
             });
+        }
+
+        @Override
+        public void onRTCLanScreenFound(final String strPeerScrnId, String strName, String strPlatform) {
+            HosterActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mHosterKit.connectPeerScreen(strPeerScrnId);
+                }
+            });
+        }
+
+        @Override
+        public void onRTCLanScreenClosed(String strPeerScrnId) {
+
         }
     };
 

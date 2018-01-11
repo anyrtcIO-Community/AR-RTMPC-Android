@@ -106,6 +106,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
         liveBean.setmLiveTopic(etLiveName.getText().toString());
         liveBean.setmAnyrtcId(anyrtcId);
         liveBean.setmPushUrl(String.format(Constans.RTMP_PUSH_URL, anyrtcId));
+        liveBean.setmRtmpPullUrl(String.format(Constans.RTMP_PULL_URL, anyrtcId));
         liveBean.setIsLiveLandscape(live_direction_pos == 0 ? 0 : 1);
         liveBean.setLiveMode(live_type_pos);
         liveBean.setmHostName(tvName.getText().toString());
