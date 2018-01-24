@@ -33,13 +33,13 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 ##### [WEB在线体验](https://www.anyrtc.cc/demo/lianmai)
 
 ### SDK集成
-# > 方式一（推荐）
+# > 方式一（推荐）[ ![Download](https://api.bintray.com/packages/dyncanyrtc/anyrtc_dev/anyRTC-RTMPC-Android/images/download.svg) ](https://bintray.com/dyncanyrtc/anyrtc_dev/anyRTC-RTMPC-Android/_latestVersion)
 
 添加Jcenter仓库 Gradle依赖：
 
 ```
 dependencies {
-  compile 'org.anyrtc:rtmpc_hybrid:2.1'
+  compile 'org.anyrtc:rtmpc_hybrid:2.3'//最新版本见上面Download
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 <dependency>
   <groupId>org.anyrtc</groupId>
   <artifactId>rtmpc_hybrid</artifactId>
-  <version>2.1</version>
+  <version>2.3</version>
   <type>pom</type>
 </dependency>
 ```
