@@ -525,9 +525,9 @@ public class RTMPCVideoView implements RTMPCViewHelper {
     public VideoRenderer OnRtcOpenLocalRender(RendererCommon.ScalingType scalingType) {
         int size = GetVideoRenderSize();
         if (size == 0) {
-            mLocalRender = new VideoView("localRender", mVideoView.getContext(), mRootEglBase, 0, 0, 0, 100, 100, scalingType);
+            mLocalRender = new VideoView("LocalCameraRender", mVideoView.getContext(), mRootEglBase, 0, 0, 0, 100, 100, scalingType);
         } else {
-            mLocalRender = new VideoView("localRender", mVideoView.getContext(), mRootEglBase, size, SUB_X,
+            mLocalRender = new VideoView("LocalCameraRender", mVideoView.getContext(), mRootEglBase, size, SUB_X,
                     (100 - size * (SUB_HEIGHT + SUB_Y)), SUB_WIDTH, SUB_HEIGHT, scalingType);
             mLocalRender.mView.setZOrderMediaOverlay(true);
         }

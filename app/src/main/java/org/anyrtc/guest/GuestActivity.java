@@ -453,7 +453,7 @@ public class GuestActivity extends BaseActivity {
                 @Override
                 public void run() {
                     Log.d("RTMPC", "onRTCOpenVideoRenderLeave strPublishId:" + strPublishId + "strUserId:" + strUserId + " strUserData:" + strUserData);
-                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strPublishId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
                     mGuestKit.setRTCVideoRender(strPublishId, render.GetRenderPointer());
                 }
             });
@@ -471,7 +471,7 @@ public class GuestActivity extends BaseActivity {
                     Log.d("RTMPC", "onRTCCloseVideoRender strPublishId:" + strPublishId + "strUserId:" + strUserId);
                     if (mGuestKit != null && mVideoView != null && llLineFutures != null) {
                         mGuestKit.setRTCVideoRender(strPublishId, 0);
-                        mVideoView.OnRtcRemoveRemoteRender(strPublishId);
+                        mVideoView.OnRtcRemoveRemoteRender(strLivePeerId);
                     }
                 }
             });
@@ -545,9 +545,9 @@ public class GuestActivity extends BaseActivity {
             case R.id.btn_audio:
                 if (btnAudio.isSelected()) {
                     btnAudio.setSelected(false);
-                    mGuestKit.setLocalAudioEnable(true);
-                } else {
                     mGuestKit.setLocalAudioEnable(false);
+                } else {
+                    mGuestKit.setLocalAudioEnable(true);
                     btnAudio.setSelected(true);
                 }
                 break;

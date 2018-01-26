@@ -525,7 +525,7 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
                 @Override
                 public void run() {
                     Log.d("RTMPC", "onRTCOpenVideoRender  strPublishId:" + strPublishId + " strUserId:" + strUserId + " strUserData:" + strUserData);
-                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strPublishId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+                    final VideoRenderer render = mVideoView.OnRtcOpenRemoteRender(strLivePeerId, RendererCommon.ScalingType.SCALE_ASPECT_FIT);
                     if (null != render) {
                         mHosterKit.setRTCVideoRender(strPublishId, render.GetRenderPointer());
                     }
@@ -544,9 +544,9 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
                 public void run() {
                     Log.d("RTMPC", "onRTCCloseVideoRender  strPublishId:" + strPublishId + " strUserId:" + strUserId);
                     mHosterKit.setRTCVideoRender(strPublishId, 0);
-                    mVideoView.OnRtcRemoveRemoteRender(strPublishId);
+                    mVideoView.OnRtcRemoveRemoteRender(strLivePeerId);
                     if (line_dialog != null && lineListener != null) {
-                        lineListener.RemoveGuest(strPublishId);
+                        lineListener.RemoveGuest(strLivePeerId);
                     }
                 }
             });
