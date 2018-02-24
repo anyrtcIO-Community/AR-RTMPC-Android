@@ -129,13 +129,13 @@ SDK集成，API介绍，详见官方完整文档：[点击查看](https://www.an
 3. 常见错误代码请参考[错误码查询](https://www.anyrtc.io/resoure)
 
 ### 商业授权
-程序发布需商用授权，业务咨询请联系 QQ:984630262 
+程序发布需商用授权，业务咨询请联系 QQ:580477436 
 
-QQ交流群:580477436
+QQ交流群:554714720
 
-联系电话:021-65650071
+联系电话:021-65650071-839
 
-Email:zhangjianqiang@dync.cc
+Email:hi@dync.cc
 
 ### 技术支持 
 - anyRTC官方网址：[https://www.anyrtc.io](https://www.anyrtc.io/resoure)
