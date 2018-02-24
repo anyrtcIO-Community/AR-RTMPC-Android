@@ -553,6 +553,28 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
         }
 
 
+        /**
+         * 音频连麦接通
+         * @param strLivePeerId  RTC服务生成的代表连麦人的ID
+         * @param strUserId 连麦者自定义ID
+         * @param strUserData  连麦者自定义数据
+         */
+        @Override
+        public void onRTCOpenAudioLine(String strLivePeerId, String strUserId, String strUserData) {
+
+        }
+
+        /**
+         * 音频连麦关闭
+         * @param strLivePeerId RTC服务生成的代表连麦人的ID
+         * @param strUserId 连麦者自定义ID
+         */
+        @Override
+        public void onRTCCloseAudioLine(String strLivePeerId, String strUserId) {
+
+        }
+
+
         @Override
         public void onRTCAudioActive(final String strLivePeerId, final String strUserId, final int nTime) {
             HosterActivity.this.runOnUiThread(new Runnable() {
@@ -561,6 +583,11 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
                     Log.d("RTMPC", "onRTCAudioActive  strLivePeerID:" + strLivePeerId + " strUserId:" + strUserId + " nTime:" + nTime);
                 }
             });
+        }
+
+        @Override
+        public void onRTCAVStatus(String strLivePeerId, boolean bAudio, boolean bVideo) {
+
         }
 
         /**

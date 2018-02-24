@@ -587,6 +587,11 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
             });
         }
 
+        @Override
+        public void onRTCAVStatus(String strLivePeerId, boolean bAudio, boolean bVideo) {
+
+        }
+
         /**
          * 消息回调
          * @param strCustomID 消息的发送者id

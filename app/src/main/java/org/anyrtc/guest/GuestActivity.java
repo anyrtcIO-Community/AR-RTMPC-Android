@@ -477,7 +477,33 @@ public class GuestActivity extends BaseActivity {
             });
         }
 
+        /**
+         * 音频连麦接通
+         * @param strLivePeerId  RTC服务生成的代表连麦人的ID
+         * @param strUserId 连麦者自定义ID
+         * @param strUserData  连麦者自定义数据
+         */
+        @Override
+        public void onRTCOpenAudioLine(String strLivePeerId, String strUserId, String strUserData) {
 
+        }
+
+        /**
+         * 音频连麦关闭
+         * @param strLivePeerId RTC服务生成的代表连麦人的ID
+         * @param strUserId 连麦者自定义ID
+         */
+        @Override
+        public void onRTCCloseAudioLine(String strLivePeerId, String strUserId) {
+
+        }
+
+        /**
+         * 音频检测
+         * @param strLivePeerId RTC服务生成的代表连麦人的ID
+         * @param strUserId 连麦者自定义ID
+         * @param nTime nTime类不会再回调该方法
+         */
         @Override
         public void onRTCAudioActive(final String strLivePeerId, final String strUserId, final int nTime) {
             GuestActivity.this.runOnUiThread(new Runnable() {
@@ -486,6 +512,17 @@ public class GuestActivity extends BaseActivity {
                     Log.d("RTMPC", "onRTCAudioActive strLivePeerId:" + strLivePeerId + "strUserId:" + strUserId + " nTime:" + nTime);
                 }
             });
+        }
+
+        /**
+         * 连麦者对音视频的操作
+         * @param strLivePeerId RTC服务生成的代表连麦人的ID
+         * @param audio 是否打开音频
+         * @param video 是否打开视频
+         */
+        @Override
+        public void onRTCAVStatus(String strLivePeerId, boolean audio, boolean video) {
+
         }
 
 
@@ -527,6 +564,16 @@ public class GuestActivity extends BaseActivity {
 
                 }
             });
+        }
+
+        @Override
+        public void onRTCUserShareOpen(int nType, String strUSInfo, String strUserId, String strUserData) {
+
+        }
+
+        @Override
+        public void onRTCUserShareClose() {
+
         }
     };
 

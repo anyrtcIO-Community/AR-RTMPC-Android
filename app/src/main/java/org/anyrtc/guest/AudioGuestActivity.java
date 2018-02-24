@@ -500,6 +500,11 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
             });
         }
 
+        @Override
+        public void onRTCAVStatus(String strLivePeerId, boolean bAudio, boolean bVideo) {
+
+        }
+
 
         /**
          * 消息回调
@@ -535,6 +540,26 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
                     }
                 }
             });
+        }
+
+        /**
+         * 主播打开分享内容
+         * @param nType 自定义分享类型
+         * @param strUSInfo 自定义分享数据
+         * @param strUserId 自定义用户ID
+         * @param strUserData 自定义用户数据
+         */
+        @Override
+        public void onRTCUserShareOpen(int nType, String strUSInfo, String strUserId, String strUserData) {
+
+        }
+
+        /**
+         * 主播关闭分享
+         */
+        @Override
+        public void onRTCUserShareClose() {
+
         }
 
     };
