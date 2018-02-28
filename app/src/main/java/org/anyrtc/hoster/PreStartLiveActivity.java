@@ -5,11 +5,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.Response;
+import com.yanzhenjie.nohttp.rest.StringRequest;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -19,7 +23,10 @@ import org.anyrtc.live_line.R;
 import org.anyrtc.model.LiveBean;
 import org.anyrtc.rtmpc_hybrid.RTMPCHttpKit;
 import org.anyrtc.utils.Constans;
+import org.anyrtc.utils.MD5;
+import org.anyrtc.utils.NetHttp;
 import org.anyrtc.utils.PermissionsCheckUtil;
+import org.anyrtc.utils.ResultListener;
 import org.anyrtc.utils.ToastUtil;
 import org.anyrtc.widgets.CircleImageView;
 import org.json.JSONException;
@@ -95,8 +102,51 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
                 break;
         }
     }
+    private void getRTMPCUrl(){
+        String random=(int)((Math.random()*9+1)*100000)+"";
+        long timestamp=System.currentTimeMillis();
+        StringRequest request=new StringRequest("https://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
+        request.add("appid",Constans.APPID);
+        request.add("stream",anyrtcId);
+        request.add("random",random);
+        request.add("signature", MD5.getMD5(Constans.APPID+String.valueOf(timestamp)+Constans.APP_V_TOKEN+random));
+        request.add("timestamp",timestamp);
+        request.add("appBundleIdPkgName",Constans.APP_PACKAGE);
+        NetHttp.getInstance().request(1, request, new ResultListener<String>() {
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                Log.d("rtmpcUrl",response.get());
+                try {
+                    JSONObject jsonObject=new JSONObject(response.get());
+                    int code=jsonObject.getInt("code");
+                    if (code==200){
+                        String pushUrl=jsonObject.getString("push_url");
+                        String pullUrl=jsonObject.getString("pull_url");
+                        String hlsURL=jsonObject.getString("hls_url");
+                        if (!TextUtils.isEmpty(pushUrl)){
+                            startLive(pushUrl,pullUrl,hlsURL);
+                        }else {
+                            ToastUtil.show("获取推流地址失败");
+                        }
+                    }else {
+                        String result=jsonObject.getString("message");
+                        ToastUtil.show("Error:"+result);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ToastUtil.show("解析数据失败");
+                }
 
-    public void startLive() {
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+        });
+
+    }
+    public void startLive(String pushUrl,String pullUrl,String hlsUrl) {
         if (TextUtils.isEmpty(etLiveName.getText().toString().trim())) {
             ToastUtil.show("直播名称不能为空");
             return;
@@ -105,13 +155,13 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
         LiveBean liveBean = new LiveBean();
         liveBean.setmLiveTopic(etLiveName.getText().toString());
         liveBean.setmAnyrtcId(anyrtcId);
-        liveBean.setmPushUrl(String.format(Constans.RTMP_PUSH_URL, anyrtcId));
-        liveBean.setmRtmpPullUrl(String.format(Constans.RTMP_PULL_URL, anyrtcId));
+        liveBean.setmPushUrl(pushUrl);
+        liveBean.setmRtmpPullUrl(pullUrl);
         liveBean.setIsLiveLandscape(live_direction_pos == 0 ? 0 : 1);
         liveBean.setLiveMode(live_type_pos);
         liveBean.setmHostName(tvName.getText().toString());
         bundle.putSerializable(LIVEBEAN, liveBean);
-        bundle.putString(Constans.LIVEINFO, getLiveInfo());
+        bundle.putString(Constans.LIVEINFO, getLiveInfo(pullUrl,hlsUrl));
         bundle.putString(Constans.USERINFO, getUserData());
         if (live_type_pos == 0) {
             startAnimActivity(HosterActivity.class, bundle);
@@ -135,13 +185,13 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
         return user.toString();
     }
 
-    public String getLiveInfo() {
+    public String getLiveInfo(String pullUrl,String hlsUrl) {
         JSONObject liveInfo = new JSONObject();
 
         try {
             liveInfo.put("hosterId", "hostID");
-            liveInfo.put("rtmpUrl", String.format(Constans.RTMP_PULL_URL, anyrtcId));
-            liveInfo.put("hlsUrl", String.format(Constans.HLS_URL, anyrtcId));
+            liveInfo.put("rtmpUrl", pullUrl);
+            liveInfo.put("hlsUrl", hlsUrl);
             liveInfo.put("liveTopic", etLiveName.getText().toString());
             liveInfo.put("anyrtcId", anyrtcId);
             liveInfo.put("isLiveLandscape", live_direction_pos == 0 ? 0 : 1);
@@ -167,7 +217,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
                             .callback(new PermissionListener() {
                                 @Override
                                 public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-                                    startLive();
+                                  getRTMPCUrl();
                                 }
 
                                 @Override
@@ -186,7 +236,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
                                 }
                             }).start();
                 } else {
-                    startLive();
+                    getRTMPCUrl();
                 }
 
                 break;

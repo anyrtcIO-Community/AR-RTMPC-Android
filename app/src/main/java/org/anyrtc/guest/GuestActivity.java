@@ -142,6 +142,7 @@ public class GuestActivity extends BaseActivity {
         if (bundle != null) {
             liveBean = (LiveBean) bundle.getSerializable(Constans.LIVEBEAN);
             if (liveBean != null) {
+                String pullUrl=bundle.getString("pull_url");
                 tvTitle.setText(liveBean.getmLiveTopic());
                 tvRoomId.setText("房间ID:" + liveBean.getmAnyrtcId());
                 if (liveBean.getIsLiveLandscape() == 0) {
@@ -165,7 +166,7 @@ public class GuestActivity extends BaseActivity {
                 mRtmpAudioManager.init();
                 mGuestKit = new RTMPCGuestKit(mGuestListener, option);
                 VideoRenderer render = mVideoView.OnRtcOpenLocalRender(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
-                mGuestKit.startRtmpPlay(liveBean.getmRtmpPullUrl(), render.GetRenderPointer());
+                mGuestKit.startRtmpPlay(pullUrl, render.GetRenderPointer());
                 mGuestKit.joinRTCLine(liveBean.getmAnyrtcId(), "guest", getUserData());
             }
         }

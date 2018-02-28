@@ -2,6 +2,10 @@ package org.anyrtc;
 
 import android.app.Application;
 
+import com.yanzhenjie.nohttp.InitializationConfig;
+import com.yanzhenjie.nohttp.Logger;
+import com.yanzhenjie.nohttp.NoHttp;
+
 import org.anyrtc.rtmpc_hybrid.RTMPCHybrid;
 import org.anyrtc.utils.Constans;
 import org.anyrtc.utils.NameUtils;
@@ -25,6 +29,13 @@ public class HybirdApplication extends Application {
         //配置私有云
 //        RTMPCHybrid.Inst().configServerForPriCloud("", 0);
         RTMPCHybrid.disableHWDecode();
+        InitializationConfig config = InitializationConfig.newBuilder(this)
+                .connectionTimeout(15*1000)
+                .readTimeout(15*1000)
+                .retry(1).build();
+        NoHttp.initialize(config);
+        Logger.setDebug(true); // 开启NoHttp调试模式。
+        Logger.setTag("HttpInfo"); // 设置NoHttp打印Log的TAG。
     }
     public  static Application App(){
         return mHybirdApplication;

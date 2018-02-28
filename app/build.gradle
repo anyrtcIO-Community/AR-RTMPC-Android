@@ -34,6 +34,7 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.yanzhenjie:permission:1.1.0'
+    compile 'com.yanzhenjie.nohttp:okhttp:1.1.4'
     compile 'com.jaredrummler:material-spinner:1.1.0'
     compile 'com.android.support:design:25.3.1'
     compile 'com.orhanobut:logger:1.15'

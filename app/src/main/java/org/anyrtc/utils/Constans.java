@@ -6,6 +6,10 @@ package org.anyrtc.utils;
 
 public class Constans {
 
+
+    /**
+     * 请在管理中心获得以下6个数据并替换
+     */
     public final static String DEVELOPERID = "DEVELOPERID";
 
     public final static String APPID = "APPID";
@@ -13,6 +17,18 @@ public class Constans {
     public final static String APPKEY = "APPKEY";
 
     public final static String APPTOKEN = "APPTOKEN";
+
+    public final static String APP_V_TOKEN = "APP_V_TOKEN";
+
+    public final static String APP_PACKAGE = "APP_PACKAGE";
+
+
+
+
+
+
+
+
 
     public final static  int REQUECT_CODE_CAMARE = 1;
 
@@ -22,9 +38,4 @@ public class Constans {
 
     public final static String LIVEINFO = "live_info";
 
-    public static final String RTMP_PUSH_URL = "RTMP_PUSH_URL";
-
-    public static final String RTMP_PULL_URL = "RTMP_PULL_URL";
-
-    public static final String HLS_URL = "HLS_URL";
 }
