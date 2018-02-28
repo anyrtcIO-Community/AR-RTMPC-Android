@@ -96,7 +96,7 @@ Android API 15+
 
 ##### 替换开发者账号
 在[anyRTC官网](http://www.anyrtc.io)获取了开发者账号，AppID等信息后，替换DEMO中
-**HybirdApplication**类中的开发者信息即可
+**Constans**类中的app信息即可（AppVToken需开通视频加速功能）
 
 ### 操作步骤
 
