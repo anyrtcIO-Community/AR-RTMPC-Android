@@ -184,7 +184,7 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
                     }
                 });
                 mRtmpAudioManager.init();
-                mGuestKit = new RTMPCAudioGuestKit(mGuestListener,true);
+                mGuestKit = new RTMPCAudioGuestKit(mGuestListener);
                 mGuestKit.startRtmpPlay(liveBean.getmRtmpPullUrl());
                 mGuestKit.joinRTCLine(liveBean.getmAnyrtcId(), "guest", getUserData());
             }

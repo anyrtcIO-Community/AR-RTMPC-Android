@@ -139,6 +139,7 @@ public class GuestActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         RTMPCGuestVideoOption option=new RTMPCGuestVideoOption();
         option.setmBFront(true);
+        option.setmBAudio(false);//设置视频模式   默认false
         if (bundle != null) {
             liveBean = (LiveBean) bundle.getSerializable(Constans.LIVEBEAN);
             if (liveBean != null) {
