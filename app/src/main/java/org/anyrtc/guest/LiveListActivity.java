@@ -91,7 +91,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         request.add("appid", Constans.APPID);
         request.add("stream",liveBean.getmAnyrtcId());
         request.add("random",random);
-        request.add("signature", MD5.getMD5(Constans.APPID+timestamp+"M0vncHJrOzjD5mnG8sJ54ZwuJ3Vgp40E"+random));
+        request.add("signature", MD5.getMD5(Constans.APPID+timestamp+Constans.APP_V_TOKEN+random));
         request.add("timestamp",timestamp);
         request.add("appBundleIdPkgName","org.anyrtc.live_line_anyrtc");
         NetHttp.getInstance().request(1, request, new ResultListener<String>() {
