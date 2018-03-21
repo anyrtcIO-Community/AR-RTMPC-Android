@@ -85,6 +85,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         getLiveList();
     }
     private void getRTMPCUrl(final LiveBean liveBean){
+        showProgressDialog();
         String random=(int)((Math.random()*9+1)*100000)+"";
         long timestamp=System.currentTimeMillis();
         StringRequest request=new StringRequest("https://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
@@ -97,6 +98,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         NetHttp.getInstance().request(1, request, new ResultListener<String>() {
             @Override
             public void onSucceed(int what, Response<String> response) {
+                hiddenProgressDialog();
                 Log.d("rtmpcUrl",response.get());
                 try {
                     JSONObject jsonObject=new JSONObject(response.get());
@@ -128,7 +130,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
+            hiddenProgressDialog();
             }
         });
 

@@ -103,6 +103,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
         }
     }
     private void getRTMPCUrl(){
+        showProgressDialog();
         String random=(int)((Math.random()*9+1)*100000)+"";
         long timestamp=System.currentTimeMillis();
         StringRequest request=new StringRequest("https://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
@@ -116,6 +117,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
             @Override
             public void onSucceed(int what, Response<String> response) {
                 Log.d("rtmpcUrl",response.get());
+                hiddenProgressDialog();
                 try {
                     JSONObject jsonObject=new JSONObject(response.get());
                     int code=jsonObject.getInt("code");
@@ -141,7 +143,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
+            hiddenProgressDialog();
             }
         });
 
