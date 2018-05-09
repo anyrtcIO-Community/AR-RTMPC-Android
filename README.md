@@ -39,7 +39,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ```
 dependencies {
-  compile 'org.anyrtc:rtmpc_hybrid:2.5.6'//最新版本见上面Download
+  compile 'org.anyrtc:rtmpc_hybrid:2.5.7'//最新版本见上面Download
 }
 ```
 
@@ -48,7 +48,7 @@ dependencies {
 <dependency>
   <groupId>org.anyrtc</groupId>
   <artifactId>rtmpc_hybrid</artifactId>
-  <version>2.4</version>
+  <version>2.5.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -128,19 +128,12 @@ SDK集成，API介绍，详见官方完整文档：[点击查看](https://www.an
 2. 注意安卓6.0+动态权限处理。
 3. 常见错误代码请参考[错误码查询](https://www.anyrtc.io/resoure)
 
-### 商业授权
-程序发布需商用授权，业务咨询请联系 QQ:580477436 
-
-QQ交流群:554714720
-
-联系电话:021-65650071-839
-
-Email:hi@dync.cc
 
 ### 技术支持 
 - anyRTC官方网址：[https://www.anyrtc.io](https://www.anyrtc.io/resoure)
-- QQ技术咨询群：580477436
-- 
+- QQ技术咨询群：554714720
+- 联系电话:021-65650071-816
+- Email:hi@dync.cc
 
 ### 关于直播
 
