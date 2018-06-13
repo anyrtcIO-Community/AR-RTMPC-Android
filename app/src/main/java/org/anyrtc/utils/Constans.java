@@ -10,17 +10,17 @@ public class Constans {
     /**
      * 请在管理中心获得以下6个数据并替换
      */
-    public final static String DEVELOPERID = "DEVELOPERID";
+    public final static String DEVELOPERID = "";
 
-    public final static String APPID = "APPID";
+    public final static String APPID = "";
 
-    public final static String APPKEY = "APPKEY";
+    public final static String APPKEY = "";
 
-    public final static String APPTOKEN = "APPTOKEN";
+    public final static String APPTOKEN = "";
 
-    public final static String APP_V_TOKEN = "APP_V_TOKEN";
+    public final static String APP_V_TOKEN = "";
 
-    public final static String APP_PACKAGE = "APP_PACKAGE";
+    public final static String APP_PACKAGE = "";
 
 
 

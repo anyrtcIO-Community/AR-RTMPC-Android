@@ -106,7 +106,7 @@ public class PreStartLiveActivity extends BaseActivity implements MaterialSpinne
         showProgressDialog();
         String random=(int)((Math.random()*9+1)*100000)+"";
         long timestamp=System.currentTimeMillis();
-        StringRequest request=new StringRequest("https://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
+        StringRequest request=new StringRequest("http://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
         request.add("appid",Constans.APPID);
         request.add("stream",anyrtcId);
         request.add("random",random);
