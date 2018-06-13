@@ -26,8 +26,8 @@ import android.widget.Toast;
 import org.anyrtc.BaseActivity;
 import org.anyrtc.adapter.LiveMessageAdapter;
 import org.anyrtc.common.enums.AnyRTCRTMPCLineVideoLayout;
-import org.anyrtc.common.enums.AnyRTCRTMPCVideoMode;
 import org.anyrtc.common.enums.AnyRTCScreenOrientation;
+import org.anyrtc.common.enums.AnyRTCVideoQualityMode;
 import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.anyrtc.live_line.R;
 import org.anyrtc.model.LineBean;
@@ -181,11 +181,11 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
         RTMPCHosterVideoOption videoOption = new RTMPCHosterVideoOption();
         //设置视频质量 参数对应清晰度，可查看API文档
         if (liveBean.getLiveMode() == 0) {
-            videoOption.setmVideoMode(AnyRTCRTMPCVideoMode.RTMPC_Video_SD);
+            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Medium3);
         } else if (liveBean.getLiveMode() == 1) {
-            videoOption.setmVideoMode(AnyRTCRTMPCVideoMode.RTMPC_Video_1080P);
+            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Height1);
         } else {
-            videoOption.setmVideoMode(AnyRTCRTMPCVideoMode.RTMPC_Video_Low);
+            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Low3);
         }
         if (liveBean != null && !TextUtils.isEmpty(liveinfo) && !TextUtils.isEmpty(userinfo)) {
             tvTitle.setText(liveBean.getmLiveTopic());
