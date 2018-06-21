@@ -1,3 +1,7 @@
+### 更新日志
+2018-6-21
+1：更新SDK
+
 ### anyRTC-RTMPC-Android SDK for Android
 ### 简介
 基于RTMP和RTC混合引擎的在线视频连麦互动直播

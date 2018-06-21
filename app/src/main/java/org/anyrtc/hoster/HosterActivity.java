@@ -180,12 +180,12 @@ public class HosterActivity extends BaseActivity implements Chronometer.OnChrono
         nickname = liveBean.getmHostName();
         RTMPCHosterVideoOption videoOption = new RTMPCHosterVideoOption();
         //设置视频质量 参数对应清晰度，可查看API文档
-        if (liveBean.getLiveMode() == 0) {
-            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Medium3);
-        } else if (liveBean.getLiveMode() == 1) {
+        if (liveBean.getLiveMode() == 0) {//标清
+            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Medium2);
+        } else if (liveBean.getLiveMode() == 1) {//超清
             videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Height1);
-        } else {
-            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Low3);
+        } else {//流畅
+            videoOption.setmVideoMode(AnyRTCVideoQualityMode.AnyRTCVideoQuality_Medium1);
         }
         if (liveBean != null && !TextUtils.isEmpty(liveinfo) && !TextUtils.isEmpty(userinfo)) {
             tvTitle.setText(liveBean.getmLiveTopic());

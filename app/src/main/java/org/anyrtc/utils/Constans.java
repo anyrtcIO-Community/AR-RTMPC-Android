@@ -30,6 +30,7 @@ public class Constans {
 
 
 
+
     public final static  int REQUECT_CODE_CAMARE = 1;
 
     public final static String LIVEBEAN = "live_bean";
