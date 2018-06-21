@@ -43,7 +43,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ```
 dependencies {
-  compile 'org.anyrtc:rtmpc_hybrid:2.5.7'//最新版本见上面Download
+  compile 'org.anyrtc:rtmpc_hybrid:2.6.2'//最新版本见上面Download
 }
 ```
 
