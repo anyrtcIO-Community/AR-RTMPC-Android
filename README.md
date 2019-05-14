@@ -79,7 +79,7 @@ SDK集成，API介绍，详见官方完整文档：[点击查看](https://docs.a
 
 [AR-RTMPC-iOS](https://github.com/AnyRTC/anyRTC-RTMPC-iOS)
 
-### Web版anyRTC-Meeting互动连麦在线体验
+### Web版 互动连麦在线体验
 
 [AR-RTMPC-Web](https://beyond.anyrtc.io/demo/lianmai)
 
