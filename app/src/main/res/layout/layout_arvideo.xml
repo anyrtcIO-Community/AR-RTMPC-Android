@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <org.webrtc.SurfaceViewRenderer
+        android:id="@+id/sv_video_render"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/fl_video_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#292E35"
+        android:visibility="gone"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/ibtn_hang_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_centerHorizontal="true"
+      android:layout_above="@+id/space"
+        android:visibility="gone"
+        android:src="@drawable/img_hangup"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:id="@+id/space"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

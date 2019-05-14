@@ -1,0 +1,61 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="70dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginRight="8dp"
+    android:translationZ="3dp"
+    app:cardElevation="1dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:text="NAME"
+            android:textColor="#333333" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_live_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#33B15D"
+            android:textSize="12sp"
+            android:text="视频直播"
+            android:drawablePadding="4dp"
+            android:layout_marginRight="12dp"
+            android:drawableLeft="@drawable/img_video" />
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/img_people_num"
+            android:gravity="center_vertical"
+            android:drawablePadding="4dp"
+            android:textSize="12sp"
+            android:text="1"
+            android:textColor="#999999" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</android.support.v7.widget.CardView>

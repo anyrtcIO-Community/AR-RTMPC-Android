@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android.support:support-fragment-25.3.1">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/b37e76465a5f9acc442227b81a09bf3e9dea98b5/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/b37e76465a5f9acc442227b81a09bf3e9dea98b5/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/extras/android/m2repository/com/android/support/support-fragment/25.3.1/support-fragment-25.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

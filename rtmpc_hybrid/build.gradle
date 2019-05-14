@@ -1,0 +1,122 @@
+apply plugin: 'com.android.library'
+version = "3.0.0"
+apply plugin: 'maven'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+android {
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "3.0.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    useLibrary 'org.apache.http.legacy'
+    //    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+}
+
+uploadArchives{
+    repositories.mavenDeployer{
+        repository(url:uri('D:\\liuxiaozhong\\LocalMaven'))
+        pom.groupId = 'org.ar'
+        pom.artifactId = 'rtmpc_hybrid'
+        pom.version = '3.0.1'
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+//解决 gradlew 构建错误: 编码 GBK的不可映射字符
+tasks.withType(Javadoc) {
+//    options.encoding = "UTF-8"
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+//方法1
+def siteUrl = 'https://www.anyrtc.io'      // 项目的主页   这个是说明，可随便填
+def gitUrl = 'https://www.anyrtc.io'      // Git仓库的url  这个是说明，可随便填
+group = "org.ar"    // 这里是groupId ,必须填写  一般填你唯一的包名
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'anyrtc连麦sdk'     //项目描述
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'dyncanyrtc'        //填写开发者的一些基本信息
+                        name 'dyncanyrtc'    //填写开发者的一些基本信息
+                        email 'dync_dev@dync.cc'   //填写开发者的一些基本信息
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
+    key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
+    configurations = ['archives']
+    pkg {
+        repo = "ar_dev"
+        name = "rtmpc"    //发布到JCenter上的项目名字，必须填写
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+apply from: 'fat-aar.gradle'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile  files('libs/org.apache.http.legacy.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.android.support:appcompat-v7:26+'
+//    compile 'org.ar:ar_common:3.0.0'
+    embedded project(':ar_common')
+}

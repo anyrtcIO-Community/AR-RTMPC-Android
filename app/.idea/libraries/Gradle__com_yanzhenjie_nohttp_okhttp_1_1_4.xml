@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.yanzhenjie.nohttp:okhttp-1.1.4">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/eafbcf8d5c43ee4dcc9639ee68c611b5074f4c44/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/eafbcf8d5c43ee4dcc9639ee68c611b5074f4c44/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/Android/.gradle/caches/modules-2/files-2.1/com.yanzhenjie.nohttp/okhttp/1.1.4/63d0547de501f06b9963b6cc5757143ba8b18b80/okhttp-1.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

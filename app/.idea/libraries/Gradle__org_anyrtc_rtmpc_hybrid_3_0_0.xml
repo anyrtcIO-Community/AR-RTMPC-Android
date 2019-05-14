@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: org.anyrtc:rtmpc_hybrid-3.0.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/2f74bb6a17fd5d55a4d9f1af14b18c552ccfefc9/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/2f74bb6a17fd5d55a4d9f1af14b18c552ccfefc9/output/jars/libs/org.apache.http.legacy.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/2f74bb6a17fd5d55a4d9f1af14b18c552ccfefc9/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../LocalMaven/org/anyrtc/rtmpc_hybrid/3.0.0/rtmpc_hybrid-3.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../LocalMaven/org/anyrtc/rtmpc_hybrid/3.0.0/rtmpc_hybrid-3.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

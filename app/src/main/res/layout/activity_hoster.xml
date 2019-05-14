@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_rtmpc_videos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <View
+            android:id="@+id/view_space"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"></View>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_meet_id"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="直播名称：999999"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/tv_member_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/tv_title"
+                    android:gravity="center"
+                    android:text="在线人数：0"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_room"
+                android:orientation="vertical"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:id="@+id/tv_rtmp_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dialog_blue" />
+
+
+                <TextView
+                    android:id="@+id/tv_rtmp_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dialog_blue" />
+
+                <TextView
+                    android:id="@+id/tv_rtc_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/dialog_blue" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/btn_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:onClick="onClick"
+                    android:src="@drawable/img_close" />
+
+                <ImageButton
+                    android:id="@+id/btn_camare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="12dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/img_camera" />
+
+                <ImageButton
+                    android:id="@+id/btn_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="12dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/img_log" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_msg_list"
+            android:layout_width="210dp"
+            android:background="@drawable/shape_message"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+
+
+        <ImageView
+            android:id="@+id/iv_message"
+            android:layout_width="wrap_content"
+            android:onClick="onClick"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_message" />
+
+        <ImageButton
+            android:id="@+id/tv_line_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:onClick="onClick"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/selector_apply" />
+
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_log_layout"
+        android:layout_width="match_parent"
+        android:background="@color/alpha_90_white"
+        android:paddingTop="25dp"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:layout_marginLeft="12dp"
+            android:textSize="26sp"
+            android:text="日志"/>
+
+        <ImageButton
+            android:id="@+id/ibtn_close_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_guanbi"
+            android:background="@null"
+            android:padding="12dp"
+            android:onClick="onClick"
+            android:layout_alignParentRight="true"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_log"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ibtn_close_log"
+            android:layout_marginTop="12dp"></android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

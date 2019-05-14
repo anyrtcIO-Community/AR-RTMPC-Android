@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.anyrtc.rtmpc_hybrid">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
+</manifest>
