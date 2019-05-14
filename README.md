@@ -1,6 +1,3 @@
-### 更新日志
-2018-6-21
-1：更新SDK
 
 ### anyRTC-RTMPC-Android SDK for Android
 ### 简介
@@ -17,68 +14,35 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 - OpenH264软件编码，FFMpeg软件解码，FAAC/FAAD软件编解码，适配不同系统的硬件编解码统统包含
 - 支持SRS、Nginx-RTMP等标准RTMP服务;同时支持各大CDN厂商的接入
 
-### 项目展示
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/1.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/2.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/3.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/4.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/5.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/6.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/7.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/8.jpg)
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/9.jpg)
+
 
 
 ### app体验
 
 ##### 扫码下载
-![image](https://github.com/AnyRTC/anyRTC-RTMPC-Android/blob/master/images/demo_qrcode.png)
-##### [点击下载](https://www.pgyer.com/anyrtc_rtmpc_android)
-##### [WEB在线体验](https://www.anyrtc.cc/demo/lianmai)
+![image](https://www.pgyer.com/app/qrcode/Zuap)
+##### [点击下载](https://www.pgyer.com/app/qrcode/Zuap)
+##### [WEB在线体验](https://beyond.anyrtc.io/demo/lianmai)
 
 ### SDK集成
-# > 方式一（推荐）[ ![Download](https://api.bintray.com/packages/dyncanyrtc/anyrtc_dev/anyRTC-RTMPC-Android/images/download.svg) ](https://bintray.com/dyncanyrtc/anyrtc_dev/anyRTC-RTMPC-Android/_latestVersion)
+# > 方式一[ ![Download](https://api.bintray.com/packages/dyncanyrtc/ar_dev/rtmpc/images/download.svg) ](https://bintray.com/dyncanyrtc/ar_dev/rtmpc/_latestVersion)
 
 添加Jcenter仓库 Gradle依赖：
 
 ```
 dependencies {
-  compile 'org.anyrtc:rtmpc_hybrid:2.6.2'//最新版本见上面Download
+  compile 'org.ar:rtmpc_hybrid:3.0.0'
 }
 ```
 
 或者 Maven
 ```
 <dependency>
-  <groupId>org.anyrtc</groupId>
+  <groupId>org.ar</groupId>
   <artifactId>rtmpc_hybrid</artifactId>
-  <version>2.5.7</version>
+  <version>3.0.0</version>
   <type>pom</type>
 </dependency>
-```
-
->方式二
-
- [下载aar SDK](https://www.anyrtc.io/resoure)
-
->1. 将下载好的rtmpc_hybrid-release.aar文件放入项目的libs目录中
->2. 在Model下的build.gradle文件添加如下代码依赖RTMPC SDK
-
-```
-android
-{
-
- repositories {
-        flatDir {dirs 'libs'}
-    }
-    
- }
-    
-```
-```
-dependencies {
-    compile(name: 'rtmpc_hybrid-release', ext: 'aar')
-}
 ```
 
 ### 安装
@@ -89,7 +53,7 @@ AndroidStudio
 
 ##### 运行环境
 
-Android API 15+
+Android API 16+
 真机运行
 
 ### 如何使用
@@ -100,7 +64,7 @@ Android API 15+
 
 ##### 替换开发者账号
 在[anyRTC官网](http://www.anyrtc.io)获取了开发者账号，AppID等信息后，替换DEMO中
-**Constans**类中的app信息即可（AppVToken需开通视频加速功能）
+**utils/DeveloperInfo**类中的app信息即可（AppVToken需开通视频加速功能）
 
 ### 操作步骤
 
@@ -109,15 +73,15 @@ Android API 15+
 3. 游客端点击链接按钮，进行连麦。
 
 ### 完整文档
-SDK集成，API介绍，详见官方完整文档：[点击查看](https://www.anyrtc.io/resoure)
+SDK集成，API介绍，详见官方完整文档：[点击查看](https://docs.anyrtc.io/v1/RTMPC/android.html)
 
-### Ios版anyRTC-Meeting视频会议
+### Ios版 互动连麦
 
-[anyRTC-RTMPC-Ios](https://github.com/AnyRTC/anyRTC-RTMPC-iOS)
+[AR-RTMPC-iOS](https://github.com/AnyRTC/anyRTC-RTMPC-iOS)
 
-### Web版anyRTC-Meeting视频会议在线体验
+### Web版anyRTC-Meeting互动连麦在线体验
 
-[anyRTC-RTMPC-Web](https://www.anyrtc.cc/demo/lianmai)
+[AR-RTMPC-Web](https://beyond.anyrtc.io/demo/lianmai)
 
 
 ### 支持的系统平台
