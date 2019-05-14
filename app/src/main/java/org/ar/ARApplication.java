@@ -24,7 +24,7 @@ public class ARApplication extends Application {
         NickName= NameUtils.getNickName();
         ARRtmpcEngine.Inst().initEngineWithARInfo(getApplicationContext(), DeveloperInfo.DEVELOPERID, DeveloperInfo.APPID, DeveloperInfo.APPKEY, DeveloperInfo.APPTOKEN);
         //配置私有云
-        ARRtmpcEngine.Inst().configServerForPriCloud("pro.anyrtc.io", 9060);
+//        ARRtmpcEngine.Inst().configServerForPriCloud("", 0000);
 
 
         InitializationConfig  config = InitializationConfig.newBuilder(this)

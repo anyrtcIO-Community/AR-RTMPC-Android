@@ -34,7 +34,6 @@ dependencies {
     compile 'com.android.support:design:28.0.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.yanzhenjie.nohttp:okhttp:1.1.11'
-//    compile project(':rtmpc_hybrid')
-    compile(name:'rtmpc_hybrid-3.0.1', ext:'aar')
+    compile 'org.ar:rtmpc_hybrid:3.0.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
 }
