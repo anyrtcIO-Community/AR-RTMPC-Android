@@ -21,7 +21,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ##### 扫码下载
 ![image](https://www.pgyer.com/app/qrcode/Zuap)
-##### [点击下载](https://www.pgyer.com/app/qrcode/Zuap)
+##### [点击下载](https://www.pgyer.com/Zuap)
 ##### [WEB在线体验](https://beyond.anyrtc.io/demo/lianmai)
 
 ### SDK集成
