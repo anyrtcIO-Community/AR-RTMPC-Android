@@ -27,7 +27,7 @@ public class ARApplication extends Application {
         super.onCreate();
         mARApplication =this;
         NickName= NameUtils.getNickName();
-        ARRtmpcEngine.Inst().initEngineWithARInfo(getApplicationContext(), DeveloperInfo.DEVELOPERID, DeveloperInfo.APPID, DeveloperInfo.APPKEY, DeveloperInfo.APPTOKEN);
+        ARRtmpcEngine.Inst().initEngineWithAppInfo(getApplicationContext(), DeveloperInfo.APPID, DeveloperInfo.APPTOKEN);
         //配置私有云
 //        ARRtmpcEngine.Inst().configServerForPriCloud("", 0000);
 
