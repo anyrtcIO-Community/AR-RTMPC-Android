@@ -149,7 +149,16 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
-            getPullUrlAndJoin(mAdapter.getItem(position).getmAnyrtcId(),mAdapter.getItem(position).getIsAudioLive(),mAdapter.getItem(position).getmHostName());
+            if (ARApplication.useAnyRTCCDN){
+                getPullUrlAndJoin(mAdapter.getItem(position).getmAnyrtcId(),mAdapter.getItem(position).getIsAudioLive(),mAdapter.getItem(position).getmHostName());
+            }else {
+                Intent intent = new Intent(LiveListActivity.this, mAdapter.getItem(position).getIsAudioLive()==1 ? AudioGuestActivity.class : GuestActivity.class);
+                intent.putExtra("pullURL", ARApplication.PULL_URL);
+                intent.putExtra("liveId",mAdapter.getItem(position).getmAnyrtcId());
+                intent.putExtra("hostName",mAdapter.getItem(position).getmHostName());
+                startActivity(intent);
+            }
+
         }else {
             PermissionsCheckUtil.showMissingPermissionDialog(LiveListActivity.this, "请先开启录音和相机权限");
         }
@@ -210,7 +219,14 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         switch (view.getId()) {
             case org.ar.rtmpc.R.id.btn_audio:
                 if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
-                    getPushUrlAndStartLive(true);
+                    if (ARApplication.useAnyRTCCDN){
+                        getPushUrlAndStartLive(true);
+                    }else {
+                        Intent intent = new Intent(LiveListActivity.this,  AudioHosterActivity.class);
+                        intent.putExtra("pushURL", ARApplication.PUSH_URL);
+                        startActivity(intent);
+                    }
+
                 }else {
                     PermissionsCheckUtil.showMissingPermissionDialog(LiveListActivity.this, "请先开启录音和相机权限");
                 }
@@ -218,7 +234,13 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
                 break;
             case org.ar.rtmpc.R.id.btn_video:
                 if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
-                    getPushUrlAndStartLive(false);
+                    if (ARApplication.useAnyRTCCDN){
+                        getPushUrlAndStartLive(false);
+                    }else {
+                        Intent intent = new Intent(LiveListActivity.this,  HosterActivity.class);
+                        intent.putExtra("pushURL", ARApplication.PUSH_URL);
+                        startActivity(intent);
+                    }
                 }else {
                     PermissionsCheckUtil.showMissingPermissionDialog(LiveListActivity.this, "请先开启录音和相机权限");
                 }
