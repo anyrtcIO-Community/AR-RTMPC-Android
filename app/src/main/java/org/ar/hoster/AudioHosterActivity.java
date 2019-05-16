@@ -27,7 +27,7 @@ import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.ar.rtmpc.R;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
-import org.ar.utils.AnyRTCUtils;
+import org.ar.utils.ARUtils;
 import org.ar.utils.DisplayUtils;
 import org.ar.utils.ToastUtil;
 import org.ar.widgets.CustomDialog;
@@ -359,7 +359,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
                         }
                     } else {
                         if (tvRtcOk != null) {
-                            tvRtcOk.setText(AnyRTCUtils.getErrString(code));
+                            tvRtcOk.setText(ARUtils.getErrString(code));
                         }
                     }
                 }

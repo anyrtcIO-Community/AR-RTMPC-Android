@@ -7,7 +7,7 @@ import org.ar.rtmpc.R;
  * Created by Skyline on 2016/11/1.
  */
 
-public enum  AnyRTCUtils {
+public enum ARUtils {
     AnyRTC_OK(0),               // 正常
     AnyRTC_UNKNOW(1),           // 未知错误
     AnyRTC_EXCEPTION(2),	    // SDK调用异常
@@ -34,7 +34,7 @@ public enum  AnyRTCUtils {
 
     private int value;
 
-    AnyRTCUtils(int value) {
+    ARUtils(int value) {
         this.value = value;
     }
 

@@ -25,7 +25,7 @@ import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
 import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.ar.model.MessageBean;
-import org.ar.utils.AnyRTCUtils;
+import org.ar.utils.ARUtils;
 import org.ar.utils.ToastUtil;
 import org.ar.widgets.ARVideoView;
 import org.ar.widgets.KeyboardDialogFragment;
@@ -336,7 +336,7 @@ public class GuestActivity extends BaseActivity {
                             Toast.makeText(GuestActivity.this, org.ar.rtmpc.R.string.str_hoster_not_live, Toast.LENGTH_LONG).show();
                             tvRtcOk.setText(org.ar.rtmpc.R.string.str_rtc_connect_success);
                         } else {
-                            tvRtcOk.setText(AnyRTCUtils.getErrString(nCode));
+                            tvRtcOk.setText(ARUtils.getErrString(nCode));
                         }
                     }
                 }

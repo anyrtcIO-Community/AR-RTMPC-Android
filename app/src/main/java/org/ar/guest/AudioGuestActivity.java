@@ -27,7 +27,7 @@ import org.ar.adapter.LogAdapter;
 import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
-import org.ar.utils.AnyRTCUtils;
+import org.ar.utils.ARUtils;
 import org.ar.utils.ToastUtil;
 import org.ar.widgets.KeyboardDialogFragment;
 import org.ar.common.enums.ARVideoCommon;
@@ -326,7 +326,7 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
                         }
                     } else {
                         if (tvRtcOk != null) {
-                            tvRtcOk.setText(AnyRTCUtils.getErrString(nCode));
+                            tvRtcOk.setText(ARUtils.getErrString(nCode));
                         }
                     }
                 }

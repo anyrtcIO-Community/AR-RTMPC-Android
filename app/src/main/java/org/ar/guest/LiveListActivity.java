@@ -28,7 +28,7 @@ import org.ar.hoster.AudioHosterActivity;
 import org.ar.hoster.HosterActivity;
 import org.ar.rtmpc.BuildConfig;
 import org.ar.model.LiveBean;
-import org.ar.utils.DeveloperInfo;
+import org.ar.DeveloperInfo;
 import org.ar.utils.MD5;
 import org.ar.utils.PermissionsCheckUtil;
 import org.ar.utils.ToastUtil;

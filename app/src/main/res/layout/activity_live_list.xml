@@ -20,7 +20,7 @@
             android:textColor="#333333"
             android:layout_gravity="center"
             android:drawableTop="@drawable/img_logo"
-            android:text="anyRTC直播连麦DEMO"/>
+            android:text="AR直播连麦DEMO"/>
 
 
     </FrameLayout>

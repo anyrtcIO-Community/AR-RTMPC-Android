@@ -26,7 +26,7 @@ import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.ar.rtmpc.R;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
-import org.ar.utils.AnyRTCUtils;
+import org.ar.utils.ARUtils;
 import org.ar.utils.DisplayUtils;
 import org.ar.utils.ToastUtil;
 import org.ar.widgets.ARVideoView;
@@ -403,7 +403,7 @@ public class HosterActivity extends BaseActivity {
                         if (code == 0) {
                             tvRtcOk.setText(R.string.str_rtc_connect_success);
                         } else {
-                            tvRtcOk.setText(AnyRTCUtils.getErrString(code));
+                            tvRtcOk.setText(ARUtils.getErrString(code));
                         }
                     }
                 }

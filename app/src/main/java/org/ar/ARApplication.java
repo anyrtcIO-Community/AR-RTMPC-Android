@@ -5,7 +5,6 @@ import android.app.Application;
 import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.NoHttp;
 
-import org.ar.utils.DeveloperInfo;
 import org.ar.utils.NameUtils;
 import org.ar.rtmpc_hybrid.ARRtmpcEngine;
 
