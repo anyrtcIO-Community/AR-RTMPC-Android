@@ -25,6 +25,7 @@ import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
 import org.anyrtc.common.utils.AnyRTCAudioManager;
 import org.ar.model.MessageBean;
+import org.ar.rtmpc.R;
 import org.ar.utils.ARUtils;
 import org.ar.utils.ToastUtil;
 import org.ar.widgets.ARVideoView;
@@ -583,6 +584,9 @@ public class GuestActivity extends BaseActivity {
                 break;
             case org.ar.rtmpc.R.id.ibtn_close_log:
                 rl_log_layout.setVisibility(View.GONE);
+                break;
+            case R.id.btn_camare:
+                mGuestKit.switchCamera();
                 break;
         }
     }
