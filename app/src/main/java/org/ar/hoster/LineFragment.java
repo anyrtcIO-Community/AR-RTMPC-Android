@@ -123,4 +123,8 @@ public class LineFragment extends Fragment implements HosterActivity.LineListene
                 break;
         }
     }
+
+    public LiveLineAdapter getmAadapter() {
+        return mAadapter;
+    }
 }

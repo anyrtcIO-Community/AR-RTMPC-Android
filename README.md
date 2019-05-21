@@ -31,7 +31,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ```
 dependencies {
-  compile 'org.ar:rtmpc_hybrid:3.0.2'
+  compile 'org.ar:rtmpc_hybrid:3.0.3'
 }
 ```
 
@@ -40,7 +40,7 @@ dependencies {
 <dependency>
   <groupId>org.ar</groupId>
   <artifactId>rtmpc_hybrid</artifactId>
-  <version>3.0.2</version>
+  <version>3.0.3</version>
   <type>pom</type>
 </dependency>
 ```

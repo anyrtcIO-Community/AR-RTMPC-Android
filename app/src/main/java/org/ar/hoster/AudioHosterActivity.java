@@ -412,6 +412,13 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
                         if (line_dialog != null && lineListener != null) {
                             lineListener.RemoveGuest(strLivePeerID);
                         }
+                        if (lineFragment!=null){
+                            if (lineFragment.getmAadapter()==null){//小红点
+                                tvLineList.setSelected(false);
+                            }else if (lineFragment.getmAadapter().getItemCount()==0){
+                                tvLineList.setSelected(false);
+                            }
+                        }
                     }
                 }
             });

@@ -165,7 +165,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
     }
 
     private void getLiveList() {
-        ARRtmpcHttpKit.getLivingList(this, new ARRtmpcHttpKit.RTMPCHttpCallback() {
+        ARRtmpcHttpKit.getAuthLivingList(this, new ARRtmpcHttpKit.RTMPCHttpCallback() {
             @Override
             public void OnRTMPCHttpOK(String s) {
                 if (swipeRefresh != null) {
