@@ -142,11 +142,13 @@
             android:layout_width="210dp"
             android:background="@drawable/shape_message"
             android:layout_height="200dp"
-            android:layout_alignParentBottom="true">
+            android:layout_marginBottom="8dp"
+            android:layout_above="@+id/ll_apply">
 
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
+            android:id="@+id/ll_apply"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="12dp"

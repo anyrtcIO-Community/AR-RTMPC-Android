@@ -41,7 +41,8 @@ import org.json.JSONObject;
 import org.webrtc.VideoRenderer;
 
 import java.net.URLDecoder;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -67,6 +68,7 @@ public class HosterActivity extends BaseActivity {
     private String liveId= ARApplication.LIVE_ID;
     private String nickname= ARApplication.getNickName();
     private String userId="host"+(int)((Math.random()*9+1)*100000)+"";
+    private List<String> applyLineList=new ArrayList<>();//申请连麦的人  这个用于判断小红点显示隐藏
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -432,6 +434,7 @@ public class HosterActivity extends BaseActivity {
                             lineListener.AddGuest(new LineBean(strLivePeerID, jsonObject.getString("nickName"), false), mHosterKit);
                             tvLineList.setSelected(true);
                         }
+                        applyLineList.add(strLivePeerID);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -454,13 +457,12 @@ public class HosterActivity extends BaseActivity {
                     if (nCode == 0) {
                         if (line_dialog != null && lineListener != null) {
                             lineListener.RemoveGuest(strLivePeerID);
-                            if (lineFragment!=null){
-                                if (lineFragment.getmAadapter()==null){//小红点
-                                    tvLineList.setSelected(false);
-                                }else if (lineFragment.getmAadapter().getItemCount()==0){
-                                    tvLineList.setSelected(false);
-                                }
-                            }
+                        }
+                        if (applyLineList.contains(strLivePeerID)) {
+                            applyLineList.remove(strLivePeerID);
+                        }
+                        if (applyLineList.size()==0){//小红点
+                            tvLineList.setSelected(false);
                         }
                     }
 

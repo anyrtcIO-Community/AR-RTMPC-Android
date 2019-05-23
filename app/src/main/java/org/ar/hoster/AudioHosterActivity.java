@@ -39,6 +39,9 @@ import org.ar.rtmpc_hybrid.ARRtmpcHosterKit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 音频主播页面
  */
@@ -61,7 +64,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
     private boolean isShowLineList = false;
     HosterActivity.LineListener lineListener;
     private String pushURL = "",pullURL="", liveId = ARApplication.LIVE_ID,userId="host"+(int)((Math.random()*9+1)*100000)+"";
-
+    private List<String> applyLineList=new ArrayList<>();//申请连麦的人  这个用于判断小红点显示隐藏
 
     @Override
     protected void onResume() {
@@ -387,6 +390,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
                             lineListener.AddAudioGuest(new LineBean(strLivePeerID, jsonObject.getString("nickName"), false), mHosterKit);
                             tvLineList.setSelected(true);
                         }
+                        applyLineList.add(strLivePeerID);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -413,12 +417,11 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
                         if (line_dialog != null && lineListener != null) {
                             lineListener.RemoveGuest(strLivePeerID);
                         }
-                        if (lineFragment!=null){
-                            if (lineFragment.getmAadapter()==null){//小红点
-                                tvLineList.setSelected(false);
-                            }else if (lineFragment.getmAadapter().getItemCount()==0){
-                                tvLineList.setSelected(false);
-                            }
+                        if (applyLineList.contains(strLivePeerID)) {
+                            applyLineList.remove(strLivePeerID);
+                        }
+                        if (applyLineList.size()==0){//小红点
+                            tvLineList.setSelected(false);
                         }
                     }
                 }
