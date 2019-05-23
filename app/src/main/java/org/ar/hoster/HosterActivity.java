@@ -63,7 +63,7 @@ public class HosterActivity extends BaseActivity {
     private boolean isShowLineList = false;
     private LineListener lineListener;
 
-    private String pushURL = "";
+    private String pushURL = "",pullURL="";
     private String liveId= ARApplication.LIVE_ID;
     private String nickname= ARApplication.getNickName();
     private String userId="host"+(int)((Math.random()*9+1)*100000)+"";
@@ -116,6 +116,7 @@ public class HosterActivity extends BaseActivity {
          tvLineList=findViewById(R.id.tv_line_list);
 
         pushURL = getIntent().getStringExtra("pushURL");
+        pullURL=getIntent().getStringExtra("pullURL");
         initLineFragment();
         mAdapter = new LiveMessageAdapter();
         rvMsgList.setLayoutManager(new LinearLayoutManager(this));
@@ -152,7 +153,7 @@ public class HosterActivity extends BaseActivity {
         //开始推流
         mHosterKit.startPushRtmpStream(pushURL);
         //创建RTC连接，必须放在开始推流之后
-        mHosterKit.createRTCLine("", liveId, userId, getUserData(), getLiveInfo(pushURL,pushURL));
+        mHosterKit.createRTCLine("", liveId, userId, getUserData(), getLiveInfo(pullURL,pullURL));
         //设置音频连麦直播，默认视频
 
 

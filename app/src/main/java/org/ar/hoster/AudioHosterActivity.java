@@ -60,7 +60,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
     private LineFragment lineFragment;
     private boolean isShowLineList = false;
     HosterActivity.LineListener lineListener;
-    private String pushURL = "", liveId = ARApplication.LIVE_ID,userId="host"+(int)((Math.random()*9+1)*100000)+"";
+    private String pushURL = "",pullURL="", liveId = ARApplication.LIVE_ID,userId="host"+(int)((Math.random()*9+1)*100000)+"";
 
 
     @Override
@@ -132,6 +132,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
         rvMsgList.setLayoutManager(new LinearLayoutManager(this));
         rvMsgList.setAdapter(mAdapter);
         pushURL = getIntent().getStringExtra("pushURL");
+        pullURL=getIntent().getStringExtra("pullURL");
         tvTitle.setText("房间ID：" + liveId);
         nickname = ARApplication.getNickName();
         tv_host_name.setText(nickname);
@@ -145,7 +146,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
         ARRtmpcEngine.Inst().getHosterOption().setMediaType(ARVideoCommon.ARMediaType.Audio);
         mHosterKit = new ARRtmpcHosterKit(mHosterListener);
         mHosterKit.startPushRtmpStream(pushURL);
-        mHosterKit.createRTCLine("", liveId, "host", getUserData(), getLiveInfo(pushURL, pushURL));
+        mHosterKit.createRTCLine("", liveId, "host", getUserData(), getLiveInfo(pullURL, pullURL));
     }
 
     public String getLiveInfo(String pullUrl, String hlsUrl) {
