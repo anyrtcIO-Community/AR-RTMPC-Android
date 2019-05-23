@@ -45,7 +45,6 @@ dependencies {
 </dependency>
 ```
 
-### 安装
 
 ##### 编译环境
 
@@ -64,7 +63,7 @@ Android API 16+
 
 ##### 替换开发者账号
 在[anyRTC官网](http://www.anyrtc.io)获取了开发者账号，AppID等信息后，替换DEMO中
-**utils/DeveloperInfo**类中的app信息即可（AppVToken需开通视频加速功能）
+**DeveloperInfo**类中的信息即可。推拉流地址需用自己的
 
 ### 操作步骤
 

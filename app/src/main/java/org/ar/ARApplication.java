@@ -17,10 +17,6 @@ public class ARApplication extends Application {
     private static String NickName="";
     public static String LIVE_ID=(int)((Math.random()*9+1)*100000)+"";//直播间ID
 
-    //如果需要使用你自己的CDN 将useAnyRTCCDN 设置为false  并将PUSH_URL PULL_URL 配置好
-    public static boolean useAnyRTCCDN = true;
-    public static String PUSH_URL="";
-    public static String PULL_URL="";
     @Override
     public void onCreate() {
         super.onCreate();

@@ -102,7 +102,7 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
     public void onItemClick(BaseQuickAdapter adapter, View view, final int position) {
         if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
                 Intent intent = new Intent(LiveListActivity.this, mAdapter.getItem(position).getIsAudioLive()==1 ? AudioGuestActivity.class : GuestActivity.class);
-                intent.putExtra("pullURL", ARApplication.useAnyRTCCDN ?mAdapter.getItem(position).getmRtmpPullUrl() : ARApplication.PULL_URL);
+                intent.putExtra("pullURL", mAdapter.getItem(position).getmRtmpPullUrl());
                 intent.putExtra("liveId",mAdapter.getItem(position).getmAnyrtcId());
                 intent.putExtra("hostName",mAdapter.getItem(position).getmHostName());
                 startActivity(intent);
@@ -166,15 +166,10 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         switch (view.getId()) {
             case org.ar.rtmpc.R.id.btn_audio:
                 if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
-                    if (ARApplication.useAnyRTCCDN){
-                        getPushUrlAndStartLive(true);
-                    }else {
                         Intent intent = new Intent(LiveListActivity.this,  AudioHosterActivity.class);
-                        intent.putExtra("pushURL", ARApplication.PUSH_URL);
-                        intent.putExtra("pullURL", ARApplication.PULL_URL);
+                        intent.putExtra("pushURL", DeveloperInfo.PUSH_URL);
+                        intent.putExtra("pullURL", DeveloperInfo.PULL_URL);
                         startActivity(intent);
-                    }
-
                 }else {
                     PermissionsCheckUtil.showMissingPermissionDialog(LiveListActivity.this, "请先开启录音和相机权限");
                 }
@@ -182,14 +177,10 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
                 break;
             case org.ar.rtmpc.R.id.btn_video:
                 if (AndPermission.hasPermissions(LiveListActivity.this,Permission.CAMERA,Permission.RECORD_AUDIO)){
-                    if (ARApplication.useAnyRTCCDN){
-                        getPushUrlAndStartLive(false);
-                    }else {
                         Intent intent = new Intent(LiveListActivity.this,  HosterActivity.class);
-                        intent.putExtra("pushURL", ARApplication.PUSH_URL);
-                        intent.putExtra("pullURL", ARApplication.PULL_URL);
+                        intent.putExtra("pushURL", DeveloperInfo.PUSH_URL);
+                        intent.putExtra("pullURL", DeveloperInfo.PULL_URL);
                         startActivity(intent);
-                    }
                 }else {
                     PermissionsCheckUtil.showMissingPermissionDialog(LiveListActivity.this, "请先开启录音和相机权限");
                 }
@@ -197,54 +188,6 @@ public class LiveListActivity extends BaseActivity implements SwipeRefreshLayout
         }
     }
 
-    private void getPushUrlAndStartLive(final boolean isAudioLive) {
-        showProgressDialog();
-        String random = (int) ((Math.random() * 9 + 1) * 100000) + "";
-        long timestamp = System.currentTimeMillis();
-        StringRequest request = new StringRequest("https://vdn.anyrtc.cc/oauth/anyapi/v1/vdnUrlSign/getAppVdnUrl", RequestMethod.POST);
-        request.add("appid", DeveloperInfo.APPID);
-        request.add("stream", ARApplication.LIVE_ID);
-        request.add("random", random);
-        request.add("signature", MD5.getMD5(DeveloperInfo.APPID + timestamp + DeveloperInfo.APP_V_TOKEN + random));
-        request.add("timestamp", timestamp);
-        request.add("appBundleIdPkgName", DeveloperInfo.APP_PACKAGE);
-        NoHttp.getRequestQueueInstance().add(1, request, new SimpleResponseListener<String>() {
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                Log.d("rtmpcUrl", response.get());
-                hiddenProgressDialog();
-                try {
-                    JSONObject jsonObject = new JSONObject(response.get());
-                    int code = jsonObject.getInt("code");
-                    if (code == 200) {
-                        String pushUrl = jsonObject.getString("push_url");
-                        String pullUrl=jsonObject.getString("pull_url");
-                        if (!TextUtils.isEmpty(pushUrl)&&!TextUtils.isEmpty(pullUrl)) {
-                            Intent intent = new Intent(LiveListActivity.this, isAudioLive ? AudioHosterActivity.class : HosterActivity.class);
-                            intent.putExtra("pushURL", pushUrl);
-                            intent.putExtra("pullURL",pullUrl);
-                            startActivity(intent);
-                        } else {
-                            ToastUtil.show("获取推流地址失败");
-                        }
-                    } else {
-                        String result = jsonObject.getString("message");
-                        ToastUtil.show("Error:" + result);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    ToastUtil.show("解析数据失败");
-                }
-
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-                hiddenProgressDialog();
-            }
-        });
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
