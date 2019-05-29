@@ -518,7 +518,7 @@ public class HosterActivity extends BaseActivity {
         }
 
         @Override
-        public void onRTLocalAudioActive(int i) {
+        public void onRTCLocalAudioActive(int i) {
             HosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -526,6 +526,7 @@ public class HosterActivity extends BaseActivity {
                 }
             });
         }
+
 
         @Override
         public void onRTCRemoteAudioActive(String s, String s1, int i) {

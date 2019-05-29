@@ -477,14 +477,15 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
         }
 
         @Override
-        public void onRTLocalAudioActive(final int nTime) {
+        public void onRTCLocalAudioActive(final int leave) {
             AudioHosterActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RTMPC", "onRTLocalAudioActive nTime:" + nTime);
+                    Log.d("RTMPC", "onRTLocalAudioActive leave:" + leave);
                 }
             });
         }
+
 
         @Override
         public void onRTCRemoteAudioActive(final String strLivePeerId, final String strUserId, final int nTime) {
