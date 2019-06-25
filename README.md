@@ -62,7 +62,7 @@ Android API 16+
 >如果您还未注册anyRTC开发者账号，请登录[anyRTC官网](http://www.anyrtc.io)注册及获取更多的帮助。
 
 ##### 替换开发者账号
-在[anyRTC官网](http://www.anyrtc.io)获取了开发者账号，AppID等信息后，替换DEMO中
+在[anyRTC官网](http://www.anyrtc.io)获取了应用ID，应用Token后，替换DEMO中
 **DeveloperInfo**类中的信息即可。推拉流地址需用自己的
 
 ### 操作步骤
@@ -74,7 +74,7 @@ Android API 16+
 ### 完整文档
 SDK集成，API介绍，详见官方完整文档：[点击查看](https://docs.anyrtc.io/v1/RTMPC/android.html)
 
-### Ios版 互动连麦
+### iOS 版 互动连麦
 
 [AR-RTMPC-iOS](https://github.com/AnyRTC/anyRTC-RTMPC-iOS)
 
