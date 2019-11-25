@@ -22,9 +22,7 @@ public class ARApplication extends Application {
         super.onCreate();
         mARApplication =this;
         NickName= NameUtils.getNickName();
-        ARRtmpcEngine.Inst().initEngineWithAppInfo(getApplicationContext(), DeveloperInfo.APPID, DeveloperInfo.APPTOKEN);
-        //配置私有云
-//        ARRtmpcEngine.Inst().configServerForPriCloud("", 0000);
+        ARRtmpcEngine.Inst().initEngine(getApplicationContext(), DeveloperInfo.APPID, DeveloperInfo.APPTOKEN);
 
 
         InitializationConfig  config = InitializationConfig.newBuilder(this)
@@ -32,7 +30,6 @@ public class ARApplication extends Application {
                 .readTimeout(15*1000)
                 .retry(1).build();
         NoHttp.initialize(config);
-//        Logger.setDebug(false);
     }
     public  static Application App(){
         return mARApplication;

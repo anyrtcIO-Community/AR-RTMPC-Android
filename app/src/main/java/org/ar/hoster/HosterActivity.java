@@ -22,7 +22,7 @@ import org.ar.BaseActivity;
 import org.ar.ARApplication;
 import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
-import org.anyrtc.common.utils.AnyRTCAudioManager;
+import org.ar.common.utils.ARAudioManager;
 import org.ar.rtmpc.R;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
@@ -43,6 +43,7 @@ import org.webrtc.VideoRenderer;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -56,7 +57,7 @@ public class HosterActivity extends BaseActivity {
     ImageButton tvLineList;
     private ARRtmpcHosterKit mHosterKit;
     private ARVideoView mVideoView;
-    private AnyRTCAudioManager mRtmpAudioManager;
+    private ARAudioManager mRtmpAudioManager;
     private LiveMessageAdapter mAdapter;
     private LogAdapter logAdapter;
     private CustomDialog line_dialog;
@@ -89,7 +90,7 @@ public class HosterActivity extends BaseActivity {
         }
         // Close RTMPAudioManager
         if (mRtmpAudioManager != null) {
-            mRtmpAudioManager.close();
+            mRtmpAudioManager.stop();
             mRtmpAudioManager = null;
         }
 
@@ -133,13 +134,13 @@ public class HosterActivity extends BaseActivity {
         tvTitle.setText("房间ID:" + liveId);
         ARRtmpcEngine.Inst().getHosterOption().setVideoOrientation(ARVideoCommon.ARVideoOrientation.Portrait);
         //音频管理对象  当靠近听筒时将会减小音量
-        mRtmpAudioManager = AnyRTCAudioManager.create(this, new Runnable() {
+        mRtmpAudioManager = ARAudioManager.create(this);
+        mRtmpAudioManager.start(new ARAudioManager.AudioManagerEvents() {
             @Override
-            public void run() {
-                onAudioManagerChangedState();
+            public void onAudioDeviceChanged(ARAudioManager.AudioDevice audioDevice, Set<ARAudioManager.AudioDevice> set) {
+
             }
         });
-        mRtmpAudioManager.init();
         ARRtmpcEngine.Inst().getHosterOption().setMediaType(ARVideoCommon.ARMediaType.Video);
         //实例化主播对象
 

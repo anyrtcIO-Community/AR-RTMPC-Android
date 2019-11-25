@@ -24,7 +24,7 @@ import org.ar.ARApplication;
 import org.ar.adapter.AudioLineAdapter;
 import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
-import org.anyrtc.common.utils.AnyRTCAudioManager;
+import org.ar.common.utils.ARAudioManager;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
 import org.ar.utils.ARUtils;
@@ -36,6 +36,8 @@ import org.ar.rtmpc_hybrid.ARRtmpcGuestEvent;
 import org.ar.rtmpc_hybrid.ARRtmpcGuestKit;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Set;
 
 /**
  * 音频游客界面
@@ -54,7 +56,7 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
     ImageView ivLineAnim;
     RelativeLayout rl_log_layout;
     private ARRtmpcGuestKit mGuestKit;
-    private AnyRTCAudioManager mRtmpAudioManager = null;
+    private ARAudioManager mRtmpAudioManager = null;
     private LiveMessageAdapter mAdapter;
     private LogAdapter logAdapter;
     private boolean isApplyLine = false;//是否在连麦、申请连麦
@@ -86,7 +88,7 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
             mGuestKit = null;
         }
         if (mRtmpAudioManager != null) {
-            mRtmpAudioManager.close();
+            mRtmpAudioManager.stop();
             mRtmpAudioManager = null;
         }
 
@@ -134,16 +136,13 @@ public class AudioGuestActivity extends BaseActivity implements BaseQuickAdapter
         tvHostName.setText(hostName);
         liveId = getIntent().getStringExtra("liveId");
         tvTitle.setText("房间ID：" + liveId);
-        mRtmpAudioManager = AnyRTCAudioManager.create(this, new Runnable() {
-            // This method will be called each time the audio state (number
-            // and
-            // type of devices) has been changed.
+        mRtmpAudioManager = ARAudioManager.create(this);
+        mRtmpAudioManager.start(new ARAudioManager.AudioManagerEvents() {
             @Override
-            public void run() {
-                onAudioManagerChangedState();
+            public void onAudioDeviceChanged(ARAudioManager.AudioDevice audioDevice, Set<ARAudioManager.AudioDevice> set) {
+
             }
         });
-        mRtmpAudioManager.init();
         ARRtmpcEngine.Inst().getGuestOption().setMediaType(ARVideoCommon.ARMediaType.Audio);
         mGuestKit = new ARRtmpcGuestKit(mGuestListener);
         mGuestKit.startRtmpPlay(pullUrl, 0);

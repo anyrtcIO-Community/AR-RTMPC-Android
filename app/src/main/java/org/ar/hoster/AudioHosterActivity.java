@@ -23,7 +23,7 @@ import org.ar.ARApplication;
 import org.ar.adapter.AudioLineAdapter;
 import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
-import org.anyrtc.common.utils.AnyRTCAudioManager;
+import org.ar.common.utils.ARAudioManager;
 import org.ar.rtmpc.R;
 import org.ar.model.LineBean;
 import org.ar.model.MessageBean;
@@ -41,6 +41,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 音频主播页面
@@ -56,7 +57,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
     private LogAdapter logAdapter;
     private AudioLineAdapter audioLineAdapter;
     private ARRtmpcHosterKit mHosterKit;
-    private AnyRTCAudioManager mRtmpAudioManager = null;
+    private ARAudioManager mRtmpAudioManager = null;
     private LiveMessageAdapter mAdapter;
     private String nickname;
     private CustomDialog line_dialog;
@@ -94,7 +95,7 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
 
         // Close RTMPAudioManager
         if (mRtmpAudioManager != null) {
-            mRtmpAudioManager.close();
+            mRtmpAudioManager.stop();
             mRtmpAudioManager = null;
 
         }
@@ -139,13 +140,13 @@ public class AudioHosterActivity extends BaseActivity implements BaseQuickAdapte
         tvTitle.setText("房间ID：" + liveId);
         nickname = ARApplication.getNickName();
         tv_host_name.setText(nickname);
-        mRtmpAudioManager = AnyRTCAudioManager.create(this, new Runnable() {
+        mRtmpAudioManager = ARAudioManager.create(this);
+        mRtmpAudioManager.start(new ARAudioManager.AudioManagerEvents() {
             @Override
-            public void run() {
-                onAudioManagerChangedState();
+            public void onAudioDeviceChanged(ARAudioManager.AudioDevice audioDevice, Set<ARAudioManager.AudioDevice> set) {
+
             }
         });
-        mRtmpAudioManager.init();
         ARRtmpcEngine.Inst().getHosterOption().setMediaType(ARVideoCommon.ARMediaType.Audio);
         mHosterKit = new ARRtmpcHosterKit(mHosterListener);
         mHosterKit.startPushRtmpStream(pushURL);

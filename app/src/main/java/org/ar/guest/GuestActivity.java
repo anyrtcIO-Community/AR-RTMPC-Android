@@ -23,7 +23,7 @@ import org.ar.BaseActivity;
 import org.ar.ARApplication;
 import org.ar.adapter.LiveMessageAdapter;
 import org.ar.adapter.LogAdapter;
-import org.anyrtc.common.utils.AnyRTCAudioManager;
+import org.ar.common.utils.ARAudioManager;
 import org.ar.model.MessageBean;
 import org.ar.rtmpc.R;
 import org.ar.utils.ARUtils;
@@ -37,6 +37,8 @@ import org.ar.rtmpc_hybrid.ARRtmpcGuestKit;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.webrtc.VideoRenderer;
+
+import java.util.Set;
 
 /**
  * 视频游客页面
@@ -54,7 +56,7 @@ public class GuestActivity extends BaseActivity {
     ImageButton ibtnCamera;
     private ARRtmpcGuestKit mGuestKit;
     private ARVideoView mVideoView;
-    private AnyRTCAudioManager mRtmpAudioManager = null;
+    private ARAudioManager mRtmpAudioManager = null;
     private LiveMessageAdapter mAdapter;
     private LogAdapter logAdapter;
     private boolean isApplyLine = false;//是否申请连麦
@@ -76,7 +78,7 @@ public class GuestActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mRtmpAudioManager != null) {
-            mRtmpAudioManager.close();
+            mRtmpAudioManager.stop();
             mRtmpAudioManager = null;
 
         }
@@ -146,16 +148,13 @@ public class GuestActivity extends BaseActivity {
                 isLining=false;
             }
         });
-        mRtmpAudioManager = AnyRTCAudioManager.create(this, new Runnable() {
-            // This method will be called each time the audio state (number
-            // and
-            // type of devices) has been changed.
+        mRtmpAudioManager = ARAudioManager.create(this);
+        mRtmpAudioManager.start(new ARAudioManager.AudioManagerEvents() {
             @Override
-            public void run() {
-                onAudioManagerChangedState();
+            public void onAudioDeviceChanged(ARAudioManager.AudioDevice audioDevice, Set<ARAudioManager.AudioDevice> set) {
+
             }
         });
-        mRtmpAudioManager.init();
         ARRtmpcEngine.Inst().getGuestOption().setMediaType(ARVideoCommon.ARMediaType.Video);
         mGuestKit = new ARRtmpcGuestKit(mGuestListener);
         mGuestKit.setAudioActiveCheck(true);
