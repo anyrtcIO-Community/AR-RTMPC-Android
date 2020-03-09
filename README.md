@@ -19,9 +19,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ### app体验
 
-##### 扫码下载
-![image](https://www.pgyer.com/app/qrcode/Zuap)
-##### [点击下载](https://www.pgyer.com/Zuap)
+##### [点击下载](http://download.anyrtc.io/xuye)
 ##### [WEB在线体验](https://beyond.anyrtc.io/demo/lianmai)
 
 ### SDK集成
@@ -31,7 +29,7 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 
 ```
 dependencies {
-  compile 'org.ar:rtmpc_hybrid:3.1.0'
+  compile 'org.ar:rtmpc_hybrid:3.1.1'
 }
 ```
 
@@ -40,7 +38,7 @@ dependencies {
 <dependency>
   <groupId>org.ar</groupId>
   <artifactId>rtmpc_hybrid</artifactId>
-  <version>3.1.0</version>
+  <version>3.1.1</version>
   <type>pom</type>
 </dependency>
 ```
