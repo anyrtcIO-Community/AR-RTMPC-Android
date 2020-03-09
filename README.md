@@ -20,7 +20,6 @@ Android 直播（网络自适应码率RTMP publisher）、点播播放器（播�
 ### app体验
 
 ##### [点击下载](http://download.anyrtc.io/xuye)
-##### [WEB在线体验](https://beyond.anyrtc.io/demo/lianmai)
 
 ### SDK集成
 # > 方式一[ ![Download](https://api.bintray.com/packages/dyncanyrtc/ar_dev/rtmpc/images/download.svg) ](https://bintray.com/dyncanyrtc/ar_dev/rtmpc/_latestVersion)
@@ -75,10 +74,6 @@ SDK集成，API介绍，详见官方完整文档：[点击查看](https://docs.a
 ### iOS 版 互动连麦
 
 [AR-RTMPC-iOS](https://github.com/AnyRTC/anyRTC-RTMPC-iOS)
-
-### Web版 互动连麦在线体验
-
-[AR-RTMPC-Web](https://beyond.anyrtc.io/demo/lianmai)
 
 
 ### 支持的系统平台
