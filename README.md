@@ -1,3 +1,24 @@
+# 重要提醒
+anyRTC 对该版本已经不再维护。[前往新版本](https://github.com/anyRTC/ArAndroidSDK).
+
+**新版本功能如下：**
+- 频道管理
+- 音频管理
+- 视频管理
+- 音频文件播放及混音
+- 音效文件播放管理
+- CDN推流
+- 本地推流CDN组件
+- 本地播放器组件
+- 跨频道流媒体转发
+- 直播导入在线媒体流
+- 视频双流模式
+- 音频自采集自渲染
+- 视频自采集自渲染
+- 耳返功能
+- 。。。
+
+**公司网址： [www.anyrtc.io](https://www.anyrtc.io)**
 
 ### anyRTC-RTMPC-Android SDK for Android
 ### 简介
